@@ -1,3 +1,3 @@
 # TBA
 
-### An amazing goal planner application.
+### A simple web app to manage in-company foosball tournaments
