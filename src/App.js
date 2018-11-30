@@ -27,7 +27,6 @@ class App extends React.Component {
             this.props.globalState.changeUser(dbUser.data());
             this.props.globalState.stopLoading();
           }
-
         } catch (error) {
           console.log('error: ', error);
         }
@@ -45,8 +44,6 @@ class App extends React.Component {
     // Removing the authState listener
     this.unsubscribe();
   }
-
-
 
   render() {
     const childProps = { isAuthenticated: this.props.globalState.user ? true : false };
