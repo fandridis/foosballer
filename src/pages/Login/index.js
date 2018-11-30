@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import { Link } from "react-router-dom";
 import { compose } from 'recompose';
 
 import { withFirebase } from '../../hocs/Firebase';
 import { withGlobalState } from '../../hocs/GlobalState';
+import * as ROUTES from '../../routes/names';
 
-class SigninForm extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
 
@@ -42,27 +44,35 @@ class SigninForm extends Component {
     const isInvalid = password === '' || email === '';
 
     return (
-      <form onSubmit={this.onSubmit}>
-        <input
-          name="email"
-          value={email}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Email Address"
-        />
-        <input
-          name="password"
-          value={password}
-          onChange={this.onChange}
-          type="password"
-          placeholder="Password"
-        />
-        <button disabled={isInvalid} type="submit">
-          Sign In
-        </button>
+      <Fragment>
+        <h3>Login</h3>
 
-        {error && <p>{error.message}</p>}
-      </form>
+        <form onSubmit={this.onSubmit}>
+          <input
+            name="email"
+            value={email}
+            onChange={this.onChange}
+            type="text"
+            placeholder="Email Address"
+          />
+          <input
+            name="password"
+            value={password}
+            onChange={this.onChange}
+            type="password"
+            placeholder="Password"
+          />
+          <button disabled={isInvalid} type="submit">
+            Sign In
+          </button>
+
+          {error && <p>{error.message}</p>}
+        </form>
+
+        <p>Don't have an account?<Link to={ROUTES.SIGNUP}>Sign Up</Link></p>
+
+        <p>Fogot your password?<Link to={ROUTES.RESET_PASSWORD}>Reset</Link></p>
+      </Fragment>
     );
   }
 }
@@ -70,4 +80,5 @@ class SigninForm extends Component {
 export default compose(
   withFirebase,
   withGlobalState
-)(SigninForm);
+)(Login);
+

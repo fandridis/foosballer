@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { Component, Fragment } from 'react';
+import { withRouter, Link } from 'react-router-dom';
 import { compose } from 'recompose';
 
 import { withFirebase } from '../../hocs/Firebase';
 import { withGlobalState } from '../../hocs/GlobalState';
-// import * as ROUTES from '../../constants/routes';
+import * as ROUTES from '../../routes/names';
 
-class SignupForm extends Component {
+class Signup extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { 
+    this.state = {
       email: '',
       passwordOne: '',
       passwordTwo: '',
@@ -21,7 +21,7 @@ class SignupForm extends Component {
   onChange = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
-  
+
   onSubmit = async (event) => {
     event.preventDefault();
     const { email, passwordOne } = this.state;
@@ -50,47 +50,47 @@ class SignupForm extends Component {
       email === ''
 
     return (
-      <form onSubmit={this.onSubmit}>
-        <input
-          name="email"
-          value={email}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Email Address"
-        />
-        <input
-          name="passwordOne"
-          value={passwordOne}
-          onChange={this.onChange}
-          type="password"
-          placeholder="Password"
-        />
-        <input
-          name="passwordTwo"
-          value={passwordTwo}
-          onChange={this.onChange}
-          type="password"
-          placeholder="Confirm Password"
-        />
-        <button disabled={isInvalid} type="submit">
-          Sign Up
+      <Fragment>
+        <h3>Signup</h3>
+        <form onSubmit={this.onSubmit}>
+          <input
+            name="email"
+            value={email}
+            onChange={this.onChange}
+            type="text"
+            placeholder="Email Address"
+          />
+          <input
+            name="passwordOne"
+            value={passwordOne}
+            onChange={this.onChange}
+            type="password"
+            placeholder="Password"
+          />
+          <input
+            name="passwordTwo"
+            value={passwordTwo}
+            onChange={this.onChange}
+            type="password"
+            placeholder="Confirm Password"
+          />
+          <button disabled={isInvalid} type="submit">
+            Sign Up
         </button>
 
-        {error && <p>{error.message}</p>}
-      </form>
+          {error && <p>{error.message}</p>}
+        </form>
+
+        <p>Already have an account?<Link to={ROUTES.LOGIN}>Login</Link></p>
+      </Fragment>
     );
   }
 }
-
-// const SignUpLink = () => (
-//   <p>
-//     Don't have an account? <Link to={ROUTES.SIGN_UP}>Sign Up</Link>
-//   </p>
-// );
 
 export default compose(
   withRouter,
   withFirebase,
   withGlobalState
-)(SignupForm);
+)(Signup);
+
 
