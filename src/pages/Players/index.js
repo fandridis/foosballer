@@ -21,10 +21,6 @@ class Players extends Component {
   componentDidMount() {
     console.log('DidMount @ Players');
     this.subscribeToPlayersCollection();
-
-    setTimeout(() => {
-      console.log('this.state: ', this.state)
-    }, 2000);
   }
 
   componentWillUnmount() {
@@ -87,6 +83,10 @@ class Players extends Component {
         onCancel={this.handleChangeTab}
       />
     )
+  }
+
+  testF = () => {
+    console.log('testF running!');
   }
 
   renderPlayerList() {
