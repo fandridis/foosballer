@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 
 import { withFirebase } from '../../hocs/Firebase';
 import PlayerItem from './PlayerItem';
+import AddPlayer from './AddPlayer';
 
 class Players extends Component {
   constructor(props) {
@@ -11,7 +12,7 @@ class Players extends Component {
       players: null,
       playersListener: null,
 
-      newPlayerName: '',
+      tab: 'playerList', // 'playerList', 'addPlayer'
 
       isLoading: false
     };
@@ -19,48 +20,72 @@ class Players extends Component {
 
   componentDidMount() {
     console.log('DidMount @ Players - props: ', this.props);
+    this.subscribeToPlayersCollection();
+  }
 
-    // Listener that catches changes in the players collection (firestore db) and updates the state
-    const playersListener = this.props.firebase.db.collection("players").where("userRef", "==", this.props.isAuthenticated)
-      .onSnapshot((querySnapshot) => {
-        let players = [];
-        querySnapshot.forEach((doc) => {
-            players.push( { ...doc.data(), uid: doc.id });
-        });
-        this.setState({ players });
+  componentWillUnmount() {
+    console.log('WillUnmount @ Players - props: ', this.props);
+    this.unsubscribeFromPlayersCollection();
+  }
+
+  /**
+   * Create a listener for real-time communication between the app and the database.
+   * Update the state to always contain the same info with the database.
+   * @method
+   */
+  subscribeToPlayersCollection() {
+    const playersListener = this.props.firebase.db.collection("players")
+    .where("userRef", "==", this.props.isAuthenticated)
+    .orderBy('name')
+    .onSnapshot((querySnapshot) => {
+      let players = [];
+      querySnapshot.forEach((doc) => {
+          players.push( { ...doc.data(), uid: doc.id });
+      });
+      this.setState({ players });
     });
     this.setState({ playersListener });
   }
 
-  componentWillUnmount() {
-    // Unsubscribing from the players collection listener
+  /**
+   * Unsubscribe from the players collection listener.
+   * Update the state.
+   * @method
+   */
+  unsubscribeFromPlayersCollection() {
     this.state.playersListener();
-    this.setState({ playersListener: null })
+    this.setState({ playersListener: null });
   }
 
-  onChange = event => this.setState({ newPlayerName: event.target.value });
-
+  /**
+   * Deletes a player document from the database.
+   * @method
+   * @param {string} playerId - The id of the player to be removed
+   */
   handleRemovePlayer = playerId => {
     this.props.firebase.removePlayer(playerId)
       .then(() => console.log('Player removed successfully'))
       .catch(err => console.log('err: ', err))
   }
   
-  onSubmit = async event => {
-    // TODO: Do not allow empty player names
-    event.preventDefault();
+  /**
+   * Switches between the playerList view and the addPlayer view.
+   * @method
+   * @param {string} tab - The tab to switch to: playerList or addPlayer
+   */
+  handleChangeTab = (tab = 'playerList') => this.setState({ tab })
 
-    if (this.state.players.find(player => player.name === this.state.newPlayerName)) {
-      return console.log('Player name already exists.');
-    }
+  renderAddPlayer() {
+    return (
+      <AddPlayer 
+        userRef={this.props.isAuthenticated}
+        players={this.state.players}
+        onCancel={this.handleChangeTab}
+      />
+    )
+  }
 
-    this.props.firebase.createPlayer(this.props.isAuthenticated, this.state.newPlayerName)
-      .then(() => console.log('Player added successfully'))
-      .catch(err => console.log('err: ', err))
-  };
-
-
-  render() {
+  renderPlayerList() {
     return (
       <Fragment>
         <h3>Players Squad</h3>
@@ -72,23 +97,14 @@ class Players extends Component {
           )
         })}
 
-        {/* Add new Player */}
-        <form onSubmit={this.onSubmit}>
-          <input
-            name="name"
-            value={this.state.newPlayerName}
-            onChange={this.onChange}
-            type="text"
-            placeholder="Bob?"
-          />
-          <button disabled={!this.state.newPlayerName} type="submit">
-            Add
-        </button>
-
-        </form>
-
+        <button onClick={() => this.handleChangeTab('addPlayer')}>Add new Player</button>
       </Fragment>
-    );
+    )
+  }
+
+  render() {
+    if (this.state.tab === 'playerList') { return this.renderPlayerList(); }
+    else if (this.state.tab === 'addPlayer') { return this.renderAddPlayer(); }
   }
 }
 

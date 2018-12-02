@@ -54,7 +54,7 @@ class Firebase {
   getUser = userId =>  this.db.collection('users').doc(userId).get();
 
   /**
-   * Get the available players of the user
+   * Get the available players of the user.
    * @method
    * @param {string} userId - The user uid
    * @param {string} playerName - The new players name
@@ -70,7 +70,7 @@ class Firebase {
   }
 
   /**
-   * Add a new player to the users available players
+   * Add a new player to the users available players.
    * @method
    * @param {string} userId - The user uid
    * @param {string} playerName - The new players name
@@ -85,7 +85,7 @@ class Firebase {
   }
 
   /**
-   * Remove a player from the users available players
+   * Remove a player from the users available players.
    * @method
    * @param {string} playerId - The player uid to be removed
    * 
