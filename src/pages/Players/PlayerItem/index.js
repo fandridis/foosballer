@@ -1,15 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Styled from 'styled-components';
+import PlayerAvatar from '../../../components/PlayerAvatar';
+
+const StyledDiv = Styled.div`
+display: flex;
+justify-content: space-around;
+`
 
 const PlayerItem = (props) => {
 
   return (
-    <div>
+    <StyledDiv>
       <h2>{props.player.name}</h2>
       <p>{props.player.rating}</p>
+      <PlayerAvatar url={props.player.avatarUrl} />
       
       <button onClick={() => props.removePlayer(props.player.uid)}>Remove</button>
-    </div>
+    </StyledDiv>
   );
 };
 

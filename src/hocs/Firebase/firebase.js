@@ -78,10 +78,10 @@ class Firebase {
    * 
    * @returns A promise that resolves to the docRef or an error message
    */
-  createPlayer = (userRef, name, rating = 1000) => { 
-    if (!userRef || !name) { return Promise.reject('missing params') }
+  createPlayer = (player) => { 
+    if (!player.userRef || !player.name || !player.avatarUrl) { return Promise.reject('missing params') }
 
-    return this.db.collection("players").add({ userRef, name, rating });
+    return this.db.collection("players").add(player);
   }
 
   /**

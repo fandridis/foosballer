@@ -1,6 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+// import Styled from 'styled-components';
+
 import { withFirebase } from '../../../hocs/Firebase';
+import { generateAvatarUrl } from '../../../utilities/generators';
+import PlayerAvatar from '../../../components/PlayerAvatar';
 
 class AddPlayer extends Component {
 
@@ -9,8 +13,19 @@ class AddPlayer extends Component {
 
     this.state = {
       newPlayerName: '',
+      newPlayerAvatarUrl: '',
       isLoading: false
     }
+  }
+
+  componentDidMount() {
+    this.generateAvatar();
+  }
+
+  generateAvatar = () => {
+    const newPlayerAvatarUrl = generateAvatarUrl();
+    console.log("new url: ", newPlayerAvatarUrl);
+    this.setState({ newPlayerAvatarUrl });
   }
 
   onChange = event => this.setState({ newPlayerName: event.target.value });
@@ -29,7 +44,14 @@ class AddPlayer extends Component {
       return console.log('Player name already exists.');
     }
 
-    this.props.firebase.createPlayer(this.props.userRef, this.state.newPlayerName)
+    const player = {
+      userRef: this.props.userRef,
+      name: this.state.newPlayerName,
+      rating: 1000,
+      avatarUrl: this.state.newPlayerAvatarUrl
+    }
+
+    this.props.firebase.createPlayer(player)
       .then(() => {
         console.log('Player added successfully');
         this.setState({ newPlayerName: '', isLoading: false, });
@@ -40,10 +62,14 @@ class AddPlayer extends Component {
         this.setState({ isLoading: false });
       })
   };
+
+
   
   render() {
     return (
       <Fragment>
+        <PlayerAvatar url={this.state.newPlayerAvatarUrl} size={"90"} />
+
         <form onSubmit={this.onSubmit}>
           <input
             name="name"
@@ -59,6 +85,7 @@ class AddPlayer extends Component {
         </form>
 
         <button onClick={() => this.props.onCancel('playerList')}>Cancel</button>
+        <button onClick={() => this.generateAvatar()}>Shuffle me!</button>
       </Fragment>
     );
   }

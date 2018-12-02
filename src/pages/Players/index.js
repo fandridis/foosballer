@@ -85,10 +85,6 @@ class Players extends Component {
     )
   }
 
-  testF = () => {
-    console.log('testF running!');
-  }
-
   renderPlayerList() {
     return (
       <Fragment>
