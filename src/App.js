@@ -50,7 +50,6 @@ class App extends Component {
   }
 
   render() {
-    console.log('render @ App.js - this.state: ', this.state);
     const childProps = { isAuthenticated: this.state.user ? this.state.user.uid : false };
 
     return (
