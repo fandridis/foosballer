@@ -5,7 +5,6 @@ import * as serviceWorker from './serviceWorker';
 
 import App from './App';
 import Firebase, { FirebaseContext } from './hocs/Firebase';
-import { GlobalStateProvider } from './hocs/GlobalState';
 
 import './index.css';
 
@@ -21,9 +20,7 @@ require('dotenv').config();
 
 ReactDOM.render(
   <FirebaseContext.Provider value={new Firebase()}>
-    <GlobalStateProvider>
-      <App />
-    </GlobalStateProvider>
+    <App />
   </FirebaseContext.Provider>,
   document.getElementById('root'),
 );

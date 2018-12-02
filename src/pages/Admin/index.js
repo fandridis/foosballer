@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import { withFirebase } from '../../hocs/Firebase';
-
 class AdminPage extends Component {
   constructor(props) {
     super(props);
@@ -15,6 +13,7 @@ class AdminPage extends Component {
   componentDidMount() {
     // this.setState({ loading: true });
 
+    // Example of real-time listening for db changes
     // this.props.firebase.users().on('value', snapshot => {
     //   const usersObject = snapshot.val();
 
@@ -57,4 +56,4 @@ const UserList = ({ users }) => (
   </ul>
 );
 
-export default withFirebase(AdminPage);
+export default AdminPage;

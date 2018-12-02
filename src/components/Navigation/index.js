@@ -2,13 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import * as ROUTES from '../../routes/names';
-import { withGlobalState } from '../../hocs/GlobalState';
 
-import SignoutButton from '../SignoutButton';
+import LogoutButton from '../LogoutButton';
 
 
 const Navigation = (props) => {
-  console.log('props @ Navigation: ', props);
   return (
     <div>
       { 
@@ -35,9 +33,9 @@ const NavigationAuth = () => (
       <Link to={ROUTES.PLAYERS}>Players</Link>
     </li>
     <li>
-      <SignoutButton />
+      <LogoutButton />
     </li>
   </ul>
 );
 
-export default withGlobalState(Navigation);
+export default Navigation;

@@ -1,9 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from "react-router-dom";
-import { compose } from 'recompose';
+// import { compose } from 'recompose';
 
 import { withFirebase } from '../../hocs/Firebase';
-import { withGlobalState } from '../../hocs/GlobalState';
 import * as ROUTES from '../../routes/names';
 
 class Login extends Component {
@@ -25,17 +24,12 @@ class Login extends Component {
 
   onSubmit = async (event) => {
     event.preventDefault();
-    this.props.globalState.startLoading();
 
     const { email, password } = this.state;
 
-    try {
-      await this.props.firebase.doSignInWithEmailAndPassword(email, password);
-
-    } catch (error) {
-      console.log('error @ signin: ', error);
-      this.setState({ error });
-    }
+    this.props.firebase.doSignInWithEmailAndPassword(email, password)
+      .then(res => console.log('res @ login: ', res))
+      .catch(err => console.log('err @ login: ', err))
   };
 
   render() {
@@ -63,7 +57,7 @@ class Login extends Component {
             placeholder="Password"
           />
           <button disabled={isInvalid} type="submit">
-            Sign In
+            Login
           </button>
 
           {error && <p>{error.message}</p>}
@@ -77,8 +71,5 @@ class Login extends Component {
   }
 }
 
-export default compose(
-  withFirebase,
-  withGlobalState
-)(Login);
+export default withFirebase(Login);
 

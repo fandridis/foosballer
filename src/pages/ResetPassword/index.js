@@ -22,13 +22,15 @@ class ResetPassword extends Component {
     event.preventDefault();
     const { email } = this.state;
 
-    try {
-      await this.props.firebase.doPasswordReset(email);
-      this.setState({ email: '', error: null });
-
-    } catch (error) {
-      this.setState({ error });
-    }
+    this.props.firebase.doPasswordReset(email)
+      .then(res => {
+        console.log('Reset email sent');
+        this.setState({ email: '', error: null });
+      })
+      .catch(error => {
+        console.log('err: ', error);
+        this.setState({ error });
+      })
   };
 
 

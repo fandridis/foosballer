@@ -3,7 +3,6 @@ import { withRouter, Link } from 'react-router-dom';
 import { compose } from 'recompose';
 
 import { withFirebase } from '../../hocs/Firebase';
-import { withGlobalState } from '../../hocs/GlobalState';
 import * as ROUTES from '../../routes/names';
 
 class Signup extends Component {
@@ -22,23 +21,16 @@ class Signup extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  onSubmit = async (event) => {
+  onSubmit = event => {
     event.preventDefault();
     const { email, passwordOne } = this.state;
 
-    try {
-      this.props.globalState.startLoading();
-      // Create a user in the firebase - authentication system
-      const authUser = await this.props.firebase.doCreateUserWithEmailAndPassword(email, passwordOne);
+    this.props.firebase.doCreateUserWithEmailAndPassword(email, passwordOne)
+      .then(res => {
+        console.log('res @ onSubmit @ Signup: ', res);
+      })
+      .catch(err => console.log('err: ', err))
 
-      // Create a user document in firebase - firestore database
-      await this.props.firebase.createUser({ email, uid: authUser.user.uid });
-
-    } catch (error) {
-      console.error("Error @ signup: ", error);
-      this.setState({ error, passwordOne: '', passwordTwo: '' });
-      this.props.globalState.stopLoading();
-    }
   };
 
   render() {
@@ -89,8 +81,7 @@ class Signup extends Component {
 
 export default compose(
   withRouter,
-  withFirebase,
-  withGlobalState
+  withFirebase
 )(Signup);
 
 
