@@ -19,12 +19,16 @@ class Players extends Component {
   }
 
   componentDidMount() {
-    console.log('DidMount @ Players - props: ', this.props);
+    console.log('DidMount @ Players');
     this.subscribeToPlayersCollection();
+
+    setTimeout(() => {
+      console.log('this.state: ', this.state)
+    }, 2000);
   }
 
   componentWillUnmount() {
-    console.log('WillUnmount @ Players - props: ', this.props);
+    console.log('WillUnmount @ Players');
     this.unsubscribeFromPlayersCollection();
   }
 
