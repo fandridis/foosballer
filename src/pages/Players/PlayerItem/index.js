@@ -16,7 +16,8 @@ const PlayerItem = (props) => {
       <p>{props.player.rating}</p>
       <PlayerAvatar url={props.player.avatarUrl} />
       
-      <button onClick={() => props.removePlayer(props.player.uid)}>Remove</button>
+      <button onClick={() => props.onRemove(props.player.uid)}>Remove</button>
+      <button onClick={() => props.onEdit(props.player)}>Edit</button>
     </StyledDiv>
   );
 };

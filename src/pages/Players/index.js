@@ -67,6 +67,15 @@ class Players extends Component {
       .then(() => console.log('Player removed successfully'))
       .catch(err => console.log('err: ', err))
   }
+
+  /**
+   * Opens the PlayerItem page for editing.
+   * @method
+   * @param {string} playerId - The player to be edited
+   */
+  handleEditPlayer = player => {
+    console.log('Open player page for editing');
+  }
   
   /**
    * Switches between the playerList view and the addPlayer view.
@@ -74,6 +83,7 @@ class Players extends Component {
    * @param {string} tab - The tab to switch to: playerList or addPlayer
    */
   handleChangeTab = (tab = 'playerList') => this.setState({ tab })
+
 
   renderAddPlayer() {
     return (
@@ -93,7 +103,12 @@ class Players extends Component {
         {/* List of Players */}
         {this.state.players && this.state.players.map(player => {
           return (
-            <PlayerItem key={player.uid} player={player} removePlayer={this.handleRemovePlayer} />
+            <PlayerItem 
+              key={player.uid}
+              player={player}
+              onRemove={this.handleRemovePlayer}
+              onEdit={this.handleEditPlayer}
+              />
           )
         })}
 
