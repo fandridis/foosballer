@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import { withFirebase } from '../../hocs/Firebase';
 import * as ROUTES from '../../routes/names';
 
+import CustomButton from '../../components/CustomButton'
+
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -56,9 +58,10 @@ class Login extends Component {
             type="password"
             placeholder="Password"
           />
-          <button disabled={isInvalid} type="submit">
+          {/* <button disabled={isInvalid} type="submit">
             Login
-          </button>
+          </button> */}
+          <CustomButton disabled={isInvalid} type="submit" btnText="Login" />
 
           {error && <p>{error.message}</p>}
         </form>
