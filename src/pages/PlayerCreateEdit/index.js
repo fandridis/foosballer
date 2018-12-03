@@ -80,7 +80,6 @@ class PlayerCreateEdit extends Component {
     this.props.history.push({ pathname: `/players` })
   }
 
-  
   render() {
     return (
       <Fragment>
