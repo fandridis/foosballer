@@ -73,8 +73,7 @@ class Firebase {
    * Add a new player to the users available players.
    * @method
    * @param {string} userId - The user uid
-   * @param {string} playerName - The new players name
-   * @param {string} rating - OPTIONAL (default = 1000) The new players rating
+   * @param {object} player - The new player to save
    * 
    * @returns A promise that resolves to the docRef or an error message
    */
@@ -82,6 +81,23 @@ class Firebase {
     if (!player.userRef || !player.name || !player.avatarUrl) { return Promise.reject('missing params') }
 
     return this.db.collection("players").add(player);
+  }
+
+  /**
+   * Edit an existing player.
+   * @method
+   * @param {string} userId - The user uid
+   * @param {string} player - The edited player to update
+   * 
+   * @returns A promise that resolves to the docRef or an error message
+   */
+  updatePlayer = (playerId, player) => { 
+    if (!player.userRef || !player.name || !player.avatarUrl || !playerId) { return Promise.reject('missing params') }
+
+    return this.db.collection("players").doc(playerId).update({
+      name: player.name,
+      avatarUrl: player.avatarUrl
+    });
   }
 
   /**

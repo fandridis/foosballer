@@ -1,12 +1,13 @@
 import React, { Component, Fragment } from 'react';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 // import Styled from 'styled-components';
 
-import { withFirebase } from '../../../hocs/Firebase';
-import { generateAvatarUrl } from '../../../utilities/generators';
-import PlayerAvatar from '../../../components/PlayerAvatar';
+import { withFirebase } from '../../hocs/Firebase';
+import { generateAvatarUrl } from '../../utilities/generators';
+import PlayerAvatar from '../../components/PlayerAvatar';
 
-class AddPlayer extends Component {
+class PlayerCreateEdit extends Component {
 
   constructor(props) {
     super(props)
@@ -19,7 +20,19 @@ class AddPlayer extends Component {
   }
 
   componentDidMount() {
-    this.generateAvatar();
+		console.log('this.props: ', this.props);
+    if (this.props.match.params.id === '0') {
+      // Coming to edit an existing user
+      console.log('new user create!');
+      this.generateAvatar();    
+		}
+		else {
+      console.log('editing user with id: ', this.props.match.params.id);
+      this.setState({
+        newPlayerName: this.props.location.data.name,
+        newPlayerAvatarUrl: this.props.location.data.avatarUrl
+      })
+		}
   }
 
   generateAvatar = () => {
@@ -63,6 +76,9 @@ class AddPlayer extends Component {
       })
   };
 
+  onCancel = () => {
+    this.props.history.push({ pathname: `/players` })
+  }
 
   
   render() {
@@ -80,21 +96,21 @@ class AddPlayer extends Component {
           />
           <button disabled={!this.state.newPlayerName} type="submit">
             Add
-        </button>
+          </button>
 
         </form>
 
-        <button onClick={() => this.props.onCancel('playerList')}>Cancel</button>
+        <button onClick={() => this.onCancel()}>Cancel</button>
         <button onClick={() => this.generateAvatar()}>Shuffle me!</button>
       </Fragment>
     );
   }
 }
 
-AddPlayer.propTypes = {
-  userRef: PropTypes.string.isRequired,
-  players: PropTypes.array.isRequired,
-  onCancel: PropTypes.func.isRequired
-};
+// AddPlayer.propTypes = {
+//   userRef: PropTypes.string.isRequired,
+//   players: PropTypes.array.isRequired,
+//   onCancel: PropTypes.func.isRequired
+// };
 
-export default withFirebase(AddPlayer);
+export default withRouter(withFirebase(PlayerCreateEdit));

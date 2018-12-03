@@ -18,6 +18,7 @@ const PlayerItem = (props) => {
       
       <button onClick={() => props.onRemove(props.player.uid)}>Remove</button>
       <button onClick={() => props.onEdit(props.player)}>Edit</button>
+      <button onClick={() => props.onEditTest(props.player)}>EditROUTE</button>
     </StyledDiv>
   );
 };

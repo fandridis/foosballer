@@ -8,4 +8,4 @@ export const ACCOUNT = '/account';
 export const ADMIN = '/admin';
 
 export const PLAYERS = '/players';
-export const PLAYER_EDIT = '/players/:id'
+export const PLAYER_CREATE_EDIT = '/players/:id';

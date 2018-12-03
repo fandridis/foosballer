@@ -1,8 +1,9 @@
 import React, { Component, Fragment } from 'react';
+import { withRouter } from 'react-router-dom';
 
 import { withFirebase } from '../../hocs/Firebase';
 import PlayerItem from './PlayerItem';
-import AddPlayer from './AddPlayer';
+import ManagePlayer from './ManagePlayer';
 
 class Players extends Component {
   constructor(props) {
@@ -12,7 +13,9 @@ class Players extends Component {
       players: null,
       playersListener: null,
 
-      tab: 'playerList', // 'playerList', 'addPlayer'
+      selectedPlayer: null,
+
+      tab: 'playerList', // 'playerList', 'managePlayer'
 
       isLoading: false
     };
@@ -58,6 +61,44 @@ class Players extends Component {
   }
 
   /**
+   * Opens the AddPlayer page for creating a player.
+   * @method
+   * @param {string} playerId - The player to be edited
+   */
+  handleAddPlayer = () => {
+    console.log('Opening player page for creating');
+    this.handleChangeTab('managePlayer');
+  }
+
+  // TESTING
+  handleAddPlayerNewRoute = () => {
+    console.log('Opening NEW ROUTE PAGE for creating');
+      this.props.history.push({
+        pathname: `/players/0`
+      })
+  }
+  // TESTING
+  handleEditPlayerNewRoute = (player) => {
+    console.log('Opening NEW ROUTE PAGE for creating');
+      this.props.history.push({
+        pathname: `/players/${player.uid}`,
+        data: player
+      })
+  }
+
+  /**
+   * Opens the EditPlayer page for editing a player.
+   * @method
+   * @param {string} playerId - The player to be edited
+   */
+  handleEditPlayer = selectedPlayer => {
+    console.log('Open player page for editing');
+    this.setState({ selectedPlayer }, () => {
+      this.handleChangeTab('managePlayer');
+    })
+  }
+
+  /**
    * Deletes a player document from the database.
    * @method
    * @param {string} playerId - The id of the player to be removed
@@ -66,15 +107,6 @@ class Players extends Component {
     this.props.firebase.removePlayer(playerId)
       .then(() => console.log('Player removed successfully'))
       .catch(err => console.log('err: ', err))
-  }
-
-  /**
-   * Opens the PlayerItem page for editing.
-   * @method
-   * @param {string} playerId - The player to be edited
-   */
-  handleEditPlayer = player => {
-    console.log('Open player page for editing');
   }
   
   /**
@@ -85,12 +117,13 @@ class Players extends Component {
   handleChangeTab = (tab = 'playerList') => this.setState({ tab })
 
 
-  renderAddPlayer() {
+  renderManagePlayer() {
     return (
-      <AddPlayer 
+      <ManagePlayer 
         userRef={this.props.isAuthenticated}
         players={this.state.players}
         onCancel={this.handleChangeTab}
+        player={this.state.selectedPlayer}
       />
     )
   }
@@ -108,21 +141,23 @@ class Players extends Component {
               player={player}
               onRemove={this.handleRemovePlayer}
               onEdit={this.handleEditPlayer}
+              onEditTest={this.handleEditPlayerNewRoute}
               />
           )
         })}
 
-        <button onClick={() => this.handleChangeTab('addPlayer')}>Add new Player</button>
+        <button onClick={() => this.handleAddPlayer()}>Add new Player</button>
+        <button onClick={() => this.handleAddPlayerNewRoute()}>Add new Player(newRoute)</button>
       </Fragment>
     )
   }
 
   render() {
     if (this.state.tab === 'playerList') { return this.renderPlayerList(); }
-    else if (this.state.tab === 'addPlayer') { return this.renderAddPlayer(); }
+    else if (this.state.tab === 'managePlayer') { return this.renderManagePlayer(); }
   }
 }
 
-export default withFirebase(Players);
+export default withRouter(withFirebase(Players));
 
 
