@@ -20,9 +20,17 @@ class PlayersEdit extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps){
+    console.log('nextprops: ', nextProps);
+  }
+
   componentDidMount() {
 		console.log('this.props: ', this.props);
     console.log('editing user with id: ', this.props.match.params.id);
+
+    // TODO: Think about a better implementation of dealing with browser back/forward buttons
+    if (!this.props.location.player) { return this.props.history.goBack(); }
+
     this.setState({
       newPlayerName: this.props.location.player.name,
       newPlayerAvatarUrl: this.props.location.player.avatarUrl
