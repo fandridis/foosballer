@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
@@ -10,6 +10,7 @@ import ResetPassword from '../pages/ResetPassword';
 import Players from '../pages/Players';
 import PlayersCreate from '../pages/PlayersCreate';
 import PlayersEdit from '../pages/PlayersEdit';
+import NotFound from '../pages/NotFound';
 
 import { AuthenticatedRoute, UnauthenticatedRoute } from "../hocs/RouteWrappers";
 
@@ -29,8 +30,7 @@ export default ({ childProps }) =>
     <AuthenticatedRoute path={'/players/edit/:id'} exact component={PlayersEdit} props={childProps} />
 
     { /* Finally, catch all unmatched routes */ }
-    { /* TODO: Build and import a NotFound page and then uncomment the line below*/}
-    {/* <Route component={NotFound} /> */}
+     <Route component={NotFound} />
   </Switch>;
 
 
