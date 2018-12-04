@@ -3,55 +3,63 @@ import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 import PlayerAvatar from '../PlayerAvatar';
 
+import { colors } from '../../css/Variables';
+
 const PlayerRow = (props) => {
 
 	const Row = Styled.div`
 	position: relative;
 
   width: 90vw;
-	height: 40px;
+	height: 50px;
 
-  display: flex;
+	display: flex;
   align-items: center;
 
-  margin-bottom: 15px;
+  margin-bottom: 16px;
 
-  border: solid 5px white;
 	border-radius: 25px;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
 	
 	background-color: white;
-  `
-
-  const Avatar = Styled.div`
-	position: absolute;
-	left: -10px;
+	`
+	
+	const PlayerDetails = Styled.div`
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
 	`
 
-	const Name = Styled.div`
-	margin-left: 100px;
-	color: blue;
+	const Name = Styled.h3`
+	margin-left: 20px;
+	font-weight: 700;
+	font-size: 18px;
+	color: ${colors.normal.darkText}
 	`
 
-	const Rating = Styled.div`
-	position: absolute;
-	right: 20px;
-
-	color: red;
+	const Rating = Styled.p`
+	margin-right: 20px;
+	font-weight: 700;
+	font-size: 18px;
+	color: ${colors.normal.darkText}
 	`
 
   return (
     <Row>
-      <Avatar>
-        <PlayerAvatar url={props.player.avatarUrl} />
-      </Avatar>
 
-			<Name>
-				{props.player.name}
-			</Name>
+      <PlayerAvatar url={props.player.avatarUrl} />
 
-			 <Rating>
-			 {props.player.rating} pts
-			 </Rating>
+			<PlayerDetails>
+				<Name>
+					{props.player.name}
+				</Name>
+
+				<Rating>
+					{props.player.rating} pts
+				</Rating>
+
+			</PlayerDetails>
+		
     </Row>
   );
 };

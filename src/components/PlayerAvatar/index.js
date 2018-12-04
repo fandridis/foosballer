@@ -5,9 +5,15 @@ import Styled from 'styled-components';
 const PlayerAvatar = (props) => {
 
   const StyledImg = Styled.img`
+  margin: 0;
+  padding: 0;
+  
   border: solid 5px white;
   border-radius: 50%;
   height: ${props.size}px;
+
+  -webkit-box-sizing:content-box;
+  box-sizing:content-box;
   `
 
   return (
