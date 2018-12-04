@@ -2,7 +2,9 @@ import React, { Component, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import { withFirebase } from '../../hocs/Firebase';
-import PlayerItem from './PlayerItem';
+import PlayerRow from '../../components/PlayerRow';
+
+import './index.css';
 
 class Players extends Component {
   constructor(props) {
@@ -29,7 +31,7 @@ class Players extends Component {
   /**
    * Create a listener for real-time communication between the app and the database.
    * Update the state to always contain the same info with the database.
-   * @method
+   * Injects the player document id into the player object for easy reference
    */
   subscribeToPlayersCollection() {
     const playersListener = this.props.firebase.db.collection("players")
@@ -48,7 +50,6 @@ class Players extends Component {
   /**
    * Unsubscribe from the players collection listener.
    * Update the state.
-   * @method
    */
   unsubscribeFromPlayersCollection() {
     this.state.playersListener();
@@ -56,8 +57,7 @@ class Players extends Component {
   }
 
   /**
-   * Opens the PlayersCreate page for creating a player.
-   * @method
+   * Open the PlayersCreate page for creating a new player.
    */
   handleAddPlayer = () => {
     console.log('Opening player page for creating');
@@ -66,8 +66,7 @@ class Players extends Component {
 
   /**
    * Opens the PlayersEdit page for editing a player.
-   * @method
-   * @param {string} player - The player to be edited
+   * @param {object} player - The player to be edited
    */
   handleEditPlayer = player => {
     console.log('Open player page for editing');
@@ -79,7 +78,6 @@ class Players extends Component {
 
   /**
    * Deletes a player document from the database.
-   * @method
    * @param {string} playerId - The id of the player to be removed
    */
   handleRemovePlayer = playerId => {
@@ -90,24 +88,23 @@ class Players extends Component {
 
   render() {
     return (
-      <Fragment>
+      <div className="players-page">
         <h3>Players Squad</h3>
 
         {/* List of Players */}
         {this.state.players && this.state.players.map(player => {
           return (
-            <PlayerItem 
+            <PlayerRow 
               key={player.uid}
               player={player}
               onRemove={this.handleRemovePlayer}
               onEdit={this.handleEditPlayer}
-              onEditTest={this.handleEditPlayerNewRoute}
-              />
+            />
           )
         })}
 
         <button onClick={() => this.handleAddPlayer()}>Add new Player</button>
-      </Fragment>
+      </div>
     )
   }
 }
