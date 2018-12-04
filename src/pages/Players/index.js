@@ -13,8 +13,9 @@ class Players extends Component {
     this.state = {
       players: null,
       playersListener: null,
+      playerTargeted: null,
 
-      isLoading: false
+      isLoading: false,
     };
   }
 
@@ -86,7 +87,12 @@ class Players extends Component {
       .catch(err => console.log('err: ', err))
   }
 
+  handleTarget = playerTargeted => { 
+    console.log('playerTargeted: ', playerTargeted);
+    this.setState({ playerTargeted }) }
+
   render() {
+    console.log('Rendering')
     return (
       <div className="players-page">
         <h3>Players Squad</h3>
@@ -94,12 +100,15 @@ class Players extends Component {
         {/* List of Players */}
         {this.state.players && this.state.players.map(player => {
           return (
-            <PlayerRow 
-              key={player.uid}
-              player={player}
-              onRemove={this.handleRemovePlayer}
-              onEdit={this.handleEditPlayer}
-            />
+            <div key={player.uid} onClick={() => this.handleTarget(player.uid)}>
+              <PlayerRow 
+                key={player.uid}
+                player={player}
+                onRemove={this.handleRemovePlayer}
+                onEdit={this.handleEditPlayer}
+                targeted={player.uid === this.state.playerTargeted ? true : false}      
+              />
+            </div>
           )
         })}
 
