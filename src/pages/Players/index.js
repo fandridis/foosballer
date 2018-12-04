@@ -3,7 +3,6 @@ import { withRouter } from 'react-router-dom';
 
 import { withFirebase } from '../../hocs/Firebase';
 import PlayerItem from './PlayerItem';
-import ManagePlayer from './ManagePlayer';
 
 class Players extends Component {
   constructor(props) {
@@ -13,16 +12,12 @@ class Players extends Component {
       players: null,
       playersListener: null,
 
-      selectedPlayer: null,
-
-      tab: 'playerList', // 'playerList', 'managePlayer'
-
       isLoading: false
     };
   }
 
   componentDidMount() {
-    console.log('DidMount @ Players');
+    console.log('DidMount @ Players: ', this.props);
     this.subscribeToPlayersCollection();
   }
 
@@ -61,40 +56,24 @@ class Players extends Component {
   }
 
   /**
-   * Opens the AddPlayer page for creating a player.
+   * Opens the PlayersCreate page for creating a player.
    * @method
-   * @param {string} playerId - The player to be edited
    */
   handleAddPlayer = () => {
     console.log('Opening player page for creating');
-    this.handleChangeTab('managePlayer');
-  }
-
-  // TESTING
-  handleAddPlayerNewRoute = () => {
-    console.log('Opening NEW ROUTE PAGE for creating');
-      this.props.history.push({
-        pathname: `/players/0`
-      })
-  }
-  // TESTING
-  handleEditPlayerNewRoute = (player) => {
-    console.log('Opening NEW ROUTE PAGE for creating');
-      this.props.history.push({
-        pathname: `/players/${player.uid}`,
-        data: player
-      })
+    this.props.history.push('/players/create');
   }
 
   /**
-   * Opens the EditPlayer page for editing a player.
+   * Opens the PlayersEdit page for editing a player.
    * @method
-   * @param {string} playerId - The player to be edited
+   * @param {string} player - The player to be edited
    */
-  handleEditPlayer = selectedPlayer => {
+  handleEditPlayer = player => {
     console.log('Open player page for editing');
-    this.setState({ selectedPlayer }, () => {
-      this.handleChangeTab('managePlayer');
+    this.props.history.push({
+      pathname: `/players/edit/${player.uid}`,
+      player: player
     })
   }
 
@@ -108,27 +87,8 @@ class Players extends Component {
       .then(() => console.log('Player removed successfully'))
       .catch(err => console.log('err: ', err))
   }
-  
-  /**
-   * Switches between the playerList view and the addPlayer view.
-   * @method
-   * @param {string} tab - The tab to switch to: playerList or addPlayer
-   */
-  handleChangeTab = (tab = 'playerList') => this.setState({ tab })
 
-
-  renderManagePlayer() {
-    return (
-      <ManagePlayer 
-        userRef={this.props.isAuthenticated}
-        players={this.state.players}
-        onCancel={this.handleChangeTab}
-        player={this.state.selectedPlayer}
-      />
-    )
-  }
-
-  renderPlayerList() {
+  render() {
     return (
       <Fragment>
         <h3>Players Squad</h3>
@@ -147,14 +107,8 @@ class Players extends Component {
         })}
 
         <button onClick={() => this.handleAddPlayer()}>Add new Player</button>
-        <button onClick={() => this.handleAddPlayerNewRoute()}>Add new Player(newRoute)</button>
       </Fragment>
     )
-  }
-
-  render() {
-    if (this.state.tab === 'playerList') { return this.renderPlayerList(); }
-    else if (this.state.tab === 'managePlayer') { return this.renderManagePlayer(); }
   }
 }
 

@@ -33,12 +33,6 @@ const NavigationAuth = () => (
       <Link to={ROUTES.PLAYERS}>Players</Link>
     </li>
     <li>
-      <Link to={ROUTES.PLAYERS + '/0'}>Create Player</Link>
-    </li>
-    <li>
-      <Link to={ROUTES.PLAYERS + '/2JcNfNNIU9bo5IbtNXG52BMqGOb2'}>Edit Player</Link>
-    </li>
-    <li>
       <LogoutButton />
     </li>
   </ul>

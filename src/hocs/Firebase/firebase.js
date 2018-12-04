@@ -92,7 +92,7 @@ class Firebase {
    * @returns A promise that resolves to the docRef or an error message
    */
   updatePlayer = (playerId, player) => { 
-    if (!player.userRef || !player.name || !player.avatarUrl || !playerId) { return Promise.reject('missing params') }
+    if ( !playerId || !player.name || !player.avatarUrl) { return Promise.reject('missing params') }
 
     return this.db.collection("players").doc(playerId).update({
       name: player.name,

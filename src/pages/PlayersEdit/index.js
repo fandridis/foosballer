@@ -1,13 +1,14 @@
 import React, { Component, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 // import Styled from 'styled-components';
 
 import { withFirebase } from '../../hocs/Firebase';
 import { generateAvatarUrl } from '../../utilities/generators';
 import PlayerAvatar from '../../components/PlayerAvatar';
+import Button from '../../components/CustomButton';
 
-class PlayerCreateEdit extends Component {
+class PlayersEdit extends Component {
 
   constructor(props) {
     super(props)
@@ -21,54 +22,39 @@ class PlayerCreateEdit extends Component {
 
   componentDidMount() {
 		console.log('this.props: ', this.props);
-    if (this.props.match.params.id === '0') {
-      // Coming to edit an existing user
-      console.log('new user create!');
-      this.generateAvatar();    
-		}
-		else {
-      console.log('editing user with id: ', this.props.match.params.id);
-      this.setState({
-        newPlayerName: this.props.location.data.name,
-        newPlayerAvatarUrl: this.props.location.data.avatarUrl
-      })
-		}
-  }
+    console.log('editing user with id: ', this.props.match.params.id);
+    this.setState({
+      newPlayerName: this.props.location.player.name,
+      newPlayerAvatarUrl: this.props.location.player.avatarUrl
+    });
+	}
 
   generateAvatar = () => {
     const newPlayerAvatarUrl = generateAvatarUrl();
-    console.log("new url: ", newPlayerAvatarUrl);
     this.setState({ newPlayerAvatarUrl });
   }
 
   onChange = event => this.setState({ newPlayerName: event.target.value });
   
   /**
-   * Creates a new player in the database.
-   * Restrictions: The player name cannot be null and must be unique for the user.
+   * Update an existing player in the database.
    * @method
    * @param {object} event - Contains the form event object
    */
   onSubmit = async event => {
     event.preventDefault();
 
-    if (this.props.players.find(player => player.name === this.state.newPlayerName)) {
-      // TODO: Show an error message to the user
-      return console.log('Player name already exists.');
-    }
-
     const player = {
-      userRef: this.props.userRef,
       name: this.state.newPlayerName,
-      rating: 1000,
       avatarUrl: this.state.newPlayerAvatarUrl
     }
 
-    this.props.firebase.createPlayer(player)
+    this.props.firebase.updatePlayer(this.props.location.player.uid, player)
       .then(() => {
-        console.log('Player added successfully');
-        this.setState({ newPlayerName: '', isLoading: false, });
-        this.props.onCancel('playerList');
+        console.log('Player updated successfully');
+        this.setState({ newPlayerName: '', isLoading: false, }, () => {
+          this.props.history.goBack();
+        });
       })
       .catch(err => { 
         console.log('err: ', err)
@@ -76,10 +62,7 @@ class PlayerCreateEdit extends Component {
       })
   };
 
-  onCancel = () => {
-    this.props.history.push({ pathname: `/players` })
-  }
-
+  onCancel = () =>  this.props.history.goBack();
   
   render() {
     return (
@@ -94,10 +77,8 @@ class PlayerCreateEdit extends Component {
             type="text"
             placeholder="Bob?"
           />
-          <button disabled={!this.state.newPlayerName} type="submit">
-            Add
-          </button>
-
+          
+          <Button btnText='Save' />
         </form>
 
         <button onClick={() => this.onCancel()}>Cancel</button>
@@ -113,4 +94,4 @@ class PlayerCreateEdit extends Component {
 //   onCancel: PropTypes.func.isRequired
 // };
 
-export default withRouter(withFirebase(PlayerCreateEdit));
+export default withRouter(withFirebase(PlayersEdit));
