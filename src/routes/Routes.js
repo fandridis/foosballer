@@ -10,24 +10,23 @@ import ResetPassword from '../pages/ResetPassword';
 import Players from '../pages/Players';
 import PlayersCreate from '../pages/PlayersCreate';
 import PlayersEdit from '../pages/PlayersEdit';
-import * as ROUTES from '../routes/names';
 
 import { AuthenticatedRoute, UnauthenticatedRoute } from "../hocs/RouteWrappers";
 
 export default ({ childProps }) =>
   <Switch>
-    <UnauthenticatedRoute path={ROUTES.LOGIN} exact component={Login} props={childProps} />
-    <UnauthenticatedRoute path={ROUTES.SIGNUP} exact component={Signup} props={childProps} />
-    <UnauthenticatedRoute path={ROUTES.RESET_PASSWORD} exact component={ResetPassword} props={childProps} />
+    <UnauthenticatedRoute path={'/login'} exact component={Login} props={childProps} />
+    <UnauthenticatedRoute path={'/signup'} exact component={Signup} props={childProps} />
+    <UnauthenticatedRoute path={'/resetpassword'} exact component={ResetPassword} props={childProps} />
 
-    <AuthenticatedRoute path={ROUTES.HOME} exact component={Home} props={childProps} />
+    <AuthenticatedRoute path={'/'} exact component={Home} props={childProps} />
 
-    <AuthenticatedRoute path={ROUTES.ADMIN} exact component={Admin} props={childProps} />
-    <AuthenticatedRoute path={ROUTES.ACCOUNT} exact component={Account} props={childProps} />
+    <AuthenticatedRoute path={'/admin'} exact component={Admin} props={childProps} />
+    <AuthenticatedRoute path={'/account'} exact component={Account} props={childProps} />
 
-    <AuthenticatedRoute path={ROUTES.PLAYERS} exact component={Players} props={childProps} />
-    <AuthenticatedRoute path={ROUTES.PLAYERS_CREATE} exact component={PlayersCreate} props={childProps} />
-    <AuthenticatedRoute path={ROUTES.PLAYERS_EDIT} exact component={PlayersEdit} props={childProps} />
+    <AuthenticatedRoute path={'/players'} exact component={Players} props={childProps} />
+    <AuthenticatedRoute path={'/players/create'} exact component={PlayersCreate} props={childProps} />
+    <AuthenticatedRoute path={'/players/edit/:id'} exact component={PlayersEdit} props={childProps} />
 
     { /* Finally, catch all unmatched routes */ }
     { /* TODO: Build and import a NotFound page and then uncomment the line below*/}

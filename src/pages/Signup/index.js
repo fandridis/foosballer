@@ -3,7 +3,6 @@ import { withRouter, Link } from 'react-router-dom';
 import { compose } from 'recompose';
 
 import { withFirebase } from '../../hocs/Firebase';
-import * as ROUTES from '../../routes/names';
 
 class Signup extends Component {
   constructor(props) {
@@ -73,7 +72,7 @@ class Signup extends Component {
           {error && <p>{error.message}</p>}
         </form>
 
-        <p>Already have an account?<Link to={ROUTES.LOGIN}>Login</Link></p>
+        <p>Already have an account?<Link to={'/login'}>Login</Link></p>
       </Fragment>
     );
   }

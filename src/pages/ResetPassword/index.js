@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import { Link } from "react-router-dom";
 
 import { withFirebase } from '../../hocs/Firebase';
-import * as ROUTES from '../../routes/names';
 
 class ResetPassword extends Component {
   constructor(props) {
@@ -57,7 +56,7 @@ class ResetPassword extends Component {
           {error && <p>{error.message}</p>}
         </form>
 
-        <p><Link to={ROUTES.LOGIN}>Back</Link></p>
+        <p><Link to={'/login'}>Back</Link></p>
       </Fragment>
     );
   }

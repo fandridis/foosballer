@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import * as ROUTES from '../../routes/names';
-
 import LogoutButton from '../LogoutButton';
 
 
@@ -21,16 +19,16 @@ const Navigation = (props) => {
 const NavigationAuth = () => (
   <ul>
     <li>
-      <Link to={ROUTES.HOME}>Home</Link>
+      <Link to={'/'}>Home</Link>
     </li>
     <li>
-      <Link to={ROUTES.ACCOUNT}>Account</Link>
+      <Link to={'/account'}>Account</Link>
     </li>
     <li>
-      <Link to={ROUTES.ADMIN}>Admin</Link>
+      <Link to={'/admin'}>Admin</Link>
     </li>
     <li>
-      <Link to={ROUTES.PLAYERS}>Players</Link>
+      <Link to={'/players'}>Players</Link>
     </li>
     <li>
       <LogoutButton />

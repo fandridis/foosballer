@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 // import { compose } from 'recompose';
 
 import { withFirebase } from '../../hocs/Firebase';
-import * as ROUTES from '../../routes/names';
 
 import CustomButton from '../../components/CustomButton'
 
@@ -66,9 +65,9 @@ class Login extends Component {
           {error && <p>{error.message}</p>}
         </form>
 
-        <p>Don't have an account?<Link to={ROUTES.SIGNUP}>Sign Up</Link></p>
+        <p>Don't have an account?<Link to={'/signup'}>Sign Up</Link></p>
 
-        <p>Fogot your password?<Link to={ROUTES.RESET_PASSWORD}>Reset</Link></p>
+        <p>Fogot your password?<Link to={'/resetpassword'}>Reset</Link></p>
       </Fragment>
     );
   }
