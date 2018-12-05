@@ -1,7 +1,6 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { FadeIn, FadeInRight } from 'animate-css-styled-components';
 
 import PlayerAvatar from '../PlayerAvatar';
 import RowButtons from './RowButtons';
@@ -62,12 +61,10 @@ const PlayerRow = memo((props) => {
 			{
 				props.targeted === false
 					? <Rating> {props.player.rating} pts </Rating>
-					: <FadeInRight duration="0.3s" style={{display: 'flex', alignItems: 'center'}}>
-							<RowButtons
-								onEdit={() => props.onEdit(props.player)}
-								onRemove={() => props.onRemove(props.player.uid)}
-							/>
-						</FadeInRight>
+					: <RowButtons
+							onEdit={() => props.onEdit(props.player)}
+							onRemove={() => props.onRemove(props.player.uid)}
+						/>
 			}
 				
 			</PlayerDetails>

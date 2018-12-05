@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import { Transition } from 'react-spring'
 
 import { withFirebase } from '../../hocs/Firebase';
 import PlayerRow from '../../components/PlayerRow';
-import CustomButton from '../../components/CustomButton';
-
-import { FadeInUp } from 'animate-css-styled-components';
 
 import './index.css';
 
@@ -97,23 +95,32 @@ class Players extends Component {
   }
 
   render() {
+    const stuff = [1, 2, 3, 4]
     return (
       <div className="players-page">
         <h3>Players Squad</h3>
+
+        <Transition
+          items={stuff} keys={stuff => stuff}
+          from={{ transform: 'translate3d(0,-40px,0)' }}
+          enter={{ transform: 'translate3d(0,0px,0)' }}
+          leave={{ transform: 'translate3d(0,-40px,0)' }}>
+          {stuff => props =>
+            <div style={props}>{stuff}</div>
+          }
+        </Transition>
 
         {/* List of Players */}
         {this.state.players && this.state.players.map((player, i) => {
           return (
             <div key={player.uid} onClick={() => this.handleTarget(player.uid)}>
-              <FadeInUp duration={'0.5s'} delay={ i < 5 ? i/10 + 's' : i / 12 + 's'}>
-                <PlayerRow 
-                  key={player.uid}
-                  player={player}
-                  onRemove={this.handleRemovePlayer}
-                  onEdit={this.handleEditPlayer}
-                  targeted={player.uid === this.state.playerTargeted ? true : false}      
-                />
-              </FadeInUp>
+              <PlayerRow 
+                key={player.uid}
+                player={player}
+                onRemove={this.handleRemovePlayer}
+                onEdit={this.handleEditPlayer}
+                targeted={player.uid === this.state.playerTargeted ? true : false}      
+              />
             </div>
           )
         })}
