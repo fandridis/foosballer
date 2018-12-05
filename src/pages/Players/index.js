@@ -3,6 +3,9 @@ import { withRouter } from 'react-router-dom';
 
 import { withFirebase } from '../../hocs/Firebase';
 import PlayerRow from '../../components/PlayerRow';
+import CustomButton from '../../components/CustomButton';
+
+import { FadeInUp } from 'animate-css-styled-components';
 
 import './index.css';
 
@@ -87,30 +90,30 @@ class Players extends Component {
       .catch(err => console.log('err: ', err))
   }
 
-  handleTarget = playerTargeted => { 
-    console.log('playerTargeted: ', playerTargeted);
-
+  handleTarget = playerTargeted => {
     if (playerTargeted === this.state.playerTargeted) { playerTargeted = null}
 
-    this.setState({ playerTargeted }) }
+    this.setState({ playerTargeted }) 
+  }
 
   render() {
-    console.log('Rendering')
     return (
       <div className="players-page">
         <h3>Players Squad</h3>
 
         {/* List of Players */}
-        {this.state.players && this.state.players.map(player => {
+        {this.state.players && this.state.players.map((player, i) => {
           return (
             <div key={player.uid} onClick={() => this.handleTarget(player.uid)}>
-              <PlayerRow 
-                key={player.uid}
-                player={player}
-                onRemove={this.handleRemovePlayer}
-                onEdit={this.handleEditPlayer}
-                targeted={player.uid === this.state.playerTargeted ? true : false}      
-              />
+              <FadeInUp duration={'0.5s'} delay={ i < 5 ? i/10 + 's' : i / 12 + 's'}>
+                <PlayerRow 
+                  key={player.uid}
+                  player={player}
+                  onRemove={this.handleRemovePlayer}
+                  onEdit={this.handleEditPlayer}
+                  targeted={player.uid === this.state.playerTargeted ? true : false}      
+                />
+              </FadeInUp>
             </div>
           )
         })}
