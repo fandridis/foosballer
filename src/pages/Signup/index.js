@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import { withRouter, Link } from 'react-router-dom';
-import { compose } from 'recompose';
 
 import { withFirebase } from '../../hocs/Firebase';
 
@@ -78,9 +77,6 @@ class Signup extends Component {
   }
 }
 
-export default compose(
-  withRouter,
-  withFirebase
-)(Signup);
+export default withRouter(withFirebase(Signup));
 
 
