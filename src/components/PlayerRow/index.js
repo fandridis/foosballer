@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 import PlayerAvatar from '../PlayerAvatar';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPencilAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+
 import { colors } from '../../css/Variables';
 
-const PlayerRow = (props) => {
+const PlayerRow = memo((props) => {
 
 	const Row = Styled.div`
 	position: relative;
@@ -44,41 +47,69 @@ const PlayerRow = (props) => {
 	color: ${colors.normal.darkText}
 	`
 
+	const Actions = Styled.div`
+	display: flex;
+	align-items: center;
+	margin-right: 10px;
+	font-weight: 700;
+	font-size: 18px;
+	color: ${colors.normal.darkText}
+	`
+
+	const IconWrapper = Styled.span`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 0 2px;
+	width: 35px;
+	height: 35px;
+	border-radius: 50%;
+	color: white;
+	`
+
+	const PrimaryIconWrapper = Styled(IconWrapper)`
+	background-color: ${colors.normal.primary};
+	`
+	const OrangeIconWrapper = Styled(IconWrapper)`
+	background-color: ${colors.normal.orange};
+	`
+
+
 	console.log('props: ', props);
 
-	if (props.targeted === false) {
-		return (
-			<Row>
-				<PlayerAvatar url={props.player.avatarUrl} />
-				<PlayerDetails>
-					<Name>
-						{props.player.name}
-					</Name>
+	return (
+		<Row>
+			<PlayerAvatar url={props.player.avatarUrl} />
+			<PlayerDetails>
+				<Name>
+					{props.player.name}
+				</Name>
 
-					<Rating>
-						{props.player.rating} pts
-					</Rating>
-				</PlayerDetails>
-			</Row>
-		);
-	}
-	else {
-		return (
-			<Row>
-				<PlayerAvatar url={props.player.avatarUrl} />
-				<PlayerDetails>
-					<Name>
-						OPENED
-					</Name>
+			{
+				props.targeted === false
+					? <Rating> {props.player.rating} pts </Rating>
+					: <Actions>
+							<PrimaryIconWrapper onClick={() => props.onEdit(props.player)}>
+								<FontAwesomeIcon 
+									icon={faPencilAlt}
+									size="1x"
+								/>
+							</PrimaryIconWrapper>
 
-					<Rating>
-						OPENED
-					</Rating>
-				</PlayerDetails>
-			</Row>
-		)
-	}
-};
+							<OrangeIconWrapper onClick={() => props.onRemove(props.player.uid)}>
+								<FontAwesomeIcon
+									icon={faTrashAlt}
+									size="1x" 
+								/>
+							</OrangeIconWrapper>
+						</Actions>
+			}
+				
+			</PlayerDetails>
+		</Row>
+	);
+	
+});
 
 PlayerRow.propTypes = {
   player: PropTypes.shape({

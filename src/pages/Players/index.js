@@ -89,6 +89,9 @@ class Players extends Component {
 
   handleTarget = playerTargeted => { 
     console.log('playerTargeted: ', playerTargeted);
+
+    if (playerTargeted === this.state.playerTargeted) { playerTargeted = null}
+
     this.setState({ playerTargeted }) }
 
   render() {
