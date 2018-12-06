@@ -66,17 +66,17 @@ const PlayerRow = memo((props) => {
 					? <Rating> {props.player.rating} pts </Rating>
 					: <Actions>
 							<IconButton
-								icon='faPencilAlt'
-								size='1x'
+								icon='pencil-alt'
+								size='normal'
 								color='primary'
-								onClick={() => props.onEdit()} 
+								onClick={() => props.onEdit(props.player)} 
 							/>
 				
 							<IconButton
-								icon='faTrashAlt'
-								size='1x'
+								icon='trash-alt'
 								color='orange'
-								onClick={() => props.onRemove()} 
+								inverted
+								onClick={() => props.onRemove(props.player.uid)} 
 							/>
 						</Actions>
 				}
