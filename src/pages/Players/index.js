@@ -4,6 +4,7 @@ import { Transition } from 'react-spring';
 
 import { withFirebase } from '../../hocs/Firebase';
 import PlayerRow from '../../components/PlayerRow';
+import Navigation from '../../components/Navigation';
 
 import './index.css';
 
@@ -120,6 +121,9 @@ class Players extends Component {
         }
 
         <button onClick={() => this.handleAddPlayer()}>Add new Player</button>
+
+        {/* Bottom Navigation bar/>*/}
+        <Navigation isAuthenticated={this.props.isAuthenticated} />
       </div>
     )
   }

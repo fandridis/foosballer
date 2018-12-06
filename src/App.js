@@ -2,8 +2,6 @@ import React, { Component, Fragment} from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import { withFirebase } from './hocs/Firebase';
-
-import Navigation from './components/Navigation';
 import Routes from './routes/Routes';
 
 class App extends Component {
