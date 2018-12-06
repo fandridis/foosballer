@@ -86,7 +86,7 @@ class PlayersEdit extends Component {
             placeholder="Bob?"
           />
           
-          <Button btnText='Save' />
+          <Button text='Save' />
         </form>
 
         <button onClick={() => this.onCancel()}>Cancel</button>

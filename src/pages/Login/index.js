@@ -60,7 +60,7 @@ class Login extends Component {
           {/* <button disabled={isInvalid} type="submit">
             Login
           </button> */}
-          <CustomButton disabled={isInvalid} type="submit" btnText="Login" />
+          <CustomButton disabled={isInvalid} type="submit" text="Login" />
 
           {error && <p>{error.message}</p>}
         </form>

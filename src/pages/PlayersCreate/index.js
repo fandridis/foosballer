@@ -76,7 +76,7 @@ class PlayersCreate extends Component {
             placeholder="Bob?"
           />
 
-          <Button btnText='Add' />
+          <Button text='Add' />
 
         </form>
 
