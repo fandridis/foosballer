@@ -76,7 +76,17 @@ class PlayersCreate extends Component {
             placeholder="Bob?"
           />
 
-          <Button text='Add' />
+          <Button text='Primary' />
+          <Button text='Secondary' color="secondary" />
+          <Button text='Orange' color="orange" />
+          <Button text='Red' color="red" />
+          <Button text='darkText' color="darkText" />
+
+          <Button inverted text='Primary (inverted)' />
+          <Button inverted text='Secondary (inverted)' color="secondary" />
+          <Button inverted text='Orange (inverted)' color="orange" />
+          <Button inverted text='Red (inverted)' color="red" />
+          <Button inverted text='darkText (inverted)' color="darkText" />
 
         </form>
 

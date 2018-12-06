@@ -1,29 +1,39 @@
 export const colors = {
     normal: {
-        primary: '#17B9A2',
-        secondary: '#FDD573',
-        orange: '#F46036',
-        red: '#A4243B',
-        lightText: '#EAFFFA',
-        darkText: '#273E47',
-        greyText: '#5D92A7',
-        inputBorder: '#DDFFF7'
-    },
-    darker: {
-        primary: '#089F89',
-        secondary: '#FFC943',
-        orange: '#F74D1C',
-        red: '#95122A',
-        darkText: '#183743',
-        greyText: '#48859D',
-    },
-    lighter: {
-        primary: '#46C6B4',
-        secondary: '#FFE095',
-        orange: '#F06E48',
-        red: '#AD485A',
-        darkText: '#3B4A50',
-        greyText: '#6F9DAF',
-    },
+        primary: 'rgba(23, 185, 162, 1)',
+        primary40: 'rgba(23, 185, 162, .4)',
+        secondary: 'rgba(253, 213, 115, 1)',
+        secondary40: 'rgba(253, 213, 115, .4)',
+        orange: 'rgba(244, 96, 54, 1)',
+        orange40: 'rgba(244, 96, 54, .4)',
+        red: 'rgba(164, 36, 59, 1)',
+        red40: 'rgba(164, 36, 59, .4)',
+        lightText: 'rgba(234, 255, 250, 1)',
+        lightText40: 'rgba(234, 255, 250, .4)',
+        darkText: 'rgba(39, 62, 71, 1)',
+        darkText40: 'rgba(39, 62, 71, .4)',
+        greyText: 'rgba(93, 146, 167, 1)',
+        greyText40: 'rgba(93, 146, 167, .4)',
+        inputBorder: 'rgba(221, 255, 247, 1)',
+        inputBorder40: 'rgba(221, 255, 247, .4)'
+       },
+       darker: {
+        primary: 'rgba(8, 159, 137, 1)',
+        secondary: 'rgba(255, 201, 67, 1)',
+        orange: 'rgba(247, 77, 28, 1)',
+        red: 'rgba(149, 18, 42, 1)',
+        darkText: 'rgba(24, 55, 67, 1)',
+        greyText: 'rgba(72, 133, 157, 1)',
+       },
+       lighter: {
+        primary: 'rgba(70, 198, 180, 1)',
+        secondary: 'rgba(255, 224, 149, 1)',
+        orange: 'rgba(240, 110, 72, 1)',
+        red: 'rgba(173, 72, 90, 1)',
+        darkText: 'rgba(59, 74, 80, 1)',
+        greyText: 'rgba(111, 157, 175, 1)',
+       },
+
+    
 
 }
