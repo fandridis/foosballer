@@ -7,20 +7,18 @@ import Styled from 'styled-components';
 const CustomButton = (props) => {
 
     const StyledButton = Styled.button`
-    position: relative;
-    display: block;
     margin: 30px auto;
-    padding: 0;
-    overflow: hidden;
-    border-width: 0;
-    outline: none;
-    border-radius: ${props.rounded ? '20px' : '4px'};
-    box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+    min-width: 250px;
+    height: 40px;
+    border-radius: 20px;
+    box-shadow: 0 3px 6px rgba(23, 185, 162, 0.38);
+    border: none;
     background-color: ${colors.normal[props.color]};
-    color: ${props.color === 'light' ? '#222' : '#ecf0f1'};
-    transition: background - color .3s;
-    textTransform: uppercase;
-
+    color: ${colors.normal.lightText};
+    font-weight: 800;
+    font-size: 12px;
+    transition: .3s;
+    
     &:hover {
         background: ${colors.darker[props.color]};
         cursor: pointer;
@@ -29,32 +27,37 @@ const CustomButton = (props) => {
         background: ${colors.darker[props.color]};
     }
     `
-    
-    const StyledSpan = Styled.span`
-    display: block;
-    padding: 12px 24px;
+    const InvertedButton = Styled(StyledButton)`
+        border: 2px solid ${colors.normal.primary};
+        background-color: white;
+        color: ${colors.normal.primary};
+        box-shadow: none;
     `
 
-    return (
-        <StyledButton disabled={props.disabled} type={props.type}><StyledSpan>{props.btnText}</StyledSpan></StyledButton>
-    );
+    if (props.inverted) {
+      return (<InvertedButton disabled={props.disabled} type={props.type}>{props.text}</InvertedButton>)
+
+    }
+    else {
+        return (<StyledButton disabled={props.disabled} type={props.type}>{props.text}</StyledButton>)
+    }
 }
 
 
 
 CustomButton.propTypes = {
     color: PropTypes.string,
-    rounded: PropTypes.bool,
-    btnText: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
     disabled: PropTypes.bool,
-    type: PropTypes.string
+    type: PropTypes.string,
+    inverted: PropTypes.bool
 };
 
 CustomButton.defaultProps = {
     color: 'primary',
-    rounded: true,
     disabled: false,
-    type: 'submit'
+    type: 'submit',
+    inverted: false
 };
 
 export default CustomButton

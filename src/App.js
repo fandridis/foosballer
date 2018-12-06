@@ -55,7 +55,7 @@ class App extends Component {
     return (
       <Router>
         <Fragment>
-          <Navigation isAuthenticated={childProps.isAuthenticated} />
+          {/*<Navigation isAuthenticated={childProps.isAuthenticated} />*/}
 
           <Routes childProps={childProps} />
         </Fragment>
