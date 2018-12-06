@@ -67,7 +67,6 @@ const PlayerRow = memo((props) => {
 					: <Actions>
 							<IconButton
 								icon='pencil-alt'
-								size='normal'
 								color='primary'
 								onClick={() => props.onEdit(props.player)} 
 							/>
@@ -75,7 +74,6 @@ const PlayerRow = memo((props) => {
 							<IconButton
 								icon='trash-alt'
 								color='orange'
-								inverted
 								onClick={() => props.onRemove(props.player.uid)} 
 							/>
 						</Actions>

@@ -16,7 +16,7 @@ const BasicIconWrapper = styled.span`
 `
 
 const IconWrapper = styled(BasicIconWrapper)`
-	box-shadow: 0 3px 6px ${props => colors.normal[`${props.color}40`]};
+	box-shadow: ${props=> props.shadow ? `0 3px 6px ${colors.normal[props.color + '40']}` : 'none'};
 	background-color: ${props => colors.normal[props.color]};
 	color: white;
 
@@ -45,19 +45,12 @@ const InvertedIconWrapper = styled(BasicIconWrapper)`
 	}
 `
 
-// const PrimaryIconWrapper = styled(BasicIconWrapper)`
-// background-color: ${colors.normal.primary};
-// `
-// const OrangeIconWrapper = styled(BasicIconWrapper)`
-// background-color: ${colors.normal.orange};
-// `
-
 const IconButton = (props) => {
 	console.log('props: ', props);
 
 	if (!props.inverted) {
 		return (
-			<IconWrapper size={props.size} color={props.color} onClick={() => props.onClick()}>
+			<IconWrapper size={props.size} color={props.color} shadow={props.shadow} onClick={() => props.onClick()}>
 				<FontAwesomeIcon
 					icon={props.icon}
 					size={props.size === 'large' ? '2x' : '1x'}
@@ -85,7 +78,8 @@ IconButton.propTypes = {
 
 IconButton.defaultProps = {
 	size: 'normal',
-	color: 'primary'
+	color: 'primary',
+	shadow: false
 };
 
 export default IconButton;

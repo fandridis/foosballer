@@ -3,21 +3,6 @@ import PropTypes from 'prop-types';
 import { colors } from '../../css/Variables';
 import styled from 'styled-components';
 
-/*
-
-background-color: ${props => colors.normal[props.color]};
-color: ${colors.normal.lightText};
-
-&:hover {
-  background: ${props => colors.darker[props.color]};
-  cursor: pointer;
-}
-&:focus {
-  background: ${props => colors.darker[props.color]};
-}
-
-*/
-
 const BasicButton = styled.button`
 margin: 30px auto;
 min-width: 250px;
