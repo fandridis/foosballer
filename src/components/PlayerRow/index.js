@@ -58,14 +58,14 @@ const PlayerRow = memo((props) => {
 					{props.player.name}
 				</Name>
 
-			{
+				{
 				props.targeted === false
 					? <Rating> {props.player.rating} pts </Rating>
 					: <RowButtons
 							onEdit={() => props.onEdit(props.player)}
 							onRemove={() => props.onRemove(props.player.uid)}
 						/>
-			}
+				}
 				
 			</PlayerDetails>
 		</Row>

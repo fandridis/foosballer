@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Transition } from 'react-spring'
+import { Transition } from 'react-spring';
 
 import { withFirebase } from '../../hocs/Firebase';
 import PlayerRow from '../../components/PlayerRow';
@@ -95,35 +95,29 @@ class Players extends Component {
   }
 
   render() {
-    const stuff = [1, 2, 3, 4]
     return (
       <div className="players-page">
         <h3>Players Squad</h3>
 
-        <Transition
-          items={stuff} keys={stuff => stuff}
-          from={{ transform: 'translate3d(0,-40px,0)' }}
-          enter={{ transform: 'translate3d(0,0px,0)' }}
-          leave={{ transform: 'translate3d(0,-40px,0)' }}>
-          {stuff => props =>
-            <div style={props}>{stuff}</div>
-          }
-        </Transition>
-
-        {/* List of Players */}
-        {this.state.players && this.state.players.map((player, i) => {
-          return (
-            <div key={player.uid} onClick={() => this.handleTarget(player.uid)}>
-              <PlayerRow 
-                key={player.uid}
-                player={player}
-                onRemove={this.handleRemovePlayer}
-                onEdit={this.handleEditPlayer}
-                targeted={player.uid === this.state.playerTargeted ? true : false}      
-              />
-            </div>
-          )
-        })}
+        { this.state.players &&
+          <Transition
+            items={this.state.players} keys={player => player.uid}
+            from={{ opacity: 0, height: 0 }}
+            enter={{ opacity: 1, height: 60 }}
+            leave={{ opacity: 0, height: 0 }}>
+            {player => props =>
+              <div style={props} key={player.uid} onClick={() => this.handleTarget(player.uid)}>
+                <PlayerRow 
+                  key={player.uid}
+                  player={player}
+                  onRemove={this.handleRemovePlayer}
+                  onEdit={this.handleEditPlayer}
+                  targeted={player.uid === this.state.playerTargeted ? true : false}      
+                />
+              </div>
+            }
+          </Transition>
+        }
 
         <button onClick={() => this.handleAddPlayer()}>Add new Player</button>
       </div>
