@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import PlayerAvatar from '../PlayerAvatar';
-import RowButtons from './RowButtons';
+import IconButton from '../IconButton';
 import { colors } from '../../css/Variables';
 
 const Row = styled.div`
@@ -44,15 +44,18 @@ font-size: 18px;
 color: ${colors.normal.darkText}
 `
 
+const Actions = styled.div`
+display: flex;
+align-items: center;
+margin-right: 10px;
+`
 
-/**
- * THE PLAYER_ROW COMPONENT
- */
 
 const PlayerRow = memo((props) => {
 	return (
 		<Row>
 			<PlayerAvatar url={props.player.avatarUrl} />
+
 			<PlayerDetails>
 				<Name>
 					{props.player.name}
@@ -61,12 +64,22 @@ const PlayerRow = memo((props) => {
 				{
 				props.targeted === false
 					? <Rating> {props.player.rating} pts </Rating>
-					: <RowButtons
-							onEdit={() => props.onEdit(props.player)}
-							onRemove={() => props.onRemove(props.player.uid)}
-						/>
-				}
+					: <Actions>
+							<IconButton
+								icon='pencil-alt'
+								size='normal'
+								color='primary'
+								onClick={() => props.onEdit(props.player)} 
+							/>
 				
+							<IconButton
+								icon='trash-alt'
+								color='orange'
+								inverted
+								onClick={() => props.onRemove(props.player.uid)} 
+							/>
+						</Actions>
+				}
 			</PlayerDetails>
 		</Row>
 	);

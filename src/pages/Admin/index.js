@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import Navigation from '../../components/Navigation';
+
 class AdminPage extends Component {
   constructor(props) {
     super(props);
@@ -43,6 +45,9 @@ class AdminPage extends Component {
         {loading && <div>Loading ...</div>}
 
         <UserList users={users} />
+
+        {/* Bottom Navigation bar/>*/}
+        <Navigation isAuthenticated={this.props.isAuthenticated} />
       </div>
     );
   }

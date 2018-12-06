@@ -1,10 +1,16 @@
 import React, { Component, Fragment} from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-
 import { withFirebase } from './hocs/Firebase';
-
-import Navigation from './components/Navigation';
 import Routes from './routes/Routes';
+/**
+ * FONT AWESOME ICON LIBRARY
+ * Import any icons here so they are usable across all components
+ */
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faTrashAlt, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faTrashAlt, faPencilAlt);
+
 
 class App extends Component {
   constructor(props) {
