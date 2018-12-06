@@ -15,7 +15,8 @@ export const colors = {
         greyText: 'rgba(93, 146, 167, 1)',
         greyText40: 'rgba(93, 146, 167, .4)',
         inputBorder: 'rgba(221, 255, 247, 1)',
-        inputBorder40: 'rgba(221, 255, 247, .4)'
+        inputBorder40: 'rgba(221, 255, 247, .4)',
+        white: 'white'
        },
        darker: {
         primary: 'rgba(8, 159, 137, 1)',
