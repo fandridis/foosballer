@@ -1,35 +1,34 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Transition } from 'react-spring';
+// import { Transition } from 'react-spring';
 
 import { withFirebase } from '../../hocs/Firebase';
-import PlayerRow from '../../components/PlayerRow';
 import Navigation from '../../components/Navigation';
 import Button from '../../components/CustomButton';
 
 import './index.css';
 
-class Players extends Component {
+class Tournaments extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      players: null,
-      playersListener: null,
-      playerTargeted: null,
+      // players: null,
+      // playersListener: null,
+      // playerTargeted: null,
 
-      isLoading: false,
+      // isLoading: false,
     };
   }
 
   componentDidMount() {
-    console.log('DidMount @ Players: ', this.props);
-    this.subscribeToPlayersCollection();
+    console.log('DidMount @ Tournaments: ', this.props);
+    // this.subscribeToPlayersCollection();
   }
 
   componentWillUnmount() {
-    console.log('WillUnmount @ Players');
-    this.unsubscribeFromPlayersCollection();
+    console.log('WillUnmount @ Tournaments');
+    // this.unsubscribeFromPlayersCollection();
   }
 
   /**
@@ -63,9 +62,9 @@ class Players extends Component {
   /**
    * Open the PlayersCreate page for creating a new player.
    */
-  handleAddPlayer = () => {
+  handleAddTournament = () => {
     console.log('Opening player page for creating');
-    this.props.history.push('/players/create');
+    this.props.history.push('/tournaments/create');
   }
 
   /**
@@ -98,10 +97,10 @@ class Players extends Component {
 
   render() {
     return (
-      <div className="Players-page">
-        <h3>Players Squad</h3>
+      <div className="Tournaments-page">
+        <h3>Tournaments</h3>
 
-        { this.state.players &&
+        {/* { this.state.players &&
           <Transition
             items={this.state.players} keys={player => player.uid}
             from={{ opacity: 0, height: 0 }}
@@ -119,9 +118,9 @@ class Players extends Component {
               </div>
             }
           </Transition>
-        }
+        } */}
 
-        <Button text="NEW PLAYER"  onClick={() => this.handleAddPlayer()} />
+        <Button text="NEW TOURNAMENT"  onClick={() => this.handleAddTournament()} />
 
         {/* Bottom Navigation bar/>*/}
         <Navigation isAuthenticated={this.props.isAuthenticated} />
@@ -130,6 +129,6 @@ class Players extends Component {
   }
 }
 
-export default withRouter(withFirebase(Players));
+export default withRouter(withFirebase(Tournaments));
 
 

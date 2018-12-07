@@ -1,4 +1,4 @@
-import React, { Component, Fragment} from 'react';
+import React, { Component } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { withFirebase } from './hocs/Firebase';
 import Routes from './routes/Routes';
@@ -7,9 +7,9 @@ import Routes from './routes/Routes';
  * Import any icons here so they are usable across all components
  */
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faTrashAlt, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt, faPencilAlt, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 
-library.add(faTrashAlt, faPencilAlt);
+library.add(faTrashAlt, faPencilAlt, faSyncAlt);
 
 
 class App extends Component {
@@ -60,11 +60,7 @@ class App extends Component {
 
     return (
       <Router>
-        <Fragment>
-          {/*<Navigation isAuthenticated={childProps.isAuthenticated} />*/}
-
-          <Routes childProps={childProps} />
-        </Fragment>
+        <Routes childProps={childProps} />
       </Router>
     );
   }

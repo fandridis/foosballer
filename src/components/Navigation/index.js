@@ -31,6 +31,9 @@ const NavigationAuth = () => (
       <Link to={'/players'}>Players</Link>
     </li>
     <li>
+      <Link to={'/tournaments'}>Tournaments</Link>
+    </li>
+    <li>
       <LogoutButton />
     </li>
   </ul>
