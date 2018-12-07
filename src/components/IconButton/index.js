@@ -46,28 +46,20 @@ const InvertedIconWrapper = styled(BasicIconWrapper)`
 `
 
 const IconButton = (props) => {
-	console.log('props: ', props);
-
-	if (!props.inverted) {
-		return (
-			<IconWrapper size={props.size} color={props.color} shadow={props.shadow} onClick={() => props.onClick()}>
+	return !props.inverted 
+		? <IconWrapper size={props.size} color={props.color} shadow={props.shadow} onClick={() => props.onClick()}>
 				<FontAwesomeIcon
 					icon={props.icon}
 					size={props.size === 'large' ? '2x' : '1x'}
 				/>
 			</IconWrapper>
-		);
-	}
-	else {
-		return (
-			<InvertedIconWrapper size={props.size} color={props.color} onClick={() => props.onClick()}>
+
+		: <InvertedIconWrapper size={props.size} color={props.color} onClick={() => props.onClick()}>
 				<FontAwesomeIcon
 					icon={props.icon}
 					size={props.size === 'large' ? '2x' : '1x'}
 				/>
 			</InvertedIconWrapper>
-		);
-	}
 };
 
 IconButton.propTypes = {

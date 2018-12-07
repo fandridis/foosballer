@@ -16,7 +16,6 @@ console.log('Initializing firebase');
 /** Firebase Management. */
 class Firebase {
   constructor() {
-    console.log('Firebase constructor');
     firebase.initializeApp(config);
 
     this.firestore = {

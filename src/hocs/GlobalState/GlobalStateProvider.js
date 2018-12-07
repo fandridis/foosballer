@@ -10,12 +10,16 @@ class GlobalStateProvider extends React.Component {
       user: null,
       changeUser: this.changeUser,
 
-      num: 0,
-      changeNum: (num) => this.setState({ num }),
+      players: [],
+      playersListener: null,
+      setPlayers: (players) => this.setState({ players }),
+      setPlayerListener: (playersListener) => this.setState({ playersListener }),
 
       isLoading: false,
-      stopLoading: this.stopLoading,
-      startLoading: this.startLoading
+      startLoading: () => this.setState({ isLoading: true }),
+      stopLoading: () => this.setState({ isLoading: false }),
+
+      reset: this.reset
     };
   }
 
@@ -24,8 +28,7 @@ class GlobalStateProvider extends React.Component {
     this.setState({ user });
   }
 
-  startLoading = () => this.setState({ isLoading: true })
-  stopLoading = () => this.setState({ isLoading: false })
+  reset = () => this.setState({ user: null, players: [] });
 
   render() {
     return (

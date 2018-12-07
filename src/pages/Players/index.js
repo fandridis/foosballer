@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { Transition } from 'react-spring';
 
 import { withFirebase } from '../../hocs/Firebase';
+import { withGlobalState } from '../../hocs/GlobalState';
 import PlayerRow from '../../components/PlayerRow';
 import Navigation from '../../components/Navigation';
 import Button from '../../components/CustomButton';
@@ -24,31 +25,45 @@ class Players extends Component {
 
   componentDidMount() {
     console.log('DidMount @ Players: ', this.props);
-    this.subscribeToPlayersCollection();
+    this.setState({ players: this.props.globalState.players });
+
+    // console.log('playersListener: ', this.props.globalState.playersListener);
+    // if (!this.props.globalState.playersListener) {
+    //   console.log('Starting Players listener');
+      
+    //   this.subscribeToPlayersCollection();
+    // }
+    // else {
+    //   this.setState({ players: this.props.globalState.players });
+    //   console.log('Players listener is already active');
+      
+    // }
   }
 
   componentWillUnmount() {
     console.log('WillUnmount @ Players');
-    this.unsubscribeFromPlayersCollection();
+    // this.unsubscribeFromPlayersCollection();
   }
 
   /**
    * Create a listener for real-time communication between the app and the database.
    * Update the state to always contain the same info with the database.
-   * Injects the player document id into the player object for easy reference
+   * Inject the player document id into the player object for easy reference
    */
   subscribeToPlayersCollection() {
-    const playersListener = this.props.firebase.db.collection("players")
-    .where("userRef", "==", this.props.isAuthenticated)
-    .orderBy('name')
-    .onSnapshot((querySnapshot) => {
-      let players = [];
-      querySnapshot.forEach((doc) => {
-          players.push( { ...doc.data(), uid: doc.id });
-      });
-      this.setState({ players });
-    });
-    this.setState({ playersListener });
+    // const playersListener = this.props.firebase.db.collection("players")
+    // .where("userRef", "==", this.props.isAuthenticated)
+    // .orderBy('name')
+    // .onSnapshot((querySnapshot) => {
+    //   let players = [];
+    //   querySnapshot.forEach((doc) => {
+    //       players.push( { ...doc.data(), uid: doc.id });
+    //   });
+    //   this.setState({ players });
+    //   this.props.globalState.setPlayers(players);
+    // });
+    // this.setState({ playersListener });
+    // this.props.globalState.setPlayerListener(playersListener);
   }
 
   /**
@@ -86,7 +101,10 @@ class Players extends Component {
    */
   handleRemovePlayer = playerId => {
     this.props.firebase.removePlayer(playerId)
-      .then(() => console.log('Player removed successfully'))
+      .then(() => {
+        console.log('Player removed successfully');
+        this.setState({ players: this.props.globalState.players })
+    })
       .catch(err => console.log('err: ', err))
   }
 
@@ -130,6 +148,6 @@ class Players extends Component {
   }
 }
 
-export default withRouter(withFirebase(Players));
+export default withRouter(withFirebase(withGlobalState(Players)));
 
 

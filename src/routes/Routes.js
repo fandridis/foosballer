@@ -3,7 +3,7 @@ import { Route, Switch } from "react-router-dom";
 
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
-import Home from '../pages/Home';
+// import Home from '../pages/Home';
 import Account from '../pages/Account';
 import Admin from '../pages/Admin';
 import ResetPassword from '../pages/ResetPassword';
@@ -22,7 +22,9 @@ export default ({ childProps }) =>
     <UnauthenticatedRoute path={'/signup'} exact component={Signup} props={childProps} />
     <UnauthenticatedRoute path={'/resetpassword'} exact component={ResetPassword} props={childProps} />
 
-    <AuthenticatedRoute path={'/'} exact component={Home} props={childProps} />
+    <AuthenticatedRoute path={'/'} exact component={Tournaments} props={childProps} />
+    <AuthenticatedRoute path={'/tournaments'} exact component={Tournaments} props={childProps} />
+    <AuthenticatedRoute path={'/tournaments/create'} exact component={TournamentsCreate} props={childProps} />
 
     <AuthenticatedRoute path={'/admin'} exact component={Admin} props={childProps} />
     <AuthenticatedRoute path={'/account'} exact component={Account} props={childProps} />
@@ -31,8 +33,6 @@ export default ({ childProps }) =>
     <AuthenticatedRoute path={'/players/create'} exact component={PlayersCreate} props={childProps} />
     <AuthenticatedRoute path={'/players/edit/:id'} exact component={PlayersEdit} props={childProps} />
 
-    <AuthenticatedRoute path={'/tournaments'} exact component={Tournaments} props={childProps} />
-    <AuthenticatedRoute path={'/tournaments/create'} exact component={TournamentsCreate} props={childProps} />
     { /* Finally, catch all unmatched routes */ }
      <Route component={NotFound} />
   </Switch>;

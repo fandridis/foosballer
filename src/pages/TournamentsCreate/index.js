@@ -4,10 +4,12 @@ import { withRouter } from 'react-router-dom';
 // import Styled from 'styled-components';
 
 import { withFirebase } from '../../hocs/Firebase';
+import { withGlobalState } from '../../hocs/GlobalState';
 import { generateTournamentName } from '../../utilities/generators';
 import Button from '../../components/CustomButton';
-import './index.css';
 import IconButton from '../../components/IconButton';
+
+import './index.css';
 
 class PlayersCreate extends Component {
 
@@ -87,4 +89,4 @@ class PlayersCreate extends Component {
 //   onCancel: PropTypes.func.isRequired
 // };
 
-export default withRouter(withFirebase(PlayersCreate));
+export default withRouter(withFirebase(withGlobalState(PlayersCreate)));
