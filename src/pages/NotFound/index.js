@@ -2,7 +2,7 @@ import React from 'react';
 import './index.css';
 import  CustomButton from '../../components/CustomButton';
 import { withRouter } from 'react-router-dom';
-import Graphics from "../../../public/paths-error.png";
+// import Graphics from "../../../public/paths-error.png";
 
 const NotFound = (props) => {
   return (
@@ -29,8 +29,8 @@ const NotFound = (props) => {
         </g>
       </svg>
 
-      {/* GRAPHIC PATHS*/}
-      <img src={Graphics} alt="graphics in green and yellow"/>
+      {/* GRAPHIC PATHS
+      <img src={Graphics} alt="graphics in green and yellow"/> */}
 
       {/*SVG of DEFLATING BALL*/}
       <svg className='NotFound-svg' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 121.858 99.846">
