@@ -1,14 +1,39 @@
 import React from 'react';
 import './index.css';
 import  CustomButton from '../../components/CustomButton';
+import { withRouter } from 'react-router-dom';
+import Graphics from "../../../public/paths-error.png";
 
-
-const NotFound = () => {
+const NotFound = (props) => {
   return (
     <div className='NotFound-page'>
+
+      {/*SVG of TOP CIRCLE*/}
+      <svg version="1.1" id="NotFound-svg-midfield" x="0px" y="0px" viewBox="0 0 375 152">
+        <style>
+          {`
+          .st0{fill:#17B9A2;}
+          .st1{fill:none;stroke:#FFFFFF;stroke-width:10;stroke-linecap:round;}
+          .st2{fill:none;stroke:#FFFFFF;stroke-width:10;}
+          .st3{fill:none;}
+          `}
+        </style>
+        <g id="big-circle-group" transform="translate(122 -63)">
+          <circle id="fill_1_" className="st0" cx="65.5" cy="139" r="66"/>
+          <circle id="outline_1_" className="st1" cx="65.5" cy="139" r="71"/>
+        </g>
+        <line id="line" className="st2" x1="0" y1="76.5" x2="375" y2="76.5"/>
+        <g id="small-circle-group" transform="translate(187 2)">
+          <circle id="fill" className="st3" cx="0.5" cy="74" r="1"/>
+          <circle id="outline" className="st1" cx="0.5" cy="74" r="6"/>
+        </g>
+      </svg>
+
+      {/* GRAPHIC PATHS*/}
+      <img src={Graphics} alt="graphics in green and yellow"/>
+
+      {/*SVG of DEFLATING BALL*/}
       <svg className='NotFound-svg' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 121.858 99.846">
-        <defs>
-        </defs>
         <g transform="translate(-150.31 -342.294)">
           <path className="a"
                 fill='#5d92a7'
@@ -20,11 +45,11 @@ const NotFound = () => {
                 transform="matrix(0.766, -0.643, 0.643, 0.766, 190.266, 352.763)"/>
         </g>
       </svg>
+
       <p>Oooops …</p>
       <p>Something went wrong!<br/>Try going back to the main page.</p>
-      <CustomButton text={'GO TO TOURNAMENTS'} />
+      <CustomButton text={'GO BACK'} onClick={() => props.history.goBack()}/>
     </div>
   );
 };
-
-export default NotFound;
+export default withRouter(NotFound);
