@@ -48,7 +48,7 @@ const NotFound = (props) => {
 
       <p>Oooops …</p>
       <p>Something went wrong!<br/>Try going back to the main page.</p>
-      <CustomButton text={'GO TO TOURNAMENTS'} onClick={() => props.history.goBack()}/>
+      <CustomButton text={'GO BACK'} onClick={() => props.history.goBack()}/>
     </div>
   );
 };
