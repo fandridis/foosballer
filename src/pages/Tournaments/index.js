@@ -6,6 +6,7 @@ import { withFirebase } from '../../hocs/Firebase';
 import { withGlobalState } from '../../hocs/GlobalState';
 import Navigation from '../../components/Navigation';
 import Button from '../../components/CustomButton';
+import Loading from '../../components/Loading';
 
 import './index.css';
 
@@ -22,45 +23,29 @@ class Tournaments extends Component {
 
   componentDidMount() {
     console.log('DidMount @ Tournaments: ', this.props);
-    this.setState({ tournaments: this.props.globalState.tournaments })
-  }
-
-  componentWillUnmount() {
-    console.log('WillUnmount @ Tournaments');
-  }
-
-  /**
-   * Unsubscribe from the players collection listener.
-   * Update the state.
-   */
-  unsubscribeFromPlayersCollection() {
-    this.state.playersListener();
-    this.setState({ playersListener: null });
+    this.setState({ tournaments: this.props.globalState.tournaments });
+    this.props.globalState.stopLoading();
   }
 
   /**
    * Open the PlayersCreate page for creating a new player.
    */
-  handleAddTournament = () => {
-    console.log('Opening player page for creating');
-    this.props.history.push('/tournaments/create');
+  handleAddTournament = () => { 
+    return this.props.history.push('/tournaments/create')
   }
-
+  
   /**
-   * Opens the PlayersEdit page for editing a player.
-   * @param {object} player - The player to be edited
+   * Open the PlayersEdit page for editing a player.
    */
   handleEditPlayer = player => {
-    console.log('Open player page for editing');
-    this.props.history.push({
+    return this.props.history.push({
       pathname: `/players/edit/${player.uid}`,
       player: player
-    })
+    });
   }
 
   /**
-   * Deletes a player document from the database.
-   * @param {string} playerId - The id of the player to be removed
+   * Delete a player document from the database.
    */
   handleRemovePlayer = playerId => {
     this.props.firebase.removePlayer(playerId)
@@ -68,13 +53,15 @@ class Tournaments extends Component {
       .catch(err => console.log('err: ', err))
   }
 
-  handleTarget = playerTargeted => {
-    if (playerTargeted === this.state.playerTargeted) { playerTargeted = null}
-
-    this.setState({ playerTargeted }) 
+  renderLoading() {
+    return (
+      <Loading />
+    )
   }
 
   render() {
+    if (this.props.globalState.isLoading) { return this.renderLoading(); }
+
     return (
       <div className="Tournaments-page">
         <h3>Tournaments</h3>
@@ -92,7 +79,7 @@ class Tournaments extends Component {
 
         <Button text="NEW TOURNAMENT"  onClick={() => this.handleAddTournament()} />
 
-        {/* Bottom Navigation bar/>*/}
+        {/* Bottom Navigation bar */}
         <Navigation isAuthenticated={this.props.isAuthenticated} />
       </div>
     )

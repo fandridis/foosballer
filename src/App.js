@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
+
 import { withFirebase } from './hocs/Firebase';
 import { withGlobalState } from './hocs/GlobalState';
 import Routes from './routes/Routes';
+import Loading from './components/Loading';
 /**
  * FONT AWESOME ICON LIBRARY
  * Import any icons here so they are usable across all components
@@ -131,17 +133,9 @@ class App extends Component {
     });
   }
 
-  clearUserAndState = () => {
-    // console.log('Reseting user - globalState - playerListener ', this.props);
-    // this.setState({ user: null });
-    // this.props.globalState.reset();
-
-    // if (this.unsubscribeToPlayers) { this.unsubscribeToPlayers() }
-  }
-
   renderLoading() {
     return (
-      <h1>Loading...</h1>
+      <Loading />
     )
   }
 

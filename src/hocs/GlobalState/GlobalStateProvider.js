@@ -34,7 +34,7 @@ class GlobalStateProvider extends React.Component {
     this.setState({ user });
   }
 
-  reset = () => this.setState({ user: null, players: [], tournaments: [] });
+  reset = () => this.setState({ user: null, players: [], tournaments: [], isLoading: false });
 
   render() {
     return (

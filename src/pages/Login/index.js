@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 // import { compose } from 'recompose';
 
 import { withFirebase } from '../../hocs/Firebase';
-
-import CustomButton from '../../components/CustomButton'
+import { withGlobalState } from '../../hocs/GlobalState';
+import CustomButton from '../../components/CustomButton';
+import Loading from '../../components/Loading';
 
 class Login extends Component {
   constructor(props) {
@@ -25,15 +26,30 @@ class Login extends Component {
 
   onSubmit = async (event) => {
     event.preventDefault();
+    this.props.globalState.startLoading();
 
     const { email, password } = this.state;
 
     this.props.firebase.doSignInWithEmailAndPassword(email, password)
-      .then(res => console.log('res @ login: ', res))
-      .catch(err => console.log('err @ login: ', err))
+      .then(res => {
+        console.log('res @ login: ', res);
+        this.setState({ isLoading: false });
+      })
+      .catch(err => {
+        console.log('err @ login: ', err);
+        this.setState({ isLoading: false });
+      })
   };
 
+  renderLoading() {
+    return (
+      <Loading />
+    )
+  }
+
   render() {
+    if (this.props.globalState.isLoading) { return this.renderLoading(); }
+
     const { email, password, error } = this.state;
 
     const isInvalid = password === '' || email === '';
@@ -73,5 +89,5 @@ class Login extends Component {
   }
 }
 
-export default withFirebase(Login);
+export default withFirebase(withGlobalState(Login));
 
