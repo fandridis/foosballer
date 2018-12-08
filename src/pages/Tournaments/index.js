@@ -8,6 +8,7 @@ import Navigation from '../../components/Navigation';
 import Button from '../../components/CustomButton';
 import Loading from '../../components/Loading';
 
+
 import './index.css';
 
 class Tournaments extends Component {

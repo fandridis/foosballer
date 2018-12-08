@@ -16,7 +16,8 @@ const BasicIconWrapper = styled.span`
 `
 
 const IconWrapper = styled(BasicIconWrapper)`
-	box-shadow: ${props=> props.shadow ? `0 3px 6px ${colors.normal[props.color + '40']}` : 'none'};
+	box-shadow: ${props => props.shadow ? `0 3px 6px ${colors.normal[props.color + '40']}` : 'none'};
+	border: ${props => props.size === 'large' ? '5px' : '2px'} solid ${props => colors.normal[props.borderColor]};
 	background-color: ${props => colors.normal[props.color]};
 	color: white;
 
@@ -47,7 +48,7 @@ const InvertedIconWrapper = styled(BasicIconWrapper)`
 
 const IconButton = (props) => {
 	return !props.inverted 
-		? <IconWrapper size={props.size} color={props.color} shadow={props.shadow} onClick={() => props.onClick()}>
+		? <IconWrapper size={props.size} color={props.color} borderColor={props.borderColor} shadow={props.shadow} onClick={() => props.onClick()}>
 				<FontAwesomeIcon
 					icon={props.icon}
 					size={props.size === 'large' ? '2x' : '1x'}
@@ -65,7 +66,9 @@ const IconButton = (props) => {
 IconButton.propTypes = {
 	size: PropTypes.string,
 	color: PropTypes.string,
-	onClick: PropTypes.func.isRequired
+	borderColor: PropTypes.string,
+	shadow: PropTypes.bool,
+	onClick: PropTypes.func.isRequired,
 };
 
 IconButton.defaultProps = {

@@ -4,7 +4,7 @@ import { colors } from '../../css/Variables';
 import styled from 'styled-components';
 
 const BasicButton = styled.button`
-margin: 30px auto;
+margin: 5px auto;
 min-width: 250px;
 height: 40px;
 border-radius: 20px;

@@ -8,7 +8,6 @@ import { colors } from '../../css/Variables';
 
 const Row = styled.div`
 position: relative;
-overflow: hidden;
 
 width: 95vw;
 height: 50px;

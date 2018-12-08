@@ -16,7 +16,7 @@ color: red;
 const Loading = () => {
   return (
     <Wrapper>
-      <FontAwesomeIcon icon='trash-alt' size='4x' pulse />
+      <FontAwesomeIcon icon='trash-alt' size='4x' color={colors.normal.primary} pulse />
     </Wrapper>
   );
 };

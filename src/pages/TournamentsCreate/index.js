@@ -7,10 +7,18 @@ import { withFirebase } from '../../hocs/Firebase';
 import { withGlobalState } from '../../hocs/GlobalState';
 import { generateTournamentName } from '../../utilities/generators';
 import Button from '../../components/CustomButton';
+import Divider from '../../components/Divider';
 import IconButton from '../../components/IconButton';
-
-import './index.css';
 import PlayerRow from '../../components/PlayerRow';
+import { colors } from '../../css/Variables';
+import './index.css';
+
+const Text = styled.p`
+  margin: 5px;
+  font-weight: 700;
+  font-size: 20px;
+  color: ${colors.normal.primary}
+`
 
 class PlayersCreate extends Component {
 
@@ -87,9 +95,15 @@ class PlayersCreate extends Component {
     return (
       <div className="TournamentsCreate-page">
 
-      <form onSubmit={this.onSubmit}>
-        <h2>{this.state.newTournamentName}</h2>
+        <div className="TournamentsCreate-nameWrapper">
+          <h2 className="TournamentsCreate-name">{this.state.newTournamentName}</h2>
+          <span className="TournamentsCreate-iconWrapper">
+            <IconButton icon='sync-alt' size='large' borderColor='white' onClick={() => this.generateTournamentName()} />
+          </span>
+        </div>
 
+        <Text>Select Participants</Text>
+        <Divider rounded color='primary' widthPx='120' marginBottom='30' />
         { 
           this.state.playersAll && this.state.playersAll.map(player => {
             return (
@@ -104,20 +118,13 @@ class PlayersCreate extends Component {
                   selectable={true}
                   selected={this.state.playerIdsSelected.includes(player.uid)}      
                 />
-              </div>
-
-              
+              </div>          
             );
           })  
         }
-        
-        <IconButton icon='sync-alt' onClick={() => this.generateTournamentName()} />
 
-        <Button text='Primary' />
-      </form>
-        
-
-        <button onClick={() => this.onCancel()}>Cancel</button>
+        <Button text='Continue' onClick={() => this.onSubmit() } />
+        <Button text='Cancel' inverted onClick={() => this.onCancel()} />
       </div>
     );
   }
