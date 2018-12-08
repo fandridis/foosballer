@@ -19,6 +19,9 @@ class App extends Component {
 
     this.state = {
       user: null,
+
+      playersLoading: true,
+      tournamentsLoading: true,
       isLoading: true,
     }
   }
@@ -27,73 +30,53 @@ class App extends Component {
     console.log('DidMount @ App - props: ', this.props);
     this.setState({ isLoading: true });
 
-    this.initializeApp();
-
-    // try {
-    //   console.log('Trying to listen to auth');
-    //   const user = await this.subscribeToAuth();
-
-    //   console.log('Listener to auth started with user: ', user);
-    //   if (user) {
-    //     console.log('Trying to listen to players');
-    //     const players = await this.subscribeToPlayers();
-
-    //     console.log('Listener to players started with: ', players);
-    //     this.setState({ isLoading: false });
-    //   }
-    //   else {
-    //     this.setState({ isLoading: false });
-    //   }
-      
-    // } catch (err) {
-    //   console.log('err: ', err);
-    // }
+    this.subscribeToAuth();
   }
 
   componentWillUnmount() {
-    // Unsubscribing from the onAuthStateChanged listener
     this.unsubscribeToAuth();
-    this.unsubscribeToPlayers();
   }
 
-
-    
-  async initializeApp() {
+  initializeApp = async () => {
     console.log('Initializing app');
-    console.log('this.unsubscribeToAuth: ', this.unsubscribeToAuth);
-    console.log('this.unsubscribeToPlayers: ', this.unsubscribeToPlayers);
-    console.log('this.state.player: ', this.state.player);
 
-    // Only run if auth listener isn't established
-    if (!this.unsubscribeToAuth) {
-      console.log('No auth listener, creating one');
-      await this.subscribeToAuth();
+    if (this.state.playersLoading) {
+      console.log('Gotta fetch players');
+      const data = await this.props.firebase.getPlayers(this.state.user.uid);
+      console.log('data: ', data);
+      let players = [];
+
+      for (let doc of data.docs) {
+        players.push({ ...doc.data(), uid: doc.id });
+      }
+
+      this.props.globalState.setPlayers(players);
     }
 
-    // Only run if players listener isn't established and user exists
-    if (!this.unsubscribeToPlayers && this.state.user) {
-      console.log('No players listener, creating one');
-      await this.subscribeToPlayers();
-    }
+    if (this.state.tournamentsLoading) {
+      console.log('Gotta fetch tournaments');
+      const data = await this.props.firebase.getTournaments(this.state.user.uid);
+      console.log('data: ', data);
+      let tournaments = [];
 
-    if (this.unsubscribeToPlayers) {
-      console.log('Removing players listener');
-      this.unsubscribeToPlayers();
+      for (let doc of data.docs) {
+        tournaments.push({ ...doc.data(), uid: doc.id });
+      }
+
+      this.props.globalState.setTournaments(tournaments);
     }
 
     this.setState({ isLoading: false });
   }
 
-  // async refreshApp() {
-  //   if (!this.unsubscribeToPlayers && this.state.user) {
-  //     this.
-  //   }
-  // }
+  resetApp = () => {
+    console.log('Resetting app');
+    this.props.globalState.reset();
 
-
+    this.setState({ isLoading: false });
+  }
 
   subscribeToAuth() {
-    return new Promise((resolve, reject) => {
       this.unsubscribeToAuth = this.props.firebase.auth.onAuthStateChanged(authUser => {
         console.log('Running auth from listener');
         if (authUser) {
@@ -106,11 +89,7 @@ class App extends Component {
                   // this.subscribeToPlayers();
                   console.log('user:', this.state.user);
                   this.initializeApp();
-                  resolve('olduser');
-                });
-                // Further subscribe to players / tournaments / leaderboards collections
-                // TODO: Subscribe to rest of collections
-                
+                });             
               }
               else {
                 // No user doc found in database (only happens for new signups) - creating one
@@ -118,21 +97,18 @@ class App extends Component {
                   .then(() => {
                     this.setState({ user: { email: authUser.email, uid: authUser.uid } }, () => {
                       // this.subscribeToPlayers();
-                      resolve('newuser');
                     })
-                  }).catch(err => reject(err));
+                  }).catch(err => console.log(err));
               }
-            }).catch(err => reject(err))
+            }).catch(err => console.log(err))
         }
         else {
           // Authenticated user not found (not logged in) - updating state
-          resolve(null);
           this.setState({ user: null}, () => {
-            this.initializeApp();
+            this.resetApp();
           })
           
         }
-      });
     })
   }
 

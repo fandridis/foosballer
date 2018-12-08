@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 // import PropTypes from 'prop-types';
-// import Styled from 'styled-components';
+import styled from 'styled-components';
 
 import { withFirebase } from '../../hocs/Firebase';
 import { withGlobalState } from '../../hocs/GlobalState';
@@ -10,6 +10,7 @@ import Button from '../../components/CustomButton';
 import IconButton from '../../components/IconButton';
 
 import './index.css';
+import PlayerRow from '../../components/PlayerRow';
 
 class PlayersCreate extends Component {
 
@@ -17,16 +18,17 @@ class PlayersCreate extends Component {
     super(props)
 
     this.state = {
-      newPlayerName: '',
-      newPlayerAvatarUrl: '',
-      isLoading: false,
+      newTournamentName: '',
+      playersAll: [],
+      playerIdsSelected: [],
 
-      newTournamentName: ''
+      isLoading: false
     }
   }
 
   componentDidMount() {
-		console.log('this.props: ', this.props);
+    console.log('this.props: ', this.props);
+    this.setState({ playersAll: this.props.globalState.players })
     this.generateTournamentName();
   }
 
@@ -35,7 +37,20 @@ class PlayersCreate extends Component {
     this.setState({ newTournamentName });
   }
 
-  // onChange = event => this.setState({ newTournamentName: event.target.value });
+  togglePlayerSelect = (playerId) => {
+    console.log('Toggle ', playerId);
+    let playerIdsSelected = [...this.state.playerIdsSelected];
+    if (!playerIdsSelected.includes(playerId)) {
+      console.log('adding it');
+      playerIdsSelected.push(playerId);
+    }
+    else {
+      console.log('removing it')
+      playerIdsSelected = playerIdsSelected.filter(id => id !== playerId);
+    }
+
+    this.setState({ playerIdsSelected });
+  }
   
   /**
    * Creates a new tournament in the database.
@@ -45,24 +60,25 @@ class PlayersCreate extends Component {
   onSubmit = async event => {
     event.preventDefault();
     console.log('Creating a tourney');
-    // const player = {
-    //   userRef: this.props.isAuthenticated,
-    //   name: this.state.newPlayerName,
-    //   rating: 1000,
-    //   avatarUrl: this.state.newPlayerAvatarUrl
-    // }
+    const tournament = {
+      userRef: this.props.isAuthenticated,
+      name: this.state.newTournamentName,
+      createdAt: Date.now()
+    }
 
-    // this.props.firebase.createPlayer(player)
-    //   .then(() => {
-    //     console.log('Player added successfully');
-    //     this.setState({ newPlayerName: '', isLoading: false, }, () => {
-    //       this.props.history.goBack();
-    //     });
-    //   })
-    //   .catch(err => { 
-    //     console.log('err: ', err)
-    //     this.setState({ isLoading: false });
-    //   })
+    this.props.firebase.createTournament(tournament)
+      .then((res) => {
+        console.log('Tournament added successfully');
+        tournament.uid = res.id;
+        this.props.globalState.addTournament(tournament);
+        this.setState({ newTournamentName: '', isLoading: false, }, () => {
+          this.props.history.goBack();
+        });
+      })
+      .catch(err => { 
+        console.log('err: ', err)
+        this.setState({ isLoading: false });
+      })
   };
 
   onCancel = () => this.props.history.goBack();
@@ -71,11 +87,35 @@ class PlayersCreate extends Component {
     return (
       <div className="TournamentsCreate-page">
 
+      <form onSubmit={this.onSubmit}>
         <h2>{this.state.newTournamentName}</h2>
+
+        { 
+          this.state.playersAll && this.state.playersAll.map(player => {
+            return (
+              <div 
+                key={player.uid}
+                onClick={() => this.togglePlayerSelect(player.uid)}
+              >
+                <PlayerRow 
+                  player={player}
+                  onRemove={this.handleRemovePlayer}
+                  onEdit={this.handleEditPlayer}
+                  selectable={true}
+                  selected={this.state.playerIdsSelected.includes(player.uid)}      
+                />
+              </div>
+
+              
+            );
+          })  
+        }
         
         <IconButton icon='sync-alt' onClick={() => this.generateTournamentName()} />
 
         <Button text='Primary' />
+      </form>
+        
 
         <button onClick={() => this.onCancel()}>Cancel</button>
       </div>

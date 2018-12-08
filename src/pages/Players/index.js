@@ -16,7 +16,6 @@ class Players extends Component {
 
     this.state = {
       players: null,
-      playersListener: null,
       playerTargeted: null,
 
       isLoading: false,
@@ -26,18 +25,6 @@ class Players extends Component {
   componentDidMount() {
     console.log('DidMount @ Players: ', this.props);
     this.setState({ players: this.props.globalState.players });
-
-    // console.log('playersListener: ', this.props.globalState.playersListener);
-    // if (!this.props.globalState.playersListener) {
-    //   console.log('Starting Players listener');
-      
-    //   this.subscribeToPlayersCollection();
-    // }
-    // else {
-    //   this.setState({ players: this.props.globalState.players });
-    //   console.log('Players listener is already active');
-      
-    // }
   }
 
   componentWillUnmount() {
@@ -45,26 +32,6 @@ class Players extends Component {
     // this.unsubscribeFromPlayersCollection();
   }
 
-  /**
-   * Create a listener for real-time communication between the app and the database.
-   * Update the state to always contain the same info with the database.
-   * Inject the player document id into the player object for easy reference
-   */
-  subscribeToPlayersCollection() {
-    // const playersListener = this.props.firebase.db.collection("players")
-    // .where("userRef", "==", this.props.isAuthenticated)
-    // .orderBy('name')
-    // .onSnapshot((querySnapshot) => {
-    //   let players = [];
-    //   querySnapshot.forEach((doc) => {
-    //       players.push( { ...doc.data(), uid: doc.id });
-    //   });
-    //   this.setState({ players });
-    //   this.props.globalState.setPlayers(players);
-    // });
-    // this.setState({ playersListener });
-    // this.props.globalState.setPlayerListener(playersListener);
-  }
 
   /**
    * Unsubscribe from the players collection listener.
@@ -103,7 +70,9 @@ class Players extends Component {
     this.props.firebase.removePlayer(playerId)
       .then(() => {
         console.log('Player removed successfully');
-        this.setState({ players: this.props.globalState.players })
+        const playersLeft = this.state.players.filter(player => player.uid !== playerId);
+        this.props.globalState.setPlayers(playersLeft);
+        this.setState({ players: playersLeft })
     })
       .catch(err => console.log('err: ', err))
   }
@@ -126,9 +95,8 @@ class Players extends Component {
             enter={{ opacity: 1, height: 60 }}
             leave={{ opacity: 0, height: 0 }}>
             {player => props =>
-              <div style={props} key={player.uid} onClick={() => this.handleTarget(player.uid)}>
+              <div style={props} onClick={() => this.handleTarget(player.uid)}>
                 <PlayerRow 
-                  key={player.uid}
                   player={player}
                   onRemove={this.handleRemovePlayer}
                   onEdit={this.handleEditPlayer}

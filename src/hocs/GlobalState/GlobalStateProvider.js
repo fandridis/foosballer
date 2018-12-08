@@ -11,9 +11,15 @@ class GlobalStateProvider extends React.Component {
       changeUser: this.changeUser,
 
       players: [],
-      playersListener: null,
       setPlayers: (players) => this.setState({ players }),
-      setPlayerListener: (playersListener) => this.setState({ playersListener }),
+      addPlayer: (player) => this.setState(prevState => ({ players: [ ...prevState.players, player ] })),
+      updatePlayer: (updatedPlayer) => this.setState(prevState => ( {
+        players: [...prevState.players.filter(player => player.uid !== updatedPlayer.uid), updatedPlayer]
+      })),
+
+      tournaments: [],
+      setTournaments: (tournaments) => this.setState({ tournaments }),
+      addTournament: (tournament) => this.setState(prevState => ({ tournaments: [ ...prevState.tournaments, tournament ] })),
 
       isLoading: false,
       startLoading: () => this.setState({ isLoading: true }),
@@ -28,7 +34,7 @@ class GlobalStateProvider extends React.Component {
     this.setState({ user });
   }
 
-  reset = () => this.setState({ user: null, players: [] });
+  reset = () => this.setState({ user: null, players: [], tournaments: [] });
 
   render() {
     return (

@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 // import Styled from 'styled-components';
 
 import { withFirebase } from '../../hocs/Firebase';
+import { withGlobalState } from '../../hocs/GlobalState';
 import { generateAvatarUrl } from '../../utilities/generators';
 import PlayerAvatar from '../../components/PlayerAvatar';
 import Button from '../../components/CustomButton';
@@ -48,8 +49,10 @@ class PlayersCreate extends Component {
     }
 
     this.props.firebase.createPlayer(player)
-      .then(() => {
-        console.log('Player added successfully');
+      .then((res) => {
+        console.log('Player added successfully: ');
+        player.uid = res.id;
+        this.props.globalState.addPlayer(player);
         this.setState({ newPlayerName: '', isLoading: false, }, () => {
           this.props.history.goBack();
         });
@@ -103,4 +106,4 @@ class PlayersCreate extends Component {
 //   onCancel: PropTypes.func.isRequired
 // };
 
-export default withRouter(withFirebase(PlayersCreate));
+export default withRouter(withFirebase(withGlobalState(PlayersCreate)));

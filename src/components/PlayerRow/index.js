@@ -21,7 +21,9 @@ margin-bottom: 16px;
 border-radius: 25px;
 box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
 
-background-color: white;
+opacity: ${props => props.selectable ? props.selected ? 1 : 0.4 : 1 };
+background-color: white};
+filter: grayscale(${props => props.selectable ? props.selected ? '0%' : '100%' : '0%'});
 `
 
 const PlayerDetails = styled.div`
@@ -52,8 +54,9 @@ margin-right: 10px;
 
 
 const PlayerRow = memo((props) => {
+	console.log('Rendering')
 	return (
-		<Row>
+		<Row selectable={props.selectable} selected={props.selected} >
 			<PlayerAvatar url={props.player.avatarUrl} />
 
 			<PlayerDetails>
@@ -88,15 +91,19 @@ PlayerRow.propTypes = {
   player: PropTypes.shape({
 		avatarUrl: PropTypes.string.isRequired,
 		name: PropTypes.string.isRequired,
-		rating: PropTypes.number.isRequired
+		rating: PropTypes.number.isRequired,
 	}),
 		targeted: PropTypes.bool,
+		selectable: PropTypes.bool,
+		selected: PropTypes.bool,
 		onRemove: PropTypes.func,
-		onEdit: PropTypes.func
+		onEdit: PropTypes.func,
 };
 
 PlayerRow.defaultProps = {
-  targeted: false,
+	targeted: false,
+	selectable: false,
+	selected: false,
 };
 
 export default PlayerRow;

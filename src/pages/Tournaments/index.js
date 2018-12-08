@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 // import { Transition } from 'react-spring';
 
 import { withFirebase } from '../../hocs/Firebase';
+import { withGlobalState } from '../../hocs/GlobalState';
 import Navigation from '../../components/Navigation';
 import Button from '../../components/CustomButton';
 
@@ -13,41 +14,19 @@ class Tournaments extends Component {
     super(props);
 
     this.state = {
-      // players: null,
-      // playersListener: null,
-      // playerTargeted: null,
+      tournaments: null,
 
-      // isLoading: false,
+      isLoading: false
     };
   }
 
   componentDidMount() {
     console.log('DidMount @ Tournaments: ', this.props);
-    // this.subscribeToPlayersCollection();
+    this.setState({ tournaments: this.props.globalState.tournaments })
   }
 
   componentWillUnmount() {
     console.log('WillUnmount @ Tournaments');
-    // this.unsubscribeFromPlayersCollection();
-  }
-
-  /**
-   * Create a listener for real-time communication between the app and the database.
-   * Update the state to always contain the same info with the database.
-   * Injects the player document id into the player object for easy reference
-   */
-  subscribeToPlayersCollection() {
-    const playersListener = this.props.firebase.db.collection("players")
-    .where("userRef", "==", this.props.isAuthenticated)
-    .orderBy('name')
-    .onSnapshot((querySnapshot) => {
-      let players = [];
-      querySnapshot.forEach((doc) => {
-          players.push( { ...doc.data(), uid: doc.id });
-      });
-      this.setState({ players });
-    });
-    this.setState({ playersListener });
   }
 
   /**
@@ -100,25 +79,16 @@ class Tournaments extends Component {
       <div className="Tournaments-page">
         <h3>Tournaments</h3>
 
-        {/* { this.state.players &&
-          <Transition
-            items={this.state.players} keys={player => player.uid}
-            from={{ opacity: 0, height: 0 }}
-            enter={{ opacity: 1, height: 60 }}
-            leave={{ opacity: 0, height: 0 }}>
-            {player => props =>
-              <div style={props} key={player.uid} onClick={() => this.handleTarget(player.uid)}>
-                <PlayerRow 
-                  key={player.uid}
-                  player={player}
-                  onRemove={this.handleRemovePlayer}
-                  onEdit={this.handleEditPlayer}
-                  targeted={player.uid === this.state.playerTargeted ? true : false}      
-                />
+        { 
+          this.state.tournaments && this.state.tournaments.map(tournament => {
+            return (
+              <div key={tournament.uid}>
+                <h3>{tournament.name}</h3>
+                <p>{tournament.createdAt}</p>
               </div>
-            }
-          </Transition>
-        } */}
+            );
+          })  
+        }
 
         <Button text="NEW TOURNAMENT"  onClick={() => this.handleAddTournament()} />
 
@@ -129,6 +99,6 @@ class Tournaments extends Component {
   }
 }
 
-export default withRouter(withFirebase(Tournaments));
+export default withRouter(withFirebase(withGlobalState(Tournaments)));
 
 

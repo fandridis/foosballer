@@ -54,7 +54,6 @@ class Firebase {
 
   /**
    * Get the available players of the user.
-   * @method
    * @param {string} userId - The user uid
    * @param {string} playerName - The new players name
    * 
@@ -65,12 +64,14 @@ class Firebase {
 
     console.log('Getting the players');
 
-    return this.db.collection("players").where("userRef", "==", userRef).orderBy('name').get()
+    return this.db
+      .collection("players")
+      .where("userRef", "==", userRef)
+      .orderBy('name').get()
   }
 
   /**
    * Add a new player to the users available players.
-   * @method
    * @param {string} userId - The user uid
    * @param {object} player - The new player to save
    * 
@@ -84,7 +85,6 @@ class Firebase {
 
   /**
    * Edit an existing player.
-   * @method
    * @param {string} userId - The user uid
    * @param {string} player - The edited player to update
    * 
@@ -101,7 +101,6 @@ class Firebase {
 
   /**
    * Remove a player from the users available players.
-   * @method
    * @param {string} playerId - The player uid to be removed
    * 
    * @returns A promise that resolves too a success or error message
@@ -112,7 +111,57 @@ class Firebase {
     return this.db.collection("players").doc(playerId).delete();
   }
 
+  /**
+   * Get the available players of the user.
+   * @param {string} userId - The user uid
+   * @param {string} playerName - The new players name
+   * 
+   * @returns A promise that resolves to the docRef or an error message
+   */
+  getTournaments = (userRef) => { 
+    if (!userRef) { return Promise.reject('missing params') }
+
+    console.log('Getting the tournaments');
+
+    return this.db
+      .collection("tournaments")
+      .where("userRef", "==", userRef)//.get()
+      .orderBy('createdAt').get()
+  }
+
+  /**
+   * Add a new player to the users available players.
+   * @param {string} userId - The user uid
+   * @param {object} player - The new player to save
+   * 
+   * @returns A promise that resolves to the docRef or an error message
+   */
+  createTournament = (tournament) => { 
+    if (!tournament.userRef || !tournament.name || !tournament.createdAt) { return Promise.reject('missing params') }
+
+    return this.db.collection("tournaments").add(tournament);
+  }
+
 }
 
 export default Firebase;
 
+
+
+
+/**
+ * Example of database listener
+ */
+// subscribeToPlayersCollection() {
+//   const playersListener = this.props.firebase.db.collection("players")
+//   .where("userRef", "==", this.props.isAuthenticated)
+//   .orderBy('name')
+//   .onSnapshot((querySnapshot) => {
+//     let players = [];
+//     querySnapshot.forEach((doc) => {
+//         players.push( { ...doc.data(), uid: doc.id });
+//     });
+//     this.setState({ players });
+//   });
+//   this.setState({ playersListener });
+// }

@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 // import Styled from 'styled-components';
 
 import { withFirebase } from '../../hocs/Firebase';
+import { withGlobalState } from '../../hocs/GlobalState';
 import { generateAvatarUrl } from '../../utilities/generators';
 import PlayerAvatar from '../../components/PlayerAvatar';
 import Button from '../../components/CustomButton';
@@ -52,7 +53,7 @@ class PlayersEdit extends Component {
   onSubmit = async event => {
     event.preventDefault();
 
-    const player = {
+    const player = { ...this.props.location.player,
       name: this.state.newPlayerName,
       avatarUrl: this.state.newPlayerAvatarUrl
     }
@@ -60,6 +61,7 @@ class PlayersEdit extends Component {
     this.props.firebase.updatePlayer(this.props.location.player.uid, player)
       .then(() => {
         console.log('Player updated successfully');
+        this.props.globalState.updatePlayer(player);
         this.setState({ newPlayerName: '', isLoading: false, }, () => {
           this.props.history.goBack();
         });
@@ -102,4 +104,4 @@ class PlayersEdit extends Component {
 //   onCancel: PropTypes.func.isRequired
 // };
 
-export default withRouter(withFirebase(PlayersEdit));
+export default withRouter(withFirebase(withGlobalState(PlayersEdit)));
