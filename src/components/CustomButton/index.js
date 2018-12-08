@@ -10,6 +10,7 @@ height: 40px;
 border-radius: 20px;
 border: none;
 
+font-family: 'Dosis', sans-serif;
 font-weight: 800;
 font-size: 12px;
 transition: .3s;
