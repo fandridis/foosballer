@@ -8,7 +8,6 @@ import { withGlobalState } from '../../hocs/GlobalState';
 import { generateAvatarUrl } from '../../utilities/generators';
 import PlayerAvatar from '../../components/PlayerAvatar';
 import Button from '../../components/CustomButton';
-import MenuBar from '../../components/MenuBar'
 
 class PlayersCreate extends Component {
 

@@ -6,10 +6,12 @@ import Signup from '../pages/Signup';
 // import Home from '../pages/Home';
 import Account from '../pages/Account';
 import Admin from '../pages/Admin';
+import Leaderboards from '../pages/Leaderboards';
 import ResetPassword from '../pages/ResetPassword';
 import Players from '../pages/Players';
 import PlayersCreate from '../pages/PlayersCreate';
 import PlayersEdit from '../pages/PlayersEdit';
+import Settings from '../pages/Settings';
 import Tournaments from '../pages/Tournaments';
 import TournamentsCreate from '../pages/TournamentsCreate';
 import NotFound from '../pages/NotFound';
@@ -32,6 +34,10 @@ export default ({ childProps }) =>
     <AuthenticatedRoute path={'/players'} exact component={Players} props={childProps} />
     <AuthenticatedRoute path={'/players/create'} exact component={PlayersCreate} props={childProps} />
     <AuthenticatedRoute path={'/players/edit/:id'} exact component={PlayersEdit} props={childProps} />
+
+    <AuthenticatedRoute path={'/leaderboards'} exact component={Leaderboards} props={childProps} />
+    <AuthenticatedRoute path={'/settings'} exact component={Settings} props={childProps} />
+
 
     { /* Finally, catch all unmatched routes */ }
      <Route component={NotFound} />

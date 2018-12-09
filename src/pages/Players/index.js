@@ -1,15 +1,26 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Transition } from 'react-spring';
+import styled from 'styled-components'; 
 
 import { withFirebase } from '../../hocs/Firebase';
 import { withGlobalState } from '../../hocs/GlobalState';
 import PlayerRow from '../../components/PlayerRow';
-import Navigation from '../../components/Navigation';
 import Button from '../../components/CustomButton';
 import MenuBar from '../../components/MenuBar'
+import Header from '../../components/Header';
+import Divider from '../../components/Divider';
+
+import { colors } from '../../css/Variables';
 
 import './index.css';
+
+const Text = styled.p`
+  margin: 5px;
+  font-weight: 700;
+  font-size: 20px;
+  color: ${colors.normal.primary}
+`
 
 class Players extends Component {
   constructor(props) {
@@ -87,31 +98,37 @@ class Players extends Component {
   render() {
     return (
       <div className="Players-page">
-        <h3>Players Squad</h3>
+        <Header>Players</Header>
 
-        { this.state.players &&
-          <Transition
-            items={this.state.players} keys={player => player.uid}
-            from={{ opacity: 0, height: 0 }}
-            enter={{ opacity: 1, height: 60 }}
-            leave={{ opacity: 0, height: 0 }}>
-            {player => props =>
-              <div style={props} onClick={() => this.handleTarget(player.uid)}>
-                <PlayerRow 
-                  player={player}
-                  onRemove={this.handleRemovePlayer}
-                  onEdit={this.handleEditPlayer}
-                  targeted={player.uid === this.state.playerTargeted ? true : false}      
-                />
-              </div>
-            }
-          </Transition>
-        }
+        <Text>Awesome Squad</Text>
+        <Divider rounded color='primary' widthPx='120' marginBottom='30' />
 
-        <Button text="NEW PLAYER"  onClick={() => this.handleAddPlayer()} />
+        <div className="Players-playersList">
+          { this.state.players &&
+            <Transition
+              items={this.state.players} keys={player => player.uid}
+              from={{ opacity: 0, height: 0 }}
+              enter={{ opacity: 1, height: 65 }}
+              leave={{ opacity: 0, height: 0 }}>
+              {player => props =>
+                <div style={props} onClick={() => this.handleTarget(player.uid)}>
+                  <PlayerRow 
+                    player={player}
+                    onRemove={this.handleRemovePlayer}
+                    onEdit={this.handleEditPlayer}
+                    targeted={player.uid === this.state.playerTargeted ? true : false}      
+                  />
+                </div>
+              }
+            </Transition>
+          }
+        </div>
+
+        <div className="Players-footer">
+          <Button onClick={() => this.handleAddPlayer()}>NEW PLAYER</Button>
+        </div>
 
         {/* Bottom Navigation bar/>*/}
-        <Navigation isAuthenticated={this.props.isAuthenticated} />
         <MenuBar active='players'/>
       </div>
     )

@@ -11,6 +11,7 @@ import Divider from '../../components/Divider';
 import IconButton from '../../components/IconButton';
 import PlayerRow from '../../components/PlayerRow';
 import Header from '../../components/Header';
+import InfoBox from '../../components/InfoBox';
 import { colors } from '../../css/Variables';
 import './index.css';
 
@@ -131,7 +132,6 @@ class PlayersCreate extends Component {
             this.state.playersAll && this.state.playersAll.map(player => {
               return (
                 <div
-                  className={1===0 ? 'this' : 'thatclass'}
                   key={player.uid}
                   onClick={() => this.togglePlayerSelect(player.uid)}
                 >
@@ -175,6 +175,21 @@ class PlayersCreate extends Component {
           <Option selected={this.state.newTournamentType === 'rounds'} onClick={() => this.onTypeSelect('rounds')}>Rounds</Option>
         </TournamentTypes>
 
+        {
+          this.state.newTournamentType === 'knockout'
+            ? <InfoBox>
+                The classic playoffs tournament. The winning teams move to the next around, until there's only one left!
+              </InfoBox>
+            : this.state.newTournamentType === 'allvsall'
+              ? <InfoBox>
+                  Who said three players cannot play foosball? Players take turns playing one versus two. The one with the most goals wins!
+                </InfoBox>
+              : <InfoBox>
+                  A championship style tournament. Each team plays against the rest. The team with the most wins is the champion!
+                </InfoBox>
+
+        }
+
         <div className="TournamentsCreate-footer">
           <Button onClick={() => this.onNext() }>Next</Button>
           <Button inverted onClick={() => this.onCancel()}>Cancel</Button>
@@ -188,12 +203,6 @@ class PlayersCreate extends Component {
     else if (this.state.step === 2) { return this.renderStepTwo() }
   }
 }
-
-// AddPlayer.propTypes = {
-//   userRef: PropTypes.string.isRequired,
-//   players: PropTypes.array.isRequired,
-//   onCancel: PropTypes.func.isRequired
-// };
 
 export default withRouter(withFirebase(withGlobalState(PlayersCreate)));
 
