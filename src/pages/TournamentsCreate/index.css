@@ -10,7 +10,7 @@
   width: 95vw;
   height: 50px;
 
-  margin: 100px 0 50px 0;
+  margin: 10% 0 8% 0;
 
   display: flex;
   align-items: center;
@@ -21,11 +21,20 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
 }
 
-.TournamentsCreate-name {
-  
-}
-
 .TournamentsCreate-iconWrapper {
   position: absolute;
   top: -55px;
+}
+
+.TournamentsCreate-playersList {
+  margin-bottom: 140px;
+}
+
+.TournamentsCreate-footer {
+  position: fixed;
+  bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
