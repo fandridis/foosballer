@@ -7,6 +7,7 @@ import { withGlobalState } from '../../hocs/GlobalState';
 import Navigation from '../../components/Navigation';
 import Button from '../../components/CustomButton';
 import Loading from '../../components/Loading';
+import MenuBar from '../../components/MenuBar'
 
 
 import './index.css';
@@ -18,7 +19,6 @@ class Tournaments extends Component {
 
     this.state = {
       tournaments: null,
-
       isLoading: false
     };
   }
@@ -83,6 +83,7 @@ class Tournaments extends Component {
 
         {/* Bottom Navigation bar */}
         <Navigation isAuthenticated={this.props.isAuthenticated} />
+        <MenuBar active="tournaments"/>
       </div>
     )
   }

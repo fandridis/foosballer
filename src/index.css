@@ -6,6 +6,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #EAFFFA;
 }
+.CurrentPage {
+  background-color:rgba(8, 159, 137, 1);
+}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",

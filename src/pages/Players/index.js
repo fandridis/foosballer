@@ -7,6 +7,7 @@ import { withGlobalState } from '../../hocs/GlobalState';
 import PlayerRow from '../../components/PlayerRow';
 import Navigation from '../../components/Navigation';
 import Button from '../../components/CustomButton';
+import MenuBar from '../../components/MenuBar'
 
 import './index.css';
 
@@ -111,6 +112,7 @@ class Players extends Component {
 
         {/* Bottom Navigation bar/>*/}
         <Navigation isAuthenticated={this.props.isAuthenticated} />
+        <MenuBar active='players'/>
       </div>
     )
   }
