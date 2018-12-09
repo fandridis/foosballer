@@ -10,6 +10,7 @@ import Loading from '../../components/Loading';
 
 
 import './index.css';
+import Header from "../../components/Header";
 
 class Tournaments extends Component {
   constructor(props) {
@@ -65,7 +66,7 @@ class Tournaments extends Component {
 
     return (
       <div className="Tournaments-page">
-        <h3>Tournaments</h3>
+        <Header>Tournaments</Header>
 
         { 
           this.state.tournaments && this.state.tournaments.map(tournament => {
