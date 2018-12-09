@@ -30,6 +30,7 @@ class PlayersCreate extends Component {
       playersAll: [],
       playerIdsSelected: [],
 
+      step: 1,
       isLoading: false
     }
   }
@@ -79,9 +80,7 @@ class PlayersCreate extends Component {
         console.log('Tournament added successfully');
         tournament.uid = res.id;
         this.props.globalState.addTournament(tournament);
-        this.setState({ newTournamentName: '', isLoading: false, }, () => {
-          this.props.history.goBack();
-        });
+        this.setState({ isLoading: false, step: 2 }, () => { });
       })
       .catch(err => { 
         console.log('err: ', err)
@@ -91,7 +90,7 @@ class PlayersCreate extends Component {
 
   onCancel = () => this.props.history.goBack();
   
-  render() {
+  renderStepOne() {
     return (
       <div className="TournamentsCreate-page">
 
@@ -127,6 +126,17 @@ class PlayersCreate extends Component {
         <Button text='Cancel' inverted onClick={() => this.onCancel()} />
       </div>
     );
+  }
+
+  renderStepTwo() {
+    return (
+      <h1>STEP 2</h1>
+    )
+  }
+
+  render() {
+    if (this.state.step === 1) { return this.renderStepOne() }
+    else if (this.state.step === 2) { return this.renderStepTwo() }
   }
 }
 

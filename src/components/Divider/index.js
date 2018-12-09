@@ -40,10 +40,10 @@ Divider.propTypes = {
 };
 
 Divider.defaultProps = {
-  marginTop: 0,
-  marginBottom: 10,
-  widthPerc: 50,
-  height: 3,
+  marginTop: '0',
+  marginBottom: '10',
+  widthPerc: '50',
+  height: '3',
   color: 'white',
   rounded: false
 };
