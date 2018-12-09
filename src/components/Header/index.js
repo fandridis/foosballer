@@ -1,15 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { colors } from '../../css/Variables';
 
 const Div = styled.div`
+position: sticky;
+top: 0;
+z-index: 1;
+
+margin-bottom: 60px;
 
 width: 100%;
 height: 90px;
-
-margin-top: 60px;
-margin-bottom: 100px;
 
 display: flex;
 justify-content: center;

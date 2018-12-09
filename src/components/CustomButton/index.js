@@ -56,7 +56,7 @@ const CustomButton = (props) => {
 				color={props.color}
 				onClick={props.onClick}
 			>
-			{props.text}
+			{props.children}
 			</Button>
 
 		: <InvertedButton
@@ -65,12 +65,11 @@ const CustomButton = (props) => {
 				color={props.color}
 				onClick={props.onClick}
 			>
-			{props.text}
+			{props.children}
 			</InvertedButton> 
 }
 
 CustomButton.propTypes = {
-	text: PropTypes.string.isRequired,
 	color: PropTypes.string,
 	type: PropTypes.string,
 	disabled: PropTypes.bool,

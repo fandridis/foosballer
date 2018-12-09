@@ -10,6 +10,7 @@ import Button from '../../components/CustomButton';
 import Divider from '../../components/Divider';
 import IconButton from '../../components/IconButton';
 import PlayerRow from '../../components/PlayerRow';
+import Header from '../../components/Header';
 import { colors } from '../../css/Variables';
 import './index.css';
 
@@ -20,6 +21,27 @@ const Text = styled.p`
   color: ${colors.normal.primary}
 `
 
+const TournamentTypes = styled.div`
+  height: 100px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  cursor: pointer;
+`
+
+const Option = styled.div`
+  width: 30%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${props => props.selected ? colors.normal.darkText : colors.normal.darkText40};
+  color: white;
+  font-weight: 600;
+  font-size: 24px;
+`
+
 class PlayersCreate extends Component {
 
   constructor(props) {
@@ -27,6 +49,7 @@ class PlayersCreate extends Component {
 
     this.state = {
       newTournamentName: '',
+      newTournamentType: 'knockout',
       playersAll: [],
       playerIdsSelected: [],
 
@@ -60,15 +83,12 @@ class PlayersCreate extends Component {
 
     this.setState({ playerIdsSelected });
   }
-  
-  /**
-   * Creates a new tournament in the database.
-   * @method
-   * @param {object} event - Contains the form event object
-   */
-  onSubmit = async event => {
-    event.preventDefault();
+
+  onDone = () => {
     console.log('Creating a tourney');
+    console.log('this.state: ', this.state);
+    
+
     const tournament = {
       userRef: this.props.isAuthenticated,
       name: this.state.newTournamentName,
@@ -86,13 +106,16 @@ class PlayersCreate extends Component {
         console.log('err: ', err)
         this.setState({ isLoading: false });
       })
-  };
+  }
 
+  onNext = () => this.setState(prevState => ({ step: prevState.step + 1 }));
+  onBack = () => this.setState({ step: 1 });
   onCancel = () => this.props.history.goBack();
   
-  renderStepOne() {
+  renderStepTwo() {
     return (
       <div className="TournamentsCreate-page">
+      <Header>New Tournament</Header>
 
         <div className="TournamentsCreate-nameWrapper">
           <h2 className="TournamentsCreate-name">{this.state.newTournamentName}</h2>
@@ -103,34 +126,60 @@ class PlayersCreate extends Component {
 
         <Text>Select Participants</Text>
         <Divider rounded color='primary' widthPx='120' marginBottom='30' />
-        { 
-          this.state.playersAll && this.state.playersAll.map(player => {
-            return (
-              <div 
-                key={player.uid}
-                onClick={() => this.togglePlayerSelect(player.uid)}
-              >
-                <PlayerRow 
-                  player={player}
-                  onRemove={this.handleRemovePlayer}
-                  onEdit={this.handleEditPlayer}
-                  selectable={true}
-                  selected={this.state.playerIdsSelected.includes(player.uid)}      
-                />
-              </div>          
-            );
-          })  
-        }
+        <div className="TournamentsCreate-playersList">
+          { 
+            this.state.playersAll && this.state.playersAll.map(player => {
+              return (
+                <div
+                  className={1===0 ? 'this' : 'thatclass'}
+                  key={player.uid}
+                  onClick={() => this.togglePlayerSelect(player.uid)}
+                >
+                  <PlayerRow 
+                    player={player}
+                    onRemove={this.handleRemovePlayer}
+                    onEdit={this.handleEditPlayer}
+                    selectable={true}
+                    selected={this.state.playerIdsSelected.includes(player.uid)}      
+                  />
+                </div>          
+              );
+            })
+          }
+        </div>
 
-        <Button text='Continue' onClick={() => this.onSubmit() } />
-        <Button text='Cancel' inverted onClick={() => this.onCancel()} />
+        <div className="TournamentsCreate-footer">
+          <Button onClick={() => this.onDone() }>Done</Button>
+          <Button inverted onClick={() => this.onBack()}>Back</Button>
+        </div>
       </div>
     );
   }
 
-  renderStepTwo() {
+  onTypeSelect = (type) => {
+      console.log('type selected: ', type);
+      this.setState({ newTournamentType: type });
+  }
+
+  renderStepOne() {
     return (
-      <h1>STEP 2</h1>
+      <div className="TournamentsCreate-page">
+        <Header>New Tournament</Header>
+        
+        <Text>Select Tournament Type</Text>
+        <Divider rounded color='primary' widthPx='120' marginBottom='30' />
+
+        <TournamentTypes>
+          <Option selected={this.state.newTournamentType === 'knockout'} onClick={() => this.onTypeSelect('knockout')}>Knockout</Option>
+          <Option selected={this.state.newTournamentType === 'allvsall'} onClick={() => this.onTypeSelect('allvsall')}>All vs All</Option>
+          <Option selected={this.state.newTournamentType === 'rounds'} onClick={() => this.onTypeSelect('rounds')}>Rounds</Option>
+        </TournamentTypes>
+
+        <div className="TournamentsCreate-footer">
+          <Button onClick={() => this.onNext() }>Next</Button>
+          <Button inverted onClick={() => this.onCancel()}>Cancel</Button>
+        </div>
+      </div>
     )
   }
 
@@ -147,3 +196,4 @@ class PlayersCreate extends Component {
 // };
 
 export default withRouter(withFirebase(withGlobalState(PlayersCreate)));
+

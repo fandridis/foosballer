@@ -79,7 +79,7 @@ class Tournaments extends Component {
           })  
         }
 
-        <Button text="NEW TOURNAMENT"  onClick={() => this.handleAddTournament()} />
+        <Button onClick={() => this.handleAddTournament()}>NEW TOURNAMENT</Button>
 
         {/* Bottom Navigation bar */}
         <Navigation isAuthenticated={this.props.isAuthenticated} />
