@@ -68,16 +68,18 @@ class Tournaments extends Component {
       <div className="Tournaments-page">
         <Header>Tournaments</Header>
 
-        { 
-          this.state.tournaments && this.state.tournaments.map(tournament => {
-            return (
-              <TournamentRow 
-                key={tournament.uid}
-                tournament={tournament}
-              />
-            );
-          })
-        }
+        <div className="Tournaments-list">
+          { 
+            this.state.tournaments && this.state.tournaments.map(tournament => {
+              return (
+                <TournamentRow 
+                  key={tournament.uid}
+                  tournament={tournament}
+                />
+              );
+            })
+          }
+        </div>
 
         <div className="Tournaments-footer">
           <Button onClick={() => this.handleAddTournament()}>NEW TOURNAMENT</Button>

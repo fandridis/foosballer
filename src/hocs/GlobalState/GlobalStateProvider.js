@@ -1,6 +1,7 @@
 import React from 'react';
 
 import GlobalStateContext from './context';
+import Loading from '../../components/Loading';
 
 class GlobalStateProvider extends React.Component {
   constructor(props) {
@@ -25,6 +26,7 @@ class GlobalStateProvider extends React.Component {
       startLoading: () => this.setState({ isLoading: true }),
       stopLoading: () => this.setState({ isLoading: false }),
 
+      renderLoading: () => <Loading />,
       reset: this.reset
     };
   }

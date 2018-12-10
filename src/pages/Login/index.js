@@ -1,11 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from "react-router-dom";
-// import { compose } from 'recompose';
 
 import { withFirebase } from '../../hocs/Firebase';
 import { withGlobalState } from '../../hocs/GlobalState';
 import CustomButton from '../../components/CustomButton';
-import Loading from '../../components/Loading';
 
 class Login extends Component {
   constructor(props) {
@@ -41,14 +39,8 @@ class Login extends Component {
       })
   };
 
-  renderLoading() {
-    return (
-      <Loading />
-    )
-  }
-
   render() {
-    if (this.props.globalState.isLoading) { return this.renderLoading(); }
+    if (this.props.globalState.isLoading) { return this.props.globalState.renderLoading() }
 
     const { email, password, error } = this.state;
 

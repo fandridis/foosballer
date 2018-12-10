@@ -40,6 +40,7 @@ class App extends Component {
   }
 
   initializeApp = async () => {
+    this.setState({ isLoading: true });
     console.log('Initializing app');
 
     if (this.state.playersLoading) {
@@ -88,7 +89,6 @@ class App extends Component {
               if (res.exists) {
                 // User doc found in database - updating the state
                 this.setState({ user: res.data() }, () => {
-                  // this.subscribeToPlayers();
                   console.log('user:', this.state.user);
                   this.initializeApp();
                 });             
@@ -98,7 +98,6 @@ class App extends Component {
                 this.props.firebase.createUser({ email: authUser.email, uid: authUser.uid })
                   .then(() => {
                     this.setState({ user: { email: authUser.email, uid: authUser.uid } }, () => {
-                      // this.subscribeToPlayers();
                     })
                   }).catch(err => console.log(err));
               }
@@ -114,24 +113,27 @@ class App extends Component {
     })
   }
 
-  subscribeToPlayers() {
-    return new Promise((resolve, reject) => {
-      console.log('Subscribing to players of user: ', this.state.user);
-      this.unsubscribeToPlayers = this.props.firebase.db.collection("players")
-        .where("userRef", "==", this.state.user.uid)
-        .orderBy('name')
-        .onSnapshot((querySnapshot) => {
-          let players = [];
-          querySnapshot.forEach((doc) => {
-              players.push( { ...doc.data(), uid: doc.id });
-          });
-          // this.setState({ players });
-          console.log('players: ', players);
-          this.props.globalState.setPlayers(players);
-          resolve(players);
-        });
-    });
-  }
+  /**
+   * Not used, but kept as an example for realtime subsription to db
+   */
+  // subscribeToPlayers() {
+  //   return new Promise((resolve, reject) => {
+  //     console.log('Subscribing to players of user: ', this.state.user);
+  //     this.unsubscribeToPlayers = this.props.firebase.db.collection("players")
+  //       .where("userRef", "==", this.state.user.uid)
+  //       .orderBy('name')
+  //       .onSnapshot((querySnapshot) => {
+  //         let players = [];
+  //         querySnapshot.forEach((doc) => {
+  //             players.push( { ...doc.data(), uid: doc.id });
+  //         });
+  //         // this.setState({ players });
+  //         console.log('players: ', players);
+  //         this.props.globalState.setPlayers(players);
+  //         resolve(players);
+  //       });
+  //   });
+  // }
 
   renderLoading() {
     return (
