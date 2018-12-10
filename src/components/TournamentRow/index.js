@@ -47,7 +47,7 @@ const Name = styled.h3`
 margin: 0;
 padding: 0;
 font-weight: 800;
-font-size: 22px;
+font-size: 18px;
 color: ${colors.normal.darkText}
 `
 

@@ -26,7 +26,7 @@ background-color: ${colors.normal.darkText}
 
 const Header = (props) => {
   return (
-    <Div marginTop={props.marginTop}>
+    <Div>
       {props.children}
     </Div>
   );
