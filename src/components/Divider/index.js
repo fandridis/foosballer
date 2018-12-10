@@ -41,7 +41,7 @@ Divider.propTypes = {
 
 Divider.defaultProps = {
   marginTop: '0',
-  marginBottom: '10',
+  marginBottom: '0',
   widthPerc: '50',
   height: '3',
   color: 'white',
