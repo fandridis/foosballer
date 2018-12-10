@@ -1,18 +1,28 @@
 .NotFound-svg {
     height: 100px;
     margin: 50% 30px 30px;
-    padding-left: 5%;
+    padding-left: 40px;
 }
 .NotFound-page {
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+
     align-items: center;
     text-align: center;
     font-size: 16px;
     font-weight: 700;
     color: #5D92A7;
 }
+.NotFound-page p {
+    padding-bottom: 5%;
+}
+.NotFound-page button {
+    margin-top: 12%;
+}
+

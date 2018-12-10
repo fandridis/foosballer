@@ -3,7 +3,7 @@ import './index.css';
 import  CustomButton from '../../components/CustomButton';
 import { withRouter } from 'react-router-dom';
 
-import Error from "../../assets/images/error.svg";
+import Error from "../../assets/images/error.png";
 
 const NotFound = (props) => {
   return (
@@ -24,7 +24,7 @@ const NotFound = (props) => {
       </svg>
       <p>Oooops …</p>
       <p>Something went wrong!<br/>Try going back to the main page.</p>
-      <CustomButton text={'GO BACK'} onClick={() => props.history.goBack()}/>
+      <CustomButton onClick={() => props.history.goBack()}>GO BACK</CustomButton>
     </div>
   );
 };

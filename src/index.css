@@ -10,11 +10,15 @@ body {
   background-color:rgba(8, 159, 137, 1);
 }
 .PageGraphics {
+  position: absolute;
+  top: 0;
+  z-index: -1;
+
   width: 100vw;
+  max-height: 50vh;
   margin: 0;
   padding: 0;
 }
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
