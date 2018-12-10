@@ -3,3 +3,12 @@
     flex-direction: column;
     align-items: center;
 }
+
+.Tournaments-footer {
+    position: fixed;
+    bottom: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }

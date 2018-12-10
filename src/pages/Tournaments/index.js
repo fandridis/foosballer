@@ -7,6 +7,7 @@ import { withGlobalState } from '../../hocs/GlobalState';
 import Button from '../../components/CustomButton';
 import Loading from '../../components/Loading';
 import MenuBar from '../../components/MenuBar'
+import TournamentRow from '../../components/TournamentRow';
 
 
 import './index.css';
@@ -70,15 +71,17 @@ class Tournaments extends Component {
         { 
           this.state.tournaments && this.state.tournaments.map(tournament => {
             return (
-              <div key={tournament.uid}>
-                <h3>{tournament.name}</h3>
-                <p>{tournament.createdAt}</p>
-              </div>
+              <TournamentRow 
+                key={tournament.uid}
+                tournament={tournament}
+              />
             );
-          })  
+          })
         }
 
-        <Button onClick={() => this.handleAddTournament()}>NEW TOURNAMENT</Button>
+        <div className="Tournaments-footer">
+          <Button onClick={() => this.handleAddTournament()}>NEW TOURNAMENT</Button>
+        </div>
 
         {/* Bottom Navigation bar */}
         <MenuBar active="tournaments"/>
