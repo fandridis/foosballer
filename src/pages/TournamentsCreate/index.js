@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 // import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
+import { calculateGames } from '../../utilities/helpers';
 import { withFirebase } from '../../hocs/Firebase';
 import { withGlobalState } from '../../hocs/GlobalState';
 import { generateTournamentName } from '../../utilities/generators';
@@ -96,17 +97,36 @@ class PlayersCreate extends Component {
       createdAt: Date.now()
     }
 
-    this.props.firebase.createTournament(tournament)
-      .then((res) => {
-        console.log('Tournament added successfully');
-        tournament.uid = res.id;
-        this.props.globalState.addTournament(tournament);
-        this.setState({ isLoading: false, step: 2 }, () => { });
-      })
-      .catch(err => { 
-        console.log('err: ', err)
-        this.setState({ isLoading: false });
-      })
+    const games = calculateGames(this.state.playerIdsSelected, this.state.playersAll);
+
+    console.log('games: ', games);
+    
+    fetch(
+      "https://us-central1-foosballer-8c110.cloudfunctions.net/calculateGames",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          players: this.state.playersAll
+        })
+      }
+    )
+    .then(res => res.json())
+    .then(res => console.log('res: ', res))
+    .catch(err => console.log('err: ', err))
+
+
+
+    // this.props.firebase.createTournament(tournament)
+    //   .then((res) => {
+    //     console.log('Tournament added successfully');
+    //     tournament.uid = res.id;
+    //     this.props.globalState.addTournament(tournament);
+    //     this.setState({ isLoading: false, step: 2 }, () => { });
+    //   })
+    //   .catch(err => { 
+    //     console.log('err: ', err)
+    //     this.setState({ isLoading: false });
+    //   })
   }
 
   onNext = () => this.setState(prevState => ({ step: prevState.step + 1 }));
