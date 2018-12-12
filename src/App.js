@@ -41,12 +41,12 @@ class App extends Component {
 
   initializeApp = async () => {
     this.setState({ isLoading: true });
-    console.log('Initializing app');
+    console.log('----- Initializing app -----');
 
     if (this.state.playersLoading) {
-      console.log('Gotta fetch players');
+      console.log('Fetching players');
       const data = await this.props.firebase.getPlayers(this.state.user.uid);
-      console.log('data: ', data);
+      console.log('Fetched Players');
       let players = [];
 
       for (let doc of data.docs) {
@@ -57,9 +57,9 @@ class App extends Component {
     }
 
     if (this.state.tournamentsLoading) {
-      console.log('Gotta fetch tournaments');
+      console.log('Fetching tournaments');
       const data = await this.props.firebase.getTournaments(this.state.user.uid);
-      console.log('data: ', data);
+      console.log('Fetched tournaments')
       let tournaments = [];
 
       for (let doc of data.docs) {
@@ -73,9 +73,7 @@ class App extends Component {
   }
 
   resetApp = () => {
-    console.log('Resetting app');
     this.props.globalState.reset();
-
     this.setState({ isLoading: false });
   }
 
@@ -135,11 +133,7 @@ class App extends Component {
   //   });
   // }
 
-  renderLoading() {
-    return (
-      <Loading />
-    )
-  }
+  renderLoading() { return ( <Loading /> )}
 
   render() {
     if (this.state.isLoading) { return this.renderLoading() }
