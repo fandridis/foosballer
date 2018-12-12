@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import dayjs from 'dayjs';
 
 import IconButton from '../IconButton';
 import Divider from '../Divider';
@@ -47,7 +48,7 @@ const Name = styled.h3`
 margin: 0;
 padding: 0;
 font-weight: 800;
-font-size: 18px;
+font-size: 20px;
 color: ${colors.normal.darkText}
 `
 
@@ -63,7 +64,7 @@ font-size: 16px;
 `
 
 const Label = styled.p`
-// width: 130px;
+// width: 250px;
 margin-right: 10px;
 font-size: 16px;
 color: ${colors.normal.greyText40}
@@ -82,13 +83,13 @@ const TournamentRow = memo((props) => {
 				<Divider color={'greyText40'} height={1.5} widthPerc='75' marginTop={'5'} marginBottom={'10'} />
 
 				<Info>
-					<Label>Started: </Label><Text>{props.tournament.startedAt || 'No date'}</Text>
+					<Label>Started: </Label><Text>{ dayjs(props.tournament.createdAt).format('MMM DD, YYYY') || 'No date'}</Text>
 				</Info>
 				<Info>
-					<Label>Games Remaining: </Label><Text>{'3'}</Text>
+					<Label>Remaining matches: </Label><Text>{props.tournament.matchesRemaining}</Text>
 				</Info>
 			</LeftSide>
-			
+
 			<RightSide>
 				<IconButton icon='pencil-alt' onClick={() => {}} />
 				<IconButton icon='trash-alt'  onClick={() => {}} />

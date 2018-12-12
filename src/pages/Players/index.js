@@ -63,20 +63,18 @@ class Players extends Component {
   }
 
   /**
-   * Opens the PlayersEdit page for editing a player.
-   * @param {object} player - The player to be edited
+   * Open the PlayersEdit page for editing a player.
    */
   handleEditPlayer = player => {
     console.log('Open player page for editing');
     this.props.history.push({
       pathname: `/players/edit/${player.uid}`,
-      player: player
-    })
+      player
+    });
   }
 
   /**
-   * Deletes a player document from the database.
-   * @param {string} playerId - The id of the player to be removed
+   * Delete a player document from the database.
    */
   handleRemovePlayer = playerId => {
     this.props.firebase.removePlayer(playerId)

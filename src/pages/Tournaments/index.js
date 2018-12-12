@@ -5,7 +5,6 @@ import { withRouter } from 'react-router-dom';
 import { withFirebase } from '../../hocs/Firebase';
 import { withGlobalState } from '../../hocs/GlobalState';
 import Button from '../../components/CustomButton';
-import Loading from '../../components/Loading';
 import MenuBar from '../../components/MenuBar'
 import TournamentRow from '../../components/TournamentRow';
 
@@ -33,36 +32,21 @@ class Tournaments extends Component {
    * Open the PlayersCreate page for creating a new player.
    */
   handleAddTournament = () => { 
-    return this.props.history.push('/tournaments/create')
+    return this.props.history.push('/tournaments/create');
   }
   
   /**
-   * Open the PlayersEdit page for editing a player.
+   * Open the TournamentsDetails page for editing a player.
    */
-  handleEditPlayer = player => {
+  handleViewTournament = tournament => {
     return this.props.history.push({
-      pathname: `/players/edit/${player.uid}`,
-      player: player
+      pathname: `/tournaments/${tournament.uid}`,
+      tournament
     });
   }
 
-  /**
-   * Delete a player document from the database.
-   */
-  handleRemovePlayer = playerId => {
-    this.props.firebase.removePlayer(playerId)
-      .then(() => console.log('Player removed successfully'))
-      .catch(err => console.log('err: ', err))
-  }
-
-  renderLoading() {
-    return (
-      <Loading />
-    )
-  }
-
   render() {
-    if (this.props.globalState.isLoading) { return this.renderLoading(); }
+    if (this.props.globalState.isLoading) { return this.props.globalState.renderLoading(); }
 
     return (
       <div className="Tournaments-page">
@@ -72,10 +56,11 @@ class Tournaments extends Component {
           { 
             this.state.tournaments && this.state.tournaments.map(tournament => {
               return (
-                <TournamentRow 
-                  key={tournament.uid}
-                  tournament={tournament}
-                />
+                <div key={tournament.uid} onClick={() => { this.handleViewTournament(tournament) }}>
+                  <TournamentRow 
+                    tournament={tournament}
+                  />
+                </div>
               );
             })
           }
