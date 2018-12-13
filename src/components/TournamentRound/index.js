@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import dayjs from 'dayjs';
+// import dayjs from 'dayjs';
 
 import IconButton from '../IconButton';
 import Divider from '../Divider';
@@ -22,11 +22,11 @@ const TournamentRound = memo((props) => {
           { 
             props.round.matches.map((match, i) => {
               return (
-                <div key={i} onClick={() => { this.handleClickMatch(match) }}>
-                  <MatchRow 
-                    match={match}
-                  />
-                </div>
+                <MatchRow
+                  key={i}
+                  index={i}
+                  match={match}
+                />
               );
             })
           }

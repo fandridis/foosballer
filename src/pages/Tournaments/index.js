@@ -8,7 +8,6 @@ import Button from '../../components/CustomButton';
 import MenuBar from '../../components/MenuBar'
 import TournamentRow from '../../components/TournamentRow';
 
-
 import './index.css';
 import Header from "../../components/Header";
 
@@ -57,9 +56,11 @@ class Tournaments extends Component {
             this.state.tournaments && this.state.tournaments.map(tournament => {
               return (
                 <div key={tournament.uid} onClick={() => { this.handleViewTournament(tournament) }}>
-                  <TournamentRow 
-                    tournament={tournament}
-                  />
+                  
+                    <TournamentRow 
+                      tournament={tournament}
+                    />
+                  
                 </div>
               );
             })

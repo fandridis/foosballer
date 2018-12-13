@@ -97,8 +97,6 @@ class PlayersCreate extends Component {
     const players = this.state.playersAll.filter(player => this.state.playerIdsSelected.indexOf(player.uid) > -1);
     const teams = calculateTeams(players);
     const tourDetails = { name: this.state.newTournamentName, type: this.state.newTournamentType }
-
-    console.log('teams: ', teams);
     
     fetch("https://us-central1-foosballer-8c110.cloudfunctions.net/initializeTournament", {
       method: "POST",
@@ -108,16 +106,16 @@ class PlayersCreate extends Component {
       })
     })
     .then(res => res.json())
-    .then(res => {
-      console.log('res: ', res);
-      res.tourney.userRef = this.props.isAuthenticated;
-      res.tourney.createdAt = Date.now();
+    .then(data => {
+      console.log('res: ', data);
+      data.tourney.userRef = this.props.isAuthenticated;
+      data.tourney.createdAt = Date.now();
             
-      this.props.firebase.createTournament(res.tourney)
+      this.props.firebase.createTournament(data.tourney)
       .then((res) => {
-        console.log('Tournament added successfully');
-        tournament.uid = res.id;
-        this.props.globalState.addTournament(tournament);
+        console.log('Tournament added successfully: ', data);
+        data.tourney.uid = res.id;
+        this.props.globalState.addTournament(data.tourney);
         this.setState({ isLoading: false }, () => {
           this.props.history.push(`/tournaments`);
         });

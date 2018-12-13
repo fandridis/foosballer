@@ -20,7 +20,15 @@ class GlobalStateProvider extends React.Component {
 
       tournaments: [],
       setTournaments: (tournaments) => this.setState({ tournaments }),
-      addTournament: (tournament) => this.setState(prevState => ({ tournaments: [ ...prevState.tournaments, tournament ] })),
+      addTournament: (tournament) => this.setState(prevState => ({ tournaments: [ tournament , ...prevState.tournaments ] })),
+
+      currentTournamentId: null,
+      setCurrentTournamentId: (currentTournamentId) => this.setState({ currentTournamentId }),
+
+      currentMatchIndex: null,
+      SetCurrentMatchIndex: (currentMatchIndex) => this.setState({ currentMatchIndex }),
+
+      resolveMatch: this.resolveMatch,
 
       isLoading: false,
       startLoading: () => this.setState({ isLoading: true }),
@@ -35,6 +43,24 @@ class GlobalStateProvider extends React.Component {
     if (user === this.state.user) { return; }  
     this.setState({ user });
   }
+
+  resolveMatch = (data) => {
+    console.log('data: ', data);
+
+    if (window.confirm(`You are about to mark team ${data.winner} as the winner.`)) { 
+      console.log('Yes clicked!');
+
+      // const updatedTournaments = []
+
+      // this.setState({ tournaments: updatedTournaments });
+
+    }
+    else {
+      console.log('No clicked!');
+    }
+  }
+
+
 
   reset = () => this.setState({ user: null, players: [], tournaments: [], isLoading: false });
 
