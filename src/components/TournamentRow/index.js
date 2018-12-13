@@ -10,7 +10,7 @@ import { colors } from '../../css/Variables';
 
 const Row = styled.div`
 position: relative;
-
+margin-bottom: 16px;
 width: 95vw;
 height: 120px;
 
@@ -18,13 +18,11 @@ display: flex;
 justify-content: space-around;
 align-items: space-between;
 
-margin-bottom: 16px;
-
 border-radius: 25px;
 box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
 
 // opacity: ${props => props.selectable ? props.selected ? 1 : 0.4 : 1 };
-background-color: white};
+background-color: white;
 // filter: grayscale(${props => props.selectable ? props.selected ? '0%' : '100%' : '0%'});
 `
 
@@ -72,7 +70,7 @@ color: ${colors.normal.greyText40}
 
 
 const TournamentRow = memo((props) => {
-	console.log('Rendering')
+	console.log('Props: ', props);
 	return (
 		<Row selectable={props.selectable} selected={props.selected} >
 			<LeftSide>

@@ -6,6 +6,7 @@ import { withFirebase } from '../../hocs/Firebase';
 import { withGlobalState } from '../../hocs/GlobalState';
 import Header from '../../components/Header';
 import TournamentRound from '../../components/TournamentRound';
+import Button from '../../components/CustomButton';
 
 import './index.css';
 
@@ -35,12 +36,14 @@ class TournamentsDetails extends Component {
     });
   }
 
+  onBack = () => this.props.history.goBack();
+
   render() {
     return (
       <div className="TournamentsDetails-page">
         <Header>{this.state.tournament && this.state.tournament.name}</Header>
 
-        <div className="Tournaments-list">
+        <div className="TournamentsDetails-list">
           { 
             this.state.rounds.map((round, i) => {
               return (
@@ -53,6 +56,10 @@ class TournamentsDetails extends Component {
               );
             })
           }
+        </div>
+
+        <div className="TournamentsDetails-footer">
+          <Button onClick={() => this.onBack()}>Back</Button>
         </div>
       </div>
     )

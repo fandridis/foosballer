@@ -126,7 +126,7 @@ class Firebase {
     return this.db
       .collection("tournaments")
       .where("userRef", "==", userRef)//.get()
-      .orderBy('createdAt').get()
+      .orderBy('createdAt', 'desc').get()
   }
 
   /**

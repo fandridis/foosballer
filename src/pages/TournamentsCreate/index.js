@@ -118,7 +118,9 @@ class PlayersCreate extends Component {
         console.log('Tournament added successfully');
         tournament.uid = res.id;
         this.props.globalState.addTournament(tournament);
-        this.setState({ isLoading: false, step: 2 }, () => { });
+        this.setState({ isLoading: false }, () => {
+          this.props.history.push(`/tournaments`);
+        });
       })
       .catch(err => { 
         console.log('err: ', err)
@@ -212,7 +214,7 @@ class PlayersCreate extends Component {
         </div>
 
         <div className="TournamentsCreate-footer">
-          <Button onClick={() => this.onNext() }>Next</Button>
+          <Button onClick={() => this.onNext()}>Next</Button>
           <Button inverted onClick={() => this.onBack()}>Back</Button>
         </div>
       </div>

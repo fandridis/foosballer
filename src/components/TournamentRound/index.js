@@ -8,22 +8,23 @@ import Divider from '../Divider';
 import MatchRow from './MatchRow';
 import { colors } from '../../css/Variables';
 
-
+const H1 = styled.h1`
+color: ${colors.normal.darkText}
+`
 
 const TournamentRound = memo((props) => {
-	console.log('Props:: ', props);
+	console.log('Props: ', props);
 	return (
 		<div >
-		 <h1>Round {props.roundNumber + 1}</h1>
+		 <H1>Round {props.roundNumber + 1}</H1>
 
 		 <div className="TournamentRound">
           { 
-            props.map((round, i) => {
+            props.round.matches.map((match, i) => {
               return (
-                <div key={i} onClick={() => { this.handleClickMatch(round) }}>
-                  <TournamentRound 
-                    round={this.state.tournament.rounds[round]}
-                    roundNumber={i}
+                <div key={i} onClick={() => { this.handleClickMatch(match) }}>
+                  <MatchRow 
+                    match={match}
                   />
                 </div>
               );
