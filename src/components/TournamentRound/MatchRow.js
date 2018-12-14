@@ -64,14 +64,26 @@ const MatchRow = memo((props) => {
 		<Row>
 			<TeamLeft 
 				winner={props.match.winner === props.match.team1.index}
-				onClick={() => props.globalState.resolveMatch({match: props.match, winner: 1, matchIndex: props.index})}
+				onClick={() => props.globalState.resolveMatch({
+					match: props.match,
+					winner: 1,
+					matchIndex: props.index,
+					clickable: props.clickable,
+					isPreviouslyResolved: props.match.winner !== null ? true : false
+				})}
 				>
 				{props.match.team1.name}
 			</TeamLeft>
 			<VS>VS</VS>
 			<TeamRight 
 				winner={props.match.winner === props.match.team2.index}
-				onClick={() => props.globalState.resolveMatch({match: props.match, winner: 2, matchIndex: props.index })}
+				onClick={() => props.globalState.resolveMatch({
+					match: props.match,
+					winner: 2,
+					matchIndex: props.index,
+					clickable: props.clickable,
+					isPreviouslyResolved: props.match.winner !== null ? true : false
+				})}
 			>
 				{props.match.team2.name || 'FREE-PASS'}
 			</TeamRight>

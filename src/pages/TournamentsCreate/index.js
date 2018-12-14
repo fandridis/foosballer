@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { withFirebase } from '../../hocs/Firebase';
 import { withGlobalState } from '../../hocs/GlobalState';
 import { generateTournamentName } from '../../utilities/generators';
-import { calculateTeams } from '../../utilities/helpers';
+import { calculateTeams } from '../../utilities/manageTournament';
 import Button from '../../components/CustomButton';
 import Divider from '../../components/Divider';
 import IconButton from '../../components/IconButton';

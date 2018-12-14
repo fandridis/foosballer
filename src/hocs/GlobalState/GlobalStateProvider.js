@@ -2,7 +2,7 @@ import React from 'react';
 
 import GlobalStateContext from './context';
 import Loading from '../../components/Loading';
-import { resolveMatch } from '../../utilities/manageTournament';
+import { updateMatchAndTournament, calculateNextRound } from '../../utilities/manageTournament';
 
 class GlobalStateProvider extends React.Component {
   constructor(props) {
@@ -36,6 +36,7 @@ class GlobalStateProvider extends React.Component {
       SetCurrentMatchIndex: (currentMatchIndex) => this.setState({ currentMatchIndex }),
 
       resolveMatch: this.resolveMatch,
+      moveToNextRound: this.moveToNextRound,
 
       isLoading: false,
       startLoading: () => this.setState({ isLoading: true }),
@@ -52,14 +53,16 @@ class GlobalStateProvider extends React.Component {
   }
 
   resolveMatch = (data) => {
-    const { match, matchIndex, winner } = data;
-    if (!match || match.winner) { return console.log('Winner already announced or no match param') }
+    const { match, matchIndex, winner, clickable, isPreviouslyResolved } = data;
+    console.log('clickable: ', clickable);
+    console.log('isPreviouslyResolved: ', isPreviouslyResolved);
+    if (!match || (match.winner && !clickable)) { return console.log('Winner already announced or no match param') }
 
     if (window.confirm(`You are about to mark team-${winner} as the winner.`)) { 
       const tournament = this.state.tournaments[this.state.currentTournamentId];
       const winningTeamIndex = winner === 1 ? match.team1.index : data.match.team2.index
 
-      const updatedTournament = resolveMatch({ tournament, matchIndex, winningTeamIndex })
+      const updatedTournament = updateMatchAndTournament({ tournament, matchIndex, winningTeamIndex, isPreviouslyResolved })
  
       this.setState({ ...this.state.tournaments,
         [this.state.currentTournamentId]: updatedTournament
@@ -68,6 +71,14 @@ class GlobalStateProvider extends React.Component {
     else {
       // console.log('No clicked!');
     }
+  }
+
+  moveToNextRound = (tournament) => {
+    const updatedTournament = calculateNextRound(tournament);
+
+    this.setState({ ...this.state.tournaments,
+      [this.state.currentTournamentId]: updatedTournament
+    }, () => console.log('new globalState: ', this.state));
   }
 
 

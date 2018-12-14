@@ -16,7 +16,7 @@ class TournamentsDetails extends Component {
 
     this.state = {
       tournament: null,
-      rounds: [],
+      roundsAllIndexes: [],
       isLoading: false
     };
   }
@@ -32,10 +32,15 @@ class TournamentsDetails extends Component {
 
     this.setState({
       tournament: this.props.location.tournament,
-      rounds: Object.keys(this.props.location.tournament.rounds)
+      roundsAllIndexes: Object.keys(this.props.location.tournament.rounds).reverse()
     }, () => {
       console.log('this.state: ', this.state);
     });
+  }
+
+  handleNextRound = () => {
+    console.log('Moving to next round');
+    this.props.globalState.moveToNextRound(this.state.tournament)
   }
 
   onBack = () => this.props.history.goBack();
@@ -46,13 +51,20 @@ class TournamentsDetails extends Component {
         <Header>{this.state.tournament && this.state.tournament.name}</Header>
 
         <div className="TournamentsDetails-list">
+
+          {
+            this.state.tournament && this.state.tournament.rounds[this.state.roundsAllIndexes.length].matchesRemaining === 0
+              ? <h2 onClick={() => this.handleNextRound()}>NEXT ROUND //TODO: Buttonify me!</h2>
+              : ''
+          }
           { 
-            this.state.rounds.map((round, i) => {
+            this.state.roundsAllIndexes.map((round, i) => {
               return (
                 <TournamentRound 
                   key={i}
                   round={this.state.tournament.rounds[round]}
                   roundNumber={i}
+                  clickable={i <= this.state.tournament.currentRound ? true : false}
                 />
               );
             })

@@ -20,25 +20,3 @@ export function nextPowerOfTwo(n) {
   n |= n >> 16
   return n+1;
 }
-
-// Create teams by pairing the best with the worst,
-// the second-best with the second-worst etc.
-export function calculateTeams(players) {
-  const playersSorted = orderBy(players, 'rating', 'desc');
-  const playersLength = playersSorted.length;
-  let teams = [];
-  
-  if (playersSorted.length % 2 > 0) { return console.log('Uneven players') }
-  
-  for (let i = 0; i < playersSorted.length / 2; i++) {
-    let obj = {
-      player1: playersSorted[i],
-      player2: playersSorted[playersLength - i - 1],
-      name: playersSorted[i].name + ' | ' + playersSorted[playersLength - i - 1].name,
-      rating: Math.round((playersSorted[i].rating + playersSorted[playersLength - i - 1].rating) / 2)
-    }
-    teams.push(obj)
-  }
-  
-  return teams;
-}

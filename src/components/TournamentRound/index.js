@@ -13,10 +13,16 @@ color: ${colors.normal.darkText}
 `
 
 const TournamentRound = memo((props) => {
-	console.log('Props: ', props);
+	console.log('Props @ TournamentRound: ', props);
 	return (
 		<div >
-		 <H1>Round {props.roundNumber + 1}</H1>
+		 <H1>
+       Round {props.roundNumber + 1} {
+        props.round.matchesRemaining > 1
+          ? ' (' + props.round.matchesRemaining + ' matches remaining)'
+          : ' (' + props.round.matchesRemaining + ' match remaining)'
+        }
+     </H1>
 
 		 <div className="TournamentRound">
           { 
@@ -26,6 +32,7 @@ const TournamentRound = memo((props) => {
                   key={i}
                   index={i}
                   match={match}
+                  clickable={props.clickable}
                 />
               );
             })
