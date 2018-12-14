@@ -17,13 +17,18 @@ class Tournaments extends Component {
 
     this.state = {
       tournaments: null,
+      tournamentsAllIds: [],
       isLoading: false
     };
   }
 
   componentDidMount() {
     console.log('DidMount @ Tournaments: ', this.props);
-    this.setState({ tournaments: this.props.globalState.tournaments });
+    this.setState({
+      tournaments: this.props.globalState.tournaments,
+      tournamentsAllIds: this.props.globalState.tournamentsAllIds
+    });
+
     this.props.globalState.stopLoading();
   }
 
@@ -53,9 +58,10 @@ class Tournaments extends Component {
 
         <div className="Tournaments-list">
           { 
-            this.state.tournaments && this.state.tournaments.map(tournament => {
+            this.state.tournamentsAllIds.map(tournamentId => {
+              const tournament = this.state.tournaments[tournamentId];
               return (
-                <div key={tournament.uid} onClick={() => { this.handleViewTournament(tournament) }}>
+                <div key={tournamentId} onClick={() => { this.handleViewTournament(tournament) }}>
                   
                     <TournamentRow 
                       tournament={tournament}

@@ -60,13 +60,16 @@ class App extends Component {
       console.log('Fetching tournaments');
       const data = await this.props.firebase.getTournaments(this.state.user.uid);
       console.log('Fetched tournaments')
-      let tournaments = [];
+      let tournaments = {};
+      let tournamentsAllIds = [];
 
       for (let doc of data.docs) {
-        tournaments.push({ ...doc.data(), uid: doc.id });
+        tournaments[doc.id] = { ...doc.data(), uid: doc.id };
+        tournamentsAllIds.push(doc.id);
       }
 
       this.props.globalState.setTournaments(tournaments);
+      this.props.globalState.setTournamentsAllIds(tournamentsAllIds);
     }
 
     this.setState({ isLoading: false });
