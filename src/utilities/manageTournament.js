@@ -1,7 +1,10 @@
 import orderBy from 'lodash/orderBy';
+import * as manageRatings from './manageRatings';
 
-// Create teams by pairing the best with the worst,
-// the second-best with the second-worst etc.
+/**
+ * Create teams by pairing the best with the worst,
+ * the second-best with the second-worst etc.
+ */
 export function calculateTeams(players) {
   const playersSorted = orderBy(players, 'rating', 'desc');
   const playersLength = playersSorted.length;
@@ -30,6 +33,10 @@ export function calculateTeams(players) {
   return teams;
 }
 
+/**
+ * Update tournament contents.
+ * Runs when the user resolves a match, picking a winning team
+ */
 export function updateMatchAndTournament(data) {
   const { tournament, matchIndex, winningTeamIndex, isPreviouslyResolved } = data;
   const currentRound = tournament.currentRound;
@@ -47,45 +54,61 @@ export function updateMatchAndTournament(data) {
     tournament.rounds[currentRound].completed = true;
   }
 
-  console.log('new tournament: ', tournament);
   return tournament;
 }
 
-export function finishTournament(tournament) {
-  console.log('Finishing the tournament: ', tournament);
-
-  if (tournament.matchesRemaining === 0) {
-
-    const rounds = Object.keys(tournament.rounds)
-    const finalRoundIndex = rounds[rounds.length - 1]
-    const finalMatch = tournament.rounds[finalRoundIndex].matches[0];
-    const winnerIndex = finalMatch.winner;
-
-    if (finalMatch.team1.index === winnerIndex) {
-      tournament.winner = finalMatch.team1.name;
-    }
-    else {
-      tournament.winner = finalMatch.team2.name;
-    }
-    tournament.completed = true;
-  }
-}
-
+/**
+ * Calculate the next round of a knockout tournament
+ * Runs when the user has completed all matches of the previous round
+ * and clicks to start the next round.
+ */
 export function calculateNextRound(tournament) {
   console.log('Calculating next round');
-  console.log('tournament: ', tournament);
 
   let nextSeeds = [];
   let teamsRemaining = {};
-
+  // let playersUpdatesNeeded = [];
+  
   for (let match of tournament.rounds[tournament.currentRound].matches) {
+    // playersUpdatesNeeded.push(...manageRatings.calculateNewRatings(match));
+    const scoreChange = manageRatings.calculateScoreChange(match);
+
     nextSeeds.push(match.winner);
-    if (match.team1.index === match.winner) {
-      teamsRemaining[match.winner] = match.team1;
+
+    if (match.team2 !== 'pass') {
+      if (match.team1.index === match.winner) {
+        teamsRemaining[match.winner] = match.team1;
+        match.team1.rating += scoreChange;
+        match.team1.player1.rating += scoreChange;
+        match.team1.player2.rating += scoreChange;
+        match.team1.player1.wins += 1;
+        match.team1.player2.wins += 1;
+
+        match.team2.rating -= scoreChange;
+        match.team2.player1.rating -= scoreChange;
+        match.team2.player2.rating -= scoreChange;
+        match.team2.player1.losses += 1;
+        match.team2.player2.losses += 1;
+      }
+      else {
+        teamsRemaining[match.winner] = match.team2;
+        match.team1.rating -= scoreChange;
+        match.team1.player1.rating -= scoreChange;
+        match.team1.player2.rating -= scoreChange;
+        match.team1.player1.losses += 1;
+        match.team1.player2.losses += 1;
+
+        match.team2.rating += scoreChange;
+        match.team2.player1.rating += scoreChange;
+        match.team2.player2.rating += scoreChange;
+        match.team2.player1.wins += 1;
+        match.team2.player2.wins += 1;
+      }
     }
     else {
-      teamsRemaining[match.winner] = match.team2;
+      teamsRemaining[match.winner] = match.team1;
     }
+
   }
 
   console.log('nextSeeds: ', nextSeeds);
@@ -103,8 +126,65 @@ export function calculateNextRound(tournament) {
   }
 
   tournament.currentRound++;
+
+  return tournament;
 }
 
+/**
+ * Update the tournament with the winning team and further details
+ * Runs when the user resolves the winning team of the final match.
+ */
+export function finishTournament(tournament) {
+  console.log('Finishing the tournament: ', tournament);
+  // let playersUpdatesNeeded = [];
+
+  const rounds = Object.keys(tournament.rounds)
+  const finalRoundIndex = rounds[rounds.length - 1]
+  const finalMatch = tournament.rounds[finalRoundIndex].matches[0];
+  const winnerIndex = finalMatch.winner;
+  const scoreChange = manageRatings.calculateScoreChange(finalMatch);
+
+  if (finalMatch.team1.index === winnerIndex) {
+    tournament.winner = finalMatch.team1.name;
+
+    finalMatch.team1.rating += scoreChange;
+    finalMatch.team1.player1.rating += scoreChange;
+    finalMatch.team1.player2.rating += scoreChange;
+    finalMatch.team1.player1.wins += 1;
+    finalMatch.team1.player2.wins += 1;
+
+    finalMatch.team2.rating -= scoreChange;
+    finalMatch.team2.player1.rating -= scoreChange;
+    finalMatch.team2.player2.rating -= scoreChange;
+    finalMatch.team2.player1.losses += 1;
+    finalMatch.team2.player2.losses += 1;
+  }
+  else {
+    tournament.winner = finalMatch.team2.name;
+
+    finalMatch.team1.rating -= scoreChange;
+    finalMatch.team1.player1.rating -= scoreChange;
+    finalMatch.team1.player2.rating -= scoreChange;
+    finalMatch.team1.player1.losses += 1;
+    finalMatch.team1.player2.losses += 1;
+
+    finalMatch.team2.rating += scoreChange;
+    finalMatch.team2.player1.rating += scoreChange;
+    finalMatch.team2.player2.rating += scoreChange;
+    finalMatch.team2.player1.wins += 1;
+    finalMatch.team2.player2.wins += 1;
+  }
+  tournament.completed = true;
+
+  // playersUpdatesNeeded.push(...manageRatings.calculateNewRatings(finalMatch));
+
+  return tournament;
+}
+
+/**
+ * Calculate the matches of a round depending on
+ * the seeds array and the teams
+ */
 function calculateMatches(seeds, teams) {
   let matches = [];
   let count = 0;

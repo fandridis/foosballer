@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 // import { Transition } from 'react-spring';
 
-import { withFirebase } from '../../hocs/Firebase';
 import { withGlobalState } from '../../hocs/GlobalState';
 import ActionBar from '../../components/ActionBar';
 import Header from '../../components/Header';
@@ -48,7 +47,7 @@ class TournamentsDetails extends Component {
 
   handleNextRound = (tournament) => {
     console.log('Moving to next round');
-    this.props.globalState.moveToNextRound(tournament)
+    this.props.globalState.moveToNextRound(tournament);
   }
 
   handleFinishTournament = (tournament) => {
@@ -106,6 +105,6 @@ class TournamentsDetails extends Component {
   }
 }
 
-export default withRouter(withFirebase(withGlobalState(TournamentsDetails)));
+export default withRouter(withGlobalState(TournamentsDetails));
 
 

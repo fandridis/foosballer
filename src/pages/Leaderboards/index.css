@@ -1,0 +1,11 @@
+.Leaderboards-page {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.Leaderboards-playersList {
+	margin-bottom: 150px;
+}
+
+

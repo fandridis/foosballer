@@ -99,6 +99,22 @@ class Firebase {
     });
   }
 
+  updatePlayerObj = (playerId, player) => { 
+    if ( !playerId || !player) { return Promise.reject('missing params') }
+
+    return this.db.collection("players").doc(playerId).update(player);
+  }
+
+  updatePlayerStats = (playerUpdate) => {
+    if (!playerUpdate) { return; }
+
+    this.db.collection("players").doc(playerUpdate.playerId).update({
+      rating: playerUpdate.rating,
+      wins: playerUpdate.wins,
+      losses: playerUpdate.losses
+    });
+}
+
   /**
    * Remove a player from the users available players.
    * @param {string} playerId - The player uid to be removed
@@ -125,7 +141,7 @@ class Firebase {
 
     return this.db
       .collection("tournaments")
-      .where("userRef", "==", userRef)//.get()
+      .where("userRef", "==", userRef)
       .orderBy('createdAt', 'desc').get()
   }
 
@@ -141,6 +157,14 @@ class Firebase {
 
     return this.db.collection("tournaments").add(tournament);
   }
+
+  updateTournamentObj = (tournamentId, tournament) => { 
+    if ( !tournamentId || !tournament) { return Promise.reject('missing params') }
+
+    return this.db.collection("tournaments").doc(tournamentId).update(tournament);
+  }
+
+  
 
 }
 

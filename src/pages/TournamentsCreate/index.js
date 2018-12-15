@@ -88,12 +88,6 @@ class PlayersCreate extends Component {
     console.log('Creating a tourney');
     console.log('this.state: ', this.state);
 
-    const tournament = {
-      userRef: this.props.isAuthenticated,
-      name: this.state.newTournamentName,
-      createdAt: Date.now()
-    }
-
     const players = this.state.playersAll.filter(player => this.state.playerIdsSelected.indexOf(player.uid) > -1);
     const teams = calculateTeams(players);
     const tourDetails = { name: this.state.newTournamentName, type: this.state.newTournamentType }

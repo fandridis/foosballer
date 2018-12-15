@@ -44,16 +44,6 @@ class Players extends Component {
     // this.unsubscribeFromPlayersCollection();
   }
 
-
-  /**
-   * Unsubscribe from the players collection listener.
-   * Update the state.
-   */
-  unsubscribeFromPlayersCollection() {
-    this.state.playersListener();
-    this.setState({ playersListener: null });
-  }
-
   /**
    * Open the PlayersCreate page for creating a new player.
    */

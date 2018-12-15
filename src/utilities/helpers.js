@@ -1,7 +1,7 @@
 import orderBy from 'lodash/orderBy';
 
 export function orderByProperty(arr, propertyName, mode) {
-  if (mode !== 'asc' || mode !== 'desc') { mode = 'asc'}
+  if (mode !== 'asc' && mode !== 'desc') { mode = 'asc'}
 
   return orderBy(arr, propertyName, mode);
 }

@@ -45,7 +45,12 @@ class PlayersCreate extends Component {
       userRef: this.props.isAuthenticated,
       name: this.state.newPlayerName,
       rating: 1000,
-      avatarUrl: this.state.newPlayerAvatarUrl
+      ratingSingle: 1000,
+      avatarUrl: this.state.newPlayerAvatarUrl,
+      wins: 0,
+      losses: 0,
+      singleWins: 0,
+      singleLosses: 0
     }
 
     this.props.firebase.createPlayer(player)

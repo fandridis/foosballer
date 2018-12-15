@@ -1,6 +1,7 @@
 import React from 'react';
 
 import GlobalStateContext from './context';
+import { withFirebase } from '../Firebase';
 import Loading from '../../components/Loading';
 import { updateMatchAndTournament, calculateNextRound, finishTournament } from '../../utilities/manageTournament';
 
@@ -75,21 +76,46 @@ class GlobalStateProvider extends React.Component {
 
   moveToNextRound = (tournament) => {
     const updatedTournament = calculateNextRound(tournament);
+    const round = tournament.currentRound - 1;
+    this.updateStats(updatedTournament, round);
 
-    this.setState({ ...this.state.tournaments,
-      [this.state.currentTournament.uid]: updatedTournament
-    }, () => console.log('new globalState: ', this.state));
+    this.setState({ ...this.state.tournaments }, () => console.log('new globalState: ', this.state));
+    this.props.firebase.updateTournamentObj(updatedTournament.uid, updatedTournament);
   }
 
   finishTournament = (tournament) => {
     const updatedTournament = finishTournament(tournament);
+    const round = tournament.currentRound;
+    this.updateStats(updatedTournament, round);
 
-    this.setState({ ...this.state.tournaments,
-      [this.state.currentTournament.uid]: updatedTournament
-    }, () => console.log('new globalState: ', this.state));
+    this.setState({ ...this.state.tournaments }, () => console.log('new globalState: ', this.state));
+    this.props.firebase.updateTournamentObj(updatedTournament.uid, updatedTournament);
   }
 
+  updateStats(tournament, round) {
+    let players = this.state.players;
 
+    for (let match of tournament.rounds[round].matches) {
+      if (match.team2 !== 'pass') {
+        let player1team1 = players.find(player => player.uid === match.team1.player1.uid);
+        let player2team1 = players.find(player => player.uid === match.team1.player2.uid);
+        let player1team2 = players.find(player => player.uid === match.team2.player1.uid);
+        let player2team2 = players.find(player => player.uid === match.team2.player2.uid);
+
+        this.updatePlayerEverywhere(player1team1, match.team1.player1);
+        this.updatePlayerEverywhere(player2team1, match.team1.player2);
+        this.updatePlayerEverywhere(player1team2, match.team2.player1);
+        this.updatePlayerEverywhere(player2team2, match.team2.player2);
+      }
+    }
+  }
+
+  updatePlayerEverywhere(oldPlayer, newPlayer) {
+    oldPlayer.rating = newPlayer.rating;
+    oldPlayer.wins = newPlayer.wins;
+    oldPlayer.losses = newPlayer.losses;
+    this.props.firebase.updatePlayerObj(newPlayer.uid, newPlayer);
+  }
 
   reset = () => this.setState({ user: null, players: [], tournaments: [], isLoading: false });
 
@@ -102,5 +128,5 @@ class GlobalStateProvider extends React.Component {
   }
 }
 
-export default GlobalStateProvider;
+export default withFirebase(GlobalStateProvider);
 
