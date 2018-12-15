@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 
 import { withFirebase } from '../../hocs/Firebase';
 import { withGlobalState } from '../../hocs/GlobalState';
+import ActionBar from '../../components/ActionBar';
 import Header from '../../components/Header';
 import TournamentRound from '../../components/TournamentRound';
 import Button from '../../components/CustomButton';
@@ -28,43 +29,69 @@ class TournamentsDetails extends Component {
     // TODO: Think about a better implementation of dealing with browser back/forward buttons
     if (!this.props.location.tournament) { return this.props.history.goBack(); }
 
-    this.props.globalState.setCurrentTournamentId(this.props.match.params.id);
-
     this.setState({
-      tournament: this.props.location.tournament,
-      roundsAllIndexes: Object.keys(this.props.location.tournament.rounds).reverse()
+      tournament: this.props.globalState.currentTournament,
+      roundsAllIndexes: Object.keys(this.props.globalState.currentTournament.rounds).reverse()
     }, () => {
       console.log('this.state: ', this.state);
     });
   }
 
-  handleNextRound = () => {
+  static getDerivedStateFromProps(nextProps, prevState) {
+    console.log('nextProps: ', nextProps);
+
+    // do things with nextProps.someProp and prevState.cachedSomeProp
+    return {
+      cachedSomeProp: nextProps.someProp,
+    };
+  }
+
+  handleNextRound = (tournament) => {
     console.log('Moving to next round');
-    this.props.globalState.moveToNextRound(this.state.tournament)
+    this.props.globalState.moveToNextRound(tournament)
+  }
+
+  handleFinishTournament = (tournament) => {
+    console.log('Finishing the tournament');
+    this.props.globalState.finishTournament(tournament)
   }
 
   onBack = () => this.props.history.goBack();
 
   render() {
+    console.log('Rerendering TournamentDetails');
+    const currentTournament = this.props.globalState.currentTournament;
+    const roundsAllIndexes = this.props.globalState.currentTournament
+      ? Object.keys(this.props.globalState.currentTournament.rounds).reverse()
+      : []
+
     return (
       <div className="TournamentsDetails-page">
-        <Header>{this.state.tournament && this.state.tournament.name}</Header>
+        <Header>{currentTournament && currentTournament.name}</Header>
+
+        {
+          currentTournament && currentTournament.rounds[roundsAllIndexes.length].matchesRemaining === 0
+            ? currentTournament.matchesRemaining > 0
+              ? <ActionBar color="primary" onClick={() => this.handleNextRound(currentTournament)}>START NEXT ROUND</ActionBar>
+              : !currentTournament.winner
+                ? <ActionBar color="primary" onClick={() => this.handleFinishTournament(currentTournament)}>FINISH TOURNAMENT</ActionBar>
+                : ''
+            : ''
+        }
 
         <div className="TournamentsDetails-list">
-
-          {
-            this.state.tournament && this.state.tournament.rounds[this.state.roundsAllIndexes.length].matchesRemaining === 0
-              ? <h2 onClick={() => this.handleNextRound()}>NEXT ROUND //TODO: Buttonify me!</h2>
-              : ''
-          }
           { 
-            this.state.roundsAllIndexes.map((round, i) => {
+            roundsAllIndexes.map((round, i) => {
               return (
                 <TournamentRound 
                   key={i}
-                  round={this.state.tournament.rounds[round]}
-                  roundNumber={i}
-                  clickable={i <= this.state.tournament.currentRound ? true : false}
+                  round={currentTournament.rounds[round]}
+                  clickable={currentTournament.winner
+                    ? false
+                    : currentTournament.rounds[round].number == roundsAllIndexes[0]
+                      ? true
+                      : false
+                  }
                 />
               );
             })

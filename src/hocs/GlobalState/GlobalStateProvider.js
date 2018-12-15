@@ -2,7 +2,7 @@ import React from 'react';
 
 import GlobalStateContext from './context';
 import Loading from '../../components/Loading';
-import { updateMatchAndTournament, calculateNextRound } from '../../utilities/manageTournament';
+import { updateMatchAndTournament, calculateNextRound, finishTournament } from '../../utilities/manageTournament';
 
 class GlobalStateProvider extends React.Component {
   constructor(props) {
@@ -29,14 +29,15 @@ class GlobalStateProvider extends React.Component {
       })),
       _addTournament: (tournament) => this.setState(prevState => ({ tournaments: [ tournament , ...prevState.tournaments ] })),
 
-      currentTournamentId: null,
-      setCurrentTournamentId: (currentTournamentId) => this.setState({ currentTournamentId }),
+      currentTournament: null,
+      setCurrentTournament: (currentTournament) => this.setState({ currentTournament }),
 
       currentMatchIndex: null,
       SetCurrentMatchIndex: (currentMatchIndex) => this.setState({ currentMatchIndex }),
 
       resolveMatch: this.resolveMatch,
       moveToNextRound: this.moveToNextRound,
+      finishTournament: this.finishTournament,
 
       isLoading: false,
       startLoading: () => this.setState({ isLoading: true }),
@@ -54,18 +55,17 @@ class GlobalStateProvider extends React.Component {
 
   resolveMatch = (data) => {
     const { match, matchIndex, winner, clickable, isPreviouslyResolved } = data;
-    console.log('clickable: ', clickable);
-    console.log('isPreviouslyResolved: ', isPreviouslyResolved);
-    if (!match || (match.winner && !clickable)) { return console.log('Winner already announced or no match param') }
+
+    if (!clickable || match.team2 === 'pass') { return console.log('Cannot change this.') }
 
     if (window.confirm(`You are about to mark team-${winner} as the winner.`)) { 
-      const tournament = this.state.tournaments[this.state.currentTournamentId];
+      const tournament = this.state.currentTournament;
       const winningTeamIndex = winner === 1 ? match.team1.index : data.match.team2.index
 
       const updatedTournament = updateMatchAndTournament({ tournament, matchIndex, winningTeamIndex, isPreviouslyResolved })
  
       this.setState({ ...this.state.tournaments,
-        [this.state.currentTournamentId]: updatedTournament
+        [this.state.currentTournament.uid]: updatedTournament
       }, () => console.log('new globalState: ', this.state));
     }
     else {
@@ -77,7 +77,15 @@ class GlobalStateProvider extends React.Component {
     const updatedTournament = calculateNextRound(tournament);
 
     this.setState({ ...this.state.tournaments,
-      [this.state.currentTournamentId]: updatedTournament
+      [this.state.currentTournament.uid]: updatedTournament
+    }, () => console.log('new globalState: ', this.state));
+  }
+
+  finishTournament = (tournament) => {
+    const updatedTournament = finishTournament(tournament);
+
+    this.setState({ ...this.state.tournaments,
+      [this.state.currentTournament.uid]: updatedTournament
     }, () => console.log('new globalState: ', this.state));
   }
 

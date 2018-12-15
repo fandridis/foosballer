@@ -43,6 +43,8 @@ class Tournaments extends Component {
    * Open the TournamentsDetails page for editing a player.
    */
   handleViewTournament = tournament => {
+    this.props.globalState.setCurrentTournament(tournament);
+
     return this.props.history.push({
       pathname: `/tournaments/${tournament.uid}`,
       tournament

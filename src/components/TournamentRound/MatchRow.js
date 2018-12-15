@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import dayjs from 'dayjs';
@@ -58,7 +58,7 @@ const TeamRight = styled(Team)`
 background-color: ${props => props.winner ? colors.normal.secondary : 'white'};
 `
 
-const MatchRow = memo((props) => {
+const MatchRow = props => {
 	console.log('Props @ MatchRow: ', props);
 	return (
 		<Row>
@@ -90,7 +90,7 @@ const MatchRow = memo((props) => {
 		</Row>
 	);
 	
-});
+};
 
 // TournamentRow.propTypes = {
 //   player: PropTypes.shape({

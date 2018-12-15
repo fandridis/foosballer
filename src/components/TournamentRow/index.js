@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import dayjs from 'dayjs';
@@ -69,13 +69,13 @@ color: ${colors.normal.greyText40}
 `
 
 
-const TournamentRow = memo((props) => {
-	console.log('Props: ', props);
+const TournamentRow = props => {
+	console.log('Props @ TournamentRow: ', props);
 	return (
 		<Row selectable={props.selectable} selected={props.selected} >
 			<LeftSide>
 				<Name>
-					{props.tournament.name || 'No name'}
+					{props.tournament.name} {props.tournament.winner ? '(Winner: ' + props.tournament.winner +')' : ''}
 				</Name>
 
 				<Divider color={'greyText40'} height={1.5} widthPerc='75' marginTop={'5'} marginBottom={'10'} />
@@ -95,7 +95,7 @@ const TournamentRow = memo((props) => {
 		</Row>
 	);
 	
-});
+};
 
 TournamentRow.propTypes = {
   player: PropTypes.shape({

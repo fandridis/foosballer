@@ -1,8 +1,9 @@
-import React, { memo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 // import dayjs from 'dayjs';
 
+import { withGlobalState } from '../../hocs/GlobalState';
 import IconButton from '../IconButton';
 import Divider from '../Divider';
 import MatchRow from './MatchRow';
@@ -12,12 +13,12 @@ const H1 = styled.h1`
 color: ${colors.normal.darkText}
 `
 
-const TournamentRound = memo((props) => {
+const TournamentRound = props => {
 	console.log('Props @ TournamentRound: ', props);
 	return (
 		<div >
 		 <H1>
-       Round {props.roundNumber + 1} {
+       Round {props.round.number} {
         props.round.matchesRemaining > 1
           ? ' (' + props.round.matchesRemaining + ' matches remaining)'
           : ' (' + props.round.matchesRemaining + ' match remaining)'
@@ -41,7 +42,7 @@ const TournamentRound = memo((props) => {
 		</div>
 	);
 	
-});
+};
 
 // TournamentRow.propTypes = {
 //   player: PropTypes.shape({
@@ -62,4 +63,4 @@ const TournamentRound = memo((props) => {
 // 	selected: false,
 // };
 
-export default TournamentRound;
+export default withGlobalState(TournamentRound);
