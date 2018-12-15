@@ -5,10 +5,8 @@ import { withRouter } from 'react-router-dom';
 import { withFirebase } from '../../hocs/Firebase';
 import { withGlobalState } from '../../hocs/GlobalState';
 import Button from '../../components/CustomButton';
-import Loading from '../../components/Loading';
 import MenuBar from '../../components/MenuBar'
 import TournamentRow from '../../components/TournamentRow';
-
 
 import './index.css';
 import Header from "../../components/Header";
@@ -19,13 +17,18 @@ class Tournaments extends Component {
 
     this.state = {
       tournaments: null,
+      tournamentsAllIds: [],
       isLoading: false
     };
   }
 
   componentDidMount() {
     console.log('DidMount @ Tournaments: ', this.props);
-    this.setState({ tournaments: this.props.globalState.tournaments });
+    this.setState({
+      tournaments: this.props.globalState.tournaments,
+      tournamentsAllIds: this.props.globalState.tournamentsAllIds
+    });
+
     this.props.globalState.stopLoading();
   }
 
@@ -33,51 +36,44 @@ class Tournaments extends Component {
    * Open the PlayersCreate page for creating a new player.
    */
   handleAddTournament = () => { 
-    return this.props.history.push('/tournaments/create')
+    return this.props.history.push('/tournaments/create');
   }
   
   /**
-   * Open the PlayersEdit page for editing a player.
+   * Open the TournamentsDetails page for editing a player.
    */
-  handleEditPlayer = player => {
+  handleViewTournament = tournament => {
+    this.props.globalState.setCurrentTournament(tournament);
+
     return this.props.history.push({
-      pathname: `/players/edit/${player.uid}`,
-      player: player
+      pathname: `/tournaments/${tournament.uid}`,
+      tournament
     });
   }
 
-  /**
-   * Delete a player document from the database.
-   */
-  handleRemovePlayer = playerId => {
-    this.props.firebase.removePlayer(playerId)
-      .then(() => console.log('Player removed successfully'))
-      .catch(err => console.log('err: ', err))
-  }
-
-  renderLoading() {
-    return (
-      <Loading />
-    )
-  }
-
   render() {
-    if (this.props.globalState.isLoading) { return this.renderLoading(); }
+    if (this.props.globalState.isLoading) { return this.props.globalState.renderLoading(); }
 
     return (
       <div className="Tournaments-page">
         <Header>Tournaments</Header>
 
-        { 
-          this.state.tournaments && this.state.tournaments.map(tournament => {
-            return (
-              <TournamentRow 
-                key={tournament.uid}
-                tournament={tournament}
-              />
-            );
-          })
-        }
+        <div className="Tournaments-list">
+          { 
+            this.state.tournamentsAllIds.map(tournamentId => {
+              const tournament = this.state.tournaments[tournamentId];
+              return (
+                <div key={tournamentId} onClick={() => { this.handleViewTournament(tournament) }}>
+                  
+                    <TournamentRow 
+                      tournament={tournament}
+                    />
+                  
+                </div>
+              );
+            })
+          }
+        </div>
 
         <div className="Tournaments-footer">
           <Button onClick={() => this.handleAddTournament()}>NEW TOURNAMENT</Button>

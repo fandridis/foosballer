@@ -1,6 +1,7 @@
-import React, { memo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import dayjs from 'dayjs';
 
 import IconButton from '../IconButton';
 import Divider from '../Divider';
@@ -9,7 +10,7 @@ import { colors } from '../../css/Variables';
 
 const Row = styled.div`
 position: relative;
-
+margin-bottom: 16px;
 width: 95vw;
 height: 120px;
 
@@ -17,13 +18,11 @@ display: flex;
 justify-content: space-around;
 align-items: space-between;
 
-margin-bottom: 16px;
-
 border-radius: 25px;
 box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
 
 // opacity: ${props => props.selectable ? props.selected ? 1 : 0.4 : 1 };
-background-color: white};
+background-color: white;
 // filter: grayscale(${props => props.selectable ? props.selected ? '0%' : '100%' : '0%'});
 `
 
@@ -47,7 +46,7 @@ const Name = styled.h3`
 margin: 0;
 padding: 0;
 font-weight: 800;
-font-size: 22px;
+font-size: 20px;
 color: ${colors.normal.darkText}
 `
 
@@ -63,32 +62,32 @@ font-size: 16px;
 `
 
 const Label = styled.p`
-// width: 130px;
+// width: 250px;
 margin-right: 10px;
 font-size: 16px;
 color: ${colors.normal.greyText40}
 `
 
 
-const TournamentRow = memo((props) => {
-	console.log('Rendering')
+const TournamentRow = props => {
+	console.log('Props @ TournamentRow: ', props);
 	return (
 		<Row selectable={props.selectable} selected={props.selected} >
 			<LeftSide>
 				<Name>
-					{props.tournament.name || 'No name'}
+					{props.tournament.name} {props.tournament.winner ? '(Winner: ' + props.tournament.winner +')' : ''}
 				</Name>
 
 				<Divider color={'greyText40'} height={1.5} widthPerc='75' marginTop={'5'} marginBottom={'10'} />
 
 				<Info>
-					<Label>Started: </Label><Text>{props.tournament.startedAt || 'No date'}</Text>
+					<Label>Started: </Label><Text>{ dayjs(props.tournament.createdAt).format('MMM DD, YYYY') || 'No date'}</Text>
 				</Info>
 				<Info>
-					<Label>Games Remaining: </Label><Text>{'3'}</Text>
+					<Label>Remaining matches: </Label><Text>{props.tournament.matchesRemaining}</Text>
 				</Info>
 			</LeftSide>
-			
+
 			<RightSide>
 				<IconButton icon='pencil-alt' onClick={() => {}} />
 				<IconButton icon='trash-alt'  onClick={() => {}} />
@@ -96,7 +95,7 @@ const TournamentRow = memo((props) => {
 		</Row>
 	);
 	
-});
+};
 
 TournamentRow.propTypes = {
   player: PropTypes.shape({

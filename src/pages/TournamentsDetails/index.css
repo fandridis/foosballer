@@ -1,14 +1,14 @@
-.Tournaments-page {
+.TournamentsDetails-page {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
 
-.Tournaments-list {
+.TournamentsDetails-list {
 	margin-bottom: 150px;
 }
 
-.Tournaments-footer {
+.TournamentsDetails-footer {
 	position: fixed;
 	bottom: 80px;
 	display: flex;

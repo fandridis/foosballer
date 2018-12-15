@@ -14,6 +14,7 @@ import PlayersEdit from '../pages/PlayersEdit';
 import Settings from '../pages/Settings';
 import Tournaments from '../pages/Tournaments';
 import TournamentsCreate from '../pages/TournamentsCreate';
+import TournamentsDetails from '../pages/TournamentsDetails';
 import NotFound from '../pages/NotFound';
 
 import { AuthenticatedRoute, UnauthenticatedRoute } from "../hocs/RouteWrappers";
@@ -27,6 +28,7 @@ export default ({ childProps }) =>
     <AuthenticatedRoute path={'/'} exact component={Tournaments} props={childProps} />
     <AuthenticatedRoute path={'/tournaments'} exact component={Tournaments} props={childProps} />
     <AuthenticatedRoute path={'/tournaments/create'} exact component={TournamentsCreate} props={childProps} />
+    <AuthenticatedRoute path={'/tournaments/:id'} exact component={TournamentsDetails} props={childProps} />
 
     <AuthenticatedRoute path={'/admin'} exact component={Admin} props={childProps} />
     <AuthenticatedRoute path={'/account'} exact component={Account} props={childProps} />

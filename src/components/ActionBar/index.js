@@ -5,10 +5,10 @@ import { colors } from '../../css/Variables';
 
 const Div = styled.div`
 position: sticky;
-top: 0;
-z-index: 1;
+bottom: 0;
+z-index: 2;
 
-margin-bottom: 60px;
+margin-top: 10px;
 
 width: 100%;
 height: 90px;
@@ -17,16 +17,16 @@ display: flex;
 justify-content: center;
 align-items: center;
 
-color: ${colors.normal.lightText};
+color: ${colors.normal.white};
 font-weight: 800;
 font-size: 40px;
 
-background-color: ${colors.normal.darkText}
+background-color: ${props => colors.normal[props.color]}
 `
 
-const Header = (props) => {
+const ActionBar = (props) => {
   return (
-    <Div>
+    <Div color={props.color} onClick={() => props.onClick()}>
       {props.children}
     </Div>
   );
@@ -40,4 +40,4 @@ const Header = (props) => {
 //   // marginTop: '0',
 // };
 
-export default Header;
+export default ActionBar;

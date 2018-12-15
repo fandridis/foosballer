@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { withFirebase } from '../../hocs/Firebase';
 import { withGlobalState } from '../../hocs/GlobalState';
 import { generateTournamentName } from '../../utilities/generators';
+import { calculateTeams } from '../../utilities/manageTournament';
 import Button from '../../components/CustomButton';
 import Divider from '../../components/Divider';
 import IconButton from '../../components/IconButton';
@@ -51,6 +52,7 @@ class PlayersCreate extends Component {
     this.state = {
       newTournamentName: '',
       newTournamentType: 'knockout',
+      randomTeams: true,
       playersAll: [],
       playerIdsSelected: [],
 
@@ -71,14 +73,11 @@ class PlayersCreate extends Component {
   }
 
   togglePlayerSelect = (playerId) => {
-    console.log('Toggle ', playerId);
     let playerIdsSelected = [...this.state.playerIdsSelected];
     if (!playerIdsSelected.includes(playerId)) {
-      console.log('adding it');
       playerIdsSelected.push(playerId);
     }
     else {
-      console.log('removing it')
       playerIdsSelected = playerIdsSelected.filter(id => id !== playerId);
     }
 
@@ -88,7 +87,6 @@ class PlayersCreate extends Component {
   onDone = () => {
     console.log('Creating a tourney');
     console.log('this.state: ', this.state);
-    
 
     const tournament = {
       userRef: this.props.isAuthenticated,
@@ -96,22 +94,87 @@ class PlayersCreate extends Component {
       createdAt: Date.now()
     }
 
-    this.props.firebase.createTournament(tournament)
+    const players = this.state.playersAll.filter(player => this.state.playerIdsSelected.indexOf(player.uid) > -1);
+    const teams = calculateTeams(players);
+    const tourDetails = { name: this.state.newTournamentName, type: this.state.newTournamentType }
+    
+    fetch("https://us-central1-foosballer-8c110.cloudfunctions.net/initializeTournament", {
+      method: "POST",
+      body: JSON.stringify({ 
+        tourDetails: tourDetails,
+        teams: teams
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log('res: ', data);
+      data.tourney.userRef = this.props.isAuthenticated;
+      data.tourney.createdAt = Date.now();
+            
+      this.props.firebase.createTournament(data.tourney)
       .then((res) => {
-        console.log('Tournament added successfully');
-        tournament.uid = res.id;
-        this.props.globalState.addTournament(tournament);
-        this.setState({ isLoading: false, step: 2 }, () => { });
+        console.log('Tournament added successfully: ', data);
+        data.tourney.uid = res.id;
+        this.props.globalState.addTournament(data.tourney);
+        this.setState({ isLoading: false }, () => {
+          this.props.history.push(`/tournaments`);
+        });
       })
       .catch(err => { 
         console.log('err: ', err)
         this.setState({ isLoading: false });
       })
+
+
+    })
+    .catch(err => console.log('err: ', err))
+  }
+
+  onTypeSelect = (type) => {
+    console.log('type selected: ', type);
+    this.setState({ newTournamentType: type });
+  }
+
+  onRandomTeamsSelect = (type) => {
+    this.setState({ randomTeams: type })
   }
 
   onNext = () => this.setState(prevState => ({ step: prevState.step + 1 }));
-  onBack = () => this.setState({ step: 1 });
+  onBack = () => this.setState(prevState => ({ step: prevState.step - 1 }));
   onCancel = () => this.props.history.goBack();
+
+  renderStepThree() {
+    return (
+      <div className="TournamentsCreate-page">
+        <Header>New Tournament</Header>
+        
+        <Text>Select Tournament Type</Text>
+        <Divider rounded color='primary' widthPx='120' marginBottom='30' />
+
+        <TournamentTypes>
+          <Option selected={this.state.randomTeams} onClick={() => this.onRandomTeamsSelect(true)}>Random</Option>
+          <Option selected={!this.state.randomTeams} onClick={() => this.onRandomTeamsSelect(false)}>Select</Option>
+        </TournamentTypes>
+
+        {
+          this.state.randomTeams
+            ? <InfoBox>
+                The system will generate random teams.
+              </InfoBox>
+            : <InfoBox>
+                You will choose the players of each team.
+              </InfoBox>
+
+
+        }
+
+        <div className="TournamentsCreate-footer">
+          <Button onClick={() => this.onDone() }>Done</Button>
+          <Button inverted onClick={() => this.onBack()}>Back</Button>
+        </div>
+      </div>
+    )
+  }
   
   renderStepTwo() {
     return (
@@ -149,16 +212,11 @@ class PlayersCreate extends Component {
         </div>
 
         <div className="TournamentsCreate-footer">
-          <Button onClick={() => this.onDone() }>Done</Button>
+          <Button onClick={() => this.onNext()}>Next</Button>
           <Button inverted onClick={() => this.onBack()}>Back</Button>
         </div>
       </div>
     );
-  }
-
-  onTypeSelect = (type) => {
-      console.log('type selected: ', type);
-      this.setState({ newTournamentType: type });
   }
 
   renderStepOne() {
@@ -201,6 +259,7 @@ class PlayersCreate extends Component {
   render() {
     if (this.state.step === 1) { return this.renderStepOne() }
     else if (this.state.step === 2) { return this.renderStepTwo() }
+    else if (this.state.step === 3) { return this.renderStepThree() }
   }
 }
 

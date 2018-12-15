@@ -39,12 +39,13 @@ class App extends Component {
   }
 
   initializeApp = async () => {
-    console.log('Initializing app');
+    this.setState({ isLoading: true });
+    console.log('----- Initializing app -----');
 
     if (this.state.playersLoading) {
-      console.log('Gotta fetch players');
+      console.log('Fetching players');
       const data = await this.props.firebase.getPlayers(this.state.user.uid);
-      console.log('data: ', data);
+      console.log('Fetched Players');
       let players = [];
 
       for (let doc of data.docs) {
@@ -55,25 +56,26 @@ class App extends Component {
     }
 
     if (this.state.tournamentsLoading) {
-      console.log('Gotta fetch tournaments');
+      console.log('Fetching tournaments');
       const data = await this.props.firebase.getTournaments(this.state.user.uid);
-      console.log('data: ', data);
-      let tournaments = [];
+      console.log('Fetched tournaments')
+      let tournaments = {};
+      let tournamentsAllIds = [];
 
       for (let doc of data.docs) {
-        tournaments.push({ ...doc.data(), uid: doc.id });
+        tournaments[doc.id] = { ...doc.data(), uid: doc.id };
+        tournamentsAllIds.push(doc.id);
       }
 
       this.props.globalState.setTournaments(tournaments);
+      this.props.globalState.setTournamentsAllIds(tournamentsAllIds);
     }
 
     this.setState({ isLoading: false });
   }
 
   resetApp = () => {
-    console.log('Resetting app');
     this.props.globalState.reset();
-
     this.setState({ isLoading: false });
   }
 
@@ -87,7 +89,6 @@ class App extends Component {
               if (res.exists) {
                 // User doc found in database - updating the state
                 this.setState({ user: res.data() }, () => {
-                  // this.subscribeToPlayers();
                   console.log('user:', this.state.user);
                   this.initializeApp();
                 });             
@@ -97,7 +98,6 @@ class App extends Component {
                 this.props.firebase.createUser({ email: authUser.email, uid: authUser.uid })
                   .then(() => {
                     this.setState({ user: { email: authUser.email, uid: authUser.uid } }, () => {
-                      // this.subscribeToPlayers();
                     })
                   }).catch(err => console.log(err));
               }
@@ -113,30 +113,29 @@ class App extends Component {
     })
   }
 
-  subscribeToPlayers() {
-    return new Promise((resolve, reject) => {
-      console.log('Subscribing to players of user: ', this.state.user);
-      this.unsubscribeToPlayers = this.props.firebase.db.collection("players")
-        .where("userRef", "==", this.state.user.uid)
-        .orderBy('name')
-        .onSnapshot((querySnapshot) => {
-          let players = [];
-          querySnapshot.forEach((doc) => {
-              players.push( { ...doc.data(), uid: doc.id });
-          });
-          // this.setState({ players });
-          console.log('players: ', players);
-          this.props.globalState.setPlayers(players);
-          resolve(players);
-        });
-    });
-  }
+  /**
+   * Not used, but kept as an example for realtime subsription to db
+   */
+  // subscribeToPlayers() {
+  //   return new Promise((resolve, reject) => {
+  //     console.log('Subscribing to players of user: ', this.state.user);
+  //     this.unsubscribeToPlayers = this.props.firebase.db.collection("players")
+  //       .where("userRef", "==", this.state.user.uid)
+  //       .orderBy('name')
+  //       .onSnapshot((querySnapshot) => {
+  //         let players = [];
+  //         querySnapshot.forEach((doc) => {
+  //             players.push( { ...doc.data(), uid: doc.id });
+  //         });
+  //         // this.setState({ players });
+  //         console.log('players: ', players);
+  //         this.props.globalState.setPlayers(players);
+  //         resolve(players);
+  //       });
+  //   });
+  // }
 
-  renderLoading() {
-    return (
-      <Loading />
-    )
-  }
+  renderLoading() { return ( <Loading /> )}
 
   render() {
     if (this.state.isLoading) { return this.renderLoading() }

@@ -36,7 +36,7 @@ export function generateAvatarUrl() {
 }
 
 export function generateTournamentName() {
-  const first = ['Dangerous', 'Amazing', 'Fiery', 'Wrecking', 'Unstoppable', 'Dynamite', 'Lengendary', 'Outstanding']
+  const first = ['Dangerous', 'Amazing', 'Drunk', 'Fiery', 'Wrecking', 'Unstoppable', 'Dynamite', 'Legendary', 'Outstanding']
   const second = ['reverse', 'Angelina', 'george', 'glue', 'budapest', 'scoop', 'jam', 'cowslide', 'muppets', 'titanium wall']
 
   const randFirst = first[randomInt(0, first.length - 1)];
