@@ -19,10 +19,13 @@ color: ${colors.normal.greyText};
 background-image: url("src/assets/images/background.png")
 `
 const randomText = [
-  "Just one more second..", 
-  "Still loading..",
-  "Keeps loading...",
-  "..."
+  "Here could be your advertisement!", 
+  "Creating randomly generated feature",
+  "Does anyone actually read this",
+  "Ensuring everything works perfektly",
+  "Field watering with the beer time!",
+  "If at first you don't succeed, skydiving is not for you",
+  "Only a couple of more hours!"
 ];
 const GetRandomTextMethod = () => {
    return randomText[Math.floor(Math.random()*randomText.length)];

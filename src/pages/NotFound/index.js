@@ -3,7 +3,7 @@ import './index.css';
 import  CustomButton from '../../components/CustomButton';
 import { withRouter } from 'react-router-dom';
 
-import Error from "../../assets/images/error.png";
+// import Error from "../../assets/images/error.png";
 
 const NotFound = (props) => {
   return (
