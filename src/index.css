@@ -5,9 +5,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #EAFFFA;
-}
-.CurrentPage {
-  background-color:rgba(8, 159, 137, 1);
+  background-image: url("assets/images/background.png");
+  background-position: center top;
+  background-size: 100% 100%;
+  background-attachment: fixed;
 }
 .PageGraphics {
   position: absolute;
