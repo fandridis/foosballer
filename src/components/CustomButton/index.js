@@ -14,20 +14,22 @@ font-family: 'Dosis', sans-serif;
 font-weight: 800;
 font-size: 12px;
 transition: .3s;
+
+opacity: ${props => props.disabled ? 0.5 : 1};
 `
 
 const Button = styled(BasicButton)`
-box-shadow: 0 3px 6px ${props => colors.normal[`${props.color}40`]};
-background-color: ${props => colors.normal[props.color]};
-color: ${colors.normal.lightText};
+	box-shadow: 0 3px 6px ${props => colors.normal[`${props.color}40`]};
+	background-color: ${props => colors.normal[props.color]};
+	color: ${colors.normal.lightText};
 
-&:hover {
-	background: ${props => colors.darker[props.color]};
-	cursor: pointer;
-  }
-  &:focus {
-	background: ${props => colors.darker[props.color]};
-  }
+// &:hover {
+// 	background: ${props => colors.darker[props.color]};
+// 	cursor: pointer;
+//   }
+//   &:focus {
+// 	background: ${props => colors.darker[props.color]};
+//   }
 `
 
 const InvertedButton = styled(BasicButton)`
@@ -36,14 +38,14 @@ border: 2px solid ${props => colors.normal[props.color]};
 background-color: white;
 color: ${props => colors.normal[props.color]};
 
-&:hover {
-	background: ${props => colors.normal[props.color]};
-	color: white;
-	cursor: pointer;
-  }
-  &:focus {
-	background: ${props => colors.darker[props.color]};
-	color: white;
+// &:hover {
+// 	background: ${props => colors.normal[props.color]};
+// 	color: white;
+// 	cursor: pointer;
+//   }
+//   &:focus {
+// 	background: ${props => colors.darker[props.color]};
+// 	color: white;
   }
 `
 
