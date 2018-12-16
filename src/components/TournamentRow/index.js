@@ -57,7 +57,7 @@ font-size: 18px;
 color: ${colors.normal.darkText}
 `
 const Text = styled.p`
-width: 160px;
+// width: 160px;
 font-size: 16px;
 color: ${props => props.type === 'winner' ? colors.normal.primary : props.type === 'date' ? colors.normal.darkText : colors.normal.orange}
 `
