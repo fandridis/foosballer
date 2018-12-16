@@ -20,7 +20,7 @@ class Settings extends Component {
       <div className='Settings-page'>
         <Header>Settings</Header>
 
-        <InfoBox textColor='orange'>There will be more settings in the future. Promise!</InfoBox>
+        <InfoBox>There will be more settings in the future. Promise!</InfoBox>
 
         <div className="Settings-footer">
         <Button color='orange' onClick={() => this.props.firebase.doLogout()}>Logout</Button>

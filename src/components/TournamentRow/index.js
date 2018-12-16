@@ -57,8 +57,9 @@ font-size: 18px;
 color: ${colors.normal.darkText}
 `
 const Text = styled.p`
-width: 100px;
+width: 160px;
 font-size: 16px;
+color: ${props => props.type === 'winner' ? colors.normal.primary : props.type === 'date' ? colors.normal.darkText : colors.normal.orange}
 `
 
 const Label = styled.p`
@@ -81,20 +82,19 @@ const TournamentRow = props => {
 				<Divider color={'greyText40'} height={1.5} widthPerc='75' marginTop={'5'} marginBottom={'10'} />
 
 				<Info>
-					<Label>Started: </Label><Text>{ dayjs(props.tournament.createdAt).format('MMM DD, YYYY') || 'No date'}</Text>
+					<Label>Started: </Label><Text type='date'>{ dayjs(props.tournament.createdAt).format('MMM DD, YYYY') || 'No date'}</Text>
 				</Info>
 				<Info>
 					{
 						!props.tournament.winner
-							? <><Label>Remaining matches: </Label><Text>{props.tournament.matchesRemaining}</Text></>
-							: <><Label>Winner: </Label><Text>{props.tournament.winner}</Text></>
+							? <><Label>Remaining matches: </Label><Text type='remainingMatches'>{props.tournament.matchesRemaining}</Text></>
+							: <><Label>Winner: </Label><Text type='winner'>{props.tournament.winner}</Text></>
 					}
 				</Info>
 			</LeftSide>
 
 			<RightSide>
-				<IconButton icon='pencil-alt' onClick={() => {}} />
-				<IconButton icon='trash-alt'  onClick={() => {}} />
+				<IconButton icon='sync-alt' onClick={() => {}} />
 			</RightSide>
 		</Row>
 	);

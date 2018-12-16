@@ -39,13 +39,13 @@ const Team = styled.div`
 	width: 50%;
 	height: 100%;
 	display: flex;
-	justify-content: center;
-	align-items: center;
+	flex-direction: column;
+	justify-content: space-evenly;
 
 	border-radius: 25px;
 	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
 	color: ${colors.normal.darkText};
-	font-size: 24px;
+	font-size: 22px;
 	font-weight: 500;
 `
 
@@ -54,7 +54,15 @@ const TeamLeft = styled(Team)`
 `
 
 const TeamRight = styled(Team)`
-background-color: ${props => props.winner ? colors.normal.secondary : 'white'};
+	text-align: right;
+	background-color: ${props => props.winner ? colors.normal.secondary : 'white'};
+`
+
+const PlayerName = styled.p`
+color: ${colors.normal.darkText};
+font-weight: 900;
+padding-left: 15px;
+padding-right: 15px;
 `
 
 const MatchRow = props => {
@@ -71,7 +79,8 @@ const MatchRow = props => {
 					isPreviouslyResolved: props.match.winner !== null ? true : false
 				})}
 				>
-				{props.match.team1.name}
+				<PlayerName>{props.match.team1.player1.name}</PlayerName>
+				<PlayerName>{props.match.team1.player2.name}</PlayerName>
 			</TeamLeft>
 			<VS>VS</VS>
 			<TeamRight 
@@ -84,7 +93,11 @@ const MatchRow = props => {
 					isPreviouslyResolved: props.match.winner !== null ? true : false
 				})}
 			>
-				{props.match.team2.name || 'FREE-PASS'}
+			{ !props.match.team2.player1
+				? <PlayerName>FREE PASS</PlayerName>
+				: <><PlayerName>{props.match.team2.player1.name}</PlayerName>
+					<PlayerName>{props.match.team2.player2.name}</PlayerName></>
+			}
 			</TeamRight>
 		</Row>
 	);

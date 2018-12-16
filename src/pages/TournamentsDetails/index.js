@@ -7,6 +7,7 @@ import ActionBar from '../../components/ActionBar';
 import Header from '../../components/Header';
 import TournamentRound from '../../components/TournamentRound';
 import Button from '../../components/CustomButton';
+import InfoBox from '../../components/InfoBox';
 
 import './index.css';
 
@@ -68,22 +69,18 @@ class TournamentsDetails extends Component {
       <div className="TournamentsDetails-page">
         <Header>{currentTournament && currentTournament.name}</Header>
 
-        {
+        {/* {
           currentTournament && currentTournament.winner
             ? <div className="TournamentDetais-winnerWrapper">
                 <h2 className="TournamentDetais-winnerTitle">Finished! Winner:</h2>
                 <h1 className="TournamentDetais-winnerName">{currentTournament.winner}</h1>
             </div>
             : ''
-        }
+        } */}
 
         {
-          currentTournament && currentTournament.rounds[roundsAllIndexes.length].matchesRemaining === 0
-            ? currentTournament.matchesRemaining > 0
-              ? <ActionBar color="primary" onClick={() => this.handleNextRound(currentTournament)}>START NEXT ROUND</ActionBar>
-              : !currentTournament.winner
-                ? <ActionBar color="primary" onClick={() => this.handleFinishTournament(currentTournament)}>FINISH TOURNAMENT</ActionBar>
-                : ''
+          currentTournament && currentTournament.winner
+            ? <InfoBox>This tournament has finished! Winning team: {currentTournament.winner}</InfoBox>
             : ''
         }
 
@@ -109,6 +106,16 @@ class TournamentsDetails extends Component {
         <div className="TournamentsDetails-footer">
           <Button onClick={() => this.onBack()}>Back</Button>
         </div>
+
+        {
+          currentTournament && currentTournament.rounds[roundsAllIndexes.length].matchesRemaining === 0
+            ? currentTournament.matchesRemaining > 0
+              ? <ActionBar color="orange" onClick={() => this.handleNextRound(currentTournament)}>START NEXT ROUND</ActionBar>
+              : !currentTournament.winner
+                ? <ActionBar color="orange" onClick={() => this.handleFinishTournament(currentTournament)}>FINISH TOURNAMENT</ActionBar>
+                : ''
+            : ''
+        }
       </div>
     )
   }
