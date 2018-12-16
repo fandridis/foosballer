@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { withFirebase } from '../../hocs/Firebase';
 import { withGlobalState } from '../../hocs/GlobalState';
 import CustomButton from '../../components/CustomButton';
+import './index.css';
 
 class Login extends Component {
   constructor(props) {
@@ -48,36 +49,35 @@ class Login extends Component {
     const isInvalid = password === '' || email === '';
 
     return (
-      <Fragment>
-        <h3>Login</h3>
-
-        <form onSubmit={this.onSubmit}>
+      <div className="Login-Page">
+        <form className="Login-Form" onSubmit={this.onSubmit}>
           <input
             name="email"
             value={email}
             onChange={this.onChange}
             type="email"
-            placeholder="Email Address"
+            placeholder="email"
+            required={true}
           />
           <input
             name="password"
             value={password}
             onChange={this.onChange}
             type="password"
-            placeholder="Password"
+            placeholder="password"
+            required={true}
           />
           {/* <button disabled={isInvalid} type="submit">
             Login
           </button> */}
-          <CustomButton disabled={isInvalid} type="submit" text="Login" />
-
           {error && <p>{error.message}</p>}
+          <CustomButton disabled={isInvalid} type="submit" >LOGIN</CustomButton>
         </form>
-
-        <p>Don't have an account?<Link to={'/signup'}>Sign Up</Link></p>
-
-        <p>Fogot your password?<Link to={'/resetpassword'}>Reset</Link></p>
-      </Fragment>
+        <div className="Login-links">
+          <Link to={'/resetpassword'}>Forgot password</Link>
+          <Link to={'/signup'}>Create account</Link>
+        </div>
+      </div>
     );
   }
 }

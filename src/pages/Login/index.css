@@ -1,0 +1,38 @@
+.Login-Page {
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+
+    background-image: url("login-background.png");
+    background-position: center top;
+    background-size: 100% 100%;
+    background-attachment: fixed;
+}
+.Login-Form {
+    height: 40%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+.Login-Form button {
+    margin-top: 32px;
+}
+.Login-links {
+    height: 20px;
+    margin-bottom: 60px;
+    margin-top: 20px;
+}
+.Login-links a {
+    margin: 0px 8px;
+
+    text-decoration: none;
+    color: #17B9A2;
+    font-size: 14px;
+    font-weight: 900;
+}

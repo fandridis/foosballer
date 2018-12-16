@@ -52,7 +52,8 @@
 }
 
 .PlayersCreate-nameInput::placeholder {
-  color: rgba(99, 99, 99, 0.4)
+  padding-left: 10px;
+  color: #17B9A2;
 }
 
 .PlayersCreate-iconWrapper {
