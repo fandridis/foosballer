@@ -8,6 +8,9 @@ import { withGlobalState } from '../../hocs/GlobalState';
 import { generateAvatarUrl } from '../../utilities/generators';
 import PlayerAvatar from '../../components/PlayerAvatar';
 import Button from '../../components/CustomButton';
+import Header from '../../components/Header';
+
+import './index.css'
 
 class PlayersEdit extends Component {
 
@@ -51,8 +54,6 @@ class PlayersEdit extends Component {
    * @param {object} event - Contains the form event object
    */
   onSubmit = async event => {
-    event.preventDefault();
-
     const player = { ...this.props.location.player,
       name: this.state.newPlayerName,
       avatarUrl: this.state.newPlayerAvatarUrl
@@ -76,24 +77,34 @@ class PlayersEdit extends Component {
   
   render() {
     return (
-      <Fragment>
-        <PlayerAvatar url={this.state.newPlayerAvatarUrl} size={"90"} />
+      <div className='PlayersEdit-page'>
+        <Header>EDIT PLAYER</Header>
 
-        <form onSubmit={this.onSubmit}>
+        <div className='PlayersEdit-avatarWrapper'>
+          <PlayerAvatar className='PlayersCreate-avatar' url={this.state.newPlayerAvatarUrl} size={"90"} />
+        </div>
+
+        <Button color='orange' onClick={() => this.generateAvatar()}>Shuffle</Button>
+
+        <div className='PlayersEdit-nameInputWrapper'>
           <input
-            name="name"
-            value={this.state.newPlayerName}
-            onChange={this.onChange}
-            type="text"
-            placeholder="Bob?"
-          />
-          
-          <Button text='Save' />
-        </form>
+              name='name'
+              className='PlayersEdit-nameInput'
+              value={this.state.newPlayerName}
+              onChange={this.onChange}
+              type='text'
+              placeholder='Player name goes here'
+            />
+        </div>
 
-        <button onClick={() => this.onCancel()}>Cancel</button>
-        <button onClick={() => this.generateAvatar()}>Shuffle me!</button>
-      </Fragment>
+        {/* <InfoBox>Every new player starts with a rating of 1000 points.</InfoBox> */}
+
+        <div className="PlayersEdit-footer">
+          <Button onClick={() => this.onSubmit() }>SAVE</Button>
+          <Button inverted onClick={() => this.onCancel()}>CANCEL</Button>
+        </div>
+
+      </div>
     );
   }
 }

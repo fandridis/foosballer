@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 // import PropTypes from 'prop-types';
 // import Styled from 'styled-components';
@@ -8,6 +8,10 @@ import { withGlobalState } from '../../hocs/GlobalState';
 import { generateAvatarUrl } from '../../utilities/generators';
 import PlayerAvatar from '../../components/PlayerAvatar';
 import Button from '../../components/CustomButton';
+import InfoBox from '../../components/InfoBox';
+import Header from '../../components/Header';
+
+import './index.css';
 
 class PlayersCreate extends Component {
 
@@ -38,9 +42,7 @@ class PlayersCreate extends Component {
    * @method
    * @param {object} event - Contains the form event object
    */
-  onSubmit = async event => {
-    event.preventDefault();
-
+  onSubmit = () => {
     const player = {
       userRef: this.props.isAuthenticated,
       name: this.state.newPlayerName,
@@ -50,7 +52,9 @@ class PlayersCreate extends Component {
       wins: 0,
       losses: 0,
       singleWins: 0,
-      singleLosses: 0
+      singleLosses: 0,
+      longestStreak: 0,
+      trophies: 0,
     }
 
     this.props.firebase.createPlayer(player)
@@ -72,35 +76,34 @@ class PlayersCreate extends Component {
   
   render() {
     return (
-      <Fragment>
-        <PlayerAvatar url={this.state.newPlayerAvatarUrl} size={"90"} />
+      <div className='PlayersCreate-page'>
+        <Header>NEW PLAYER</Header>
 
-        <form onSubmit={this.onSubmit}>
+        <div className='PlayersCreate-avatarWrapper'>
+          <PlayerAvatar className='PlayersCreate-avatar' url={this.state.newPlayerAvatarUrl} size={"90"} />
+        </div>
+
+        <Button color='orange' onClick={() => this.generateAvatar()}>Shuffle</Button>
+
+        <div className='PlayersCreate-nameInputWrapper'>
           <input
-            name="name"
-            value={this.state.newPlayerName}
-            onChange={this.onChange}
-            type="text"
-            placeholder="Bob?"
-          />
+              name='name'
+              className='PlayersCreate-nameInput'
+              value={this.state.newPlayerName}
+              onChange={this.onChange}
+              type='text'
+              placeholder='Player name goes here'
+            />
+        </div>
 
-          <Button text='Primary' />
-          <Button text='Secondary' color="secondary" />
-          <Button text='Orange' color="orange" />
-          <Button text='Red' color="red" />
-          <Button text='darkText' color="darkText" />
+        <InfoBox>Every new player starts with a rating of 1000 points.</InfoBox>
 
-          <Button inverted text='Primary (inverted)' />
-          <Button inverted text='Secondary (inverted)' color="secondary" />
-          <Button inverted text='Orange (inverted)' color="orange" />
-          <Button inverted text='Red (inverted)' color="red" />
-          <Button inverted text='darkText (inverted)' color="darkText" />
+        <div className="PlayersCreate-footer">
+          <Button onClick={() => this.onSubmit() }>CREATE</Button>
+          <Button inverted onClick={() => this.onCancel()}>CANCEL</Button>
+        </div>
 
-        </form>
-
-        <button onClick={() => this.onCancel()}>Cancel</button>
-        <button onClick={() => this.generateAvatar()}>Shuffle me!</button>
-      </Fragment>
+      </div>
     );
   }
 }

@@ -14,7 +14,7 @@ import { colors } from '../../css/Variables';
 import './index.css';
 
 const FilterTypes = styled.div`
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   height: 100px;
   width: 100%;
   display: flex;
@@ -24,8 +24,8 @@ const FilterTypes = styled.div`
 `
 
 const Option = styled.div`
-  width: 30%;
-  height: 100px;
+  width: 25%;
+  height: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,7 +33,7 @@ const Option = styled.div`
   background-color: ${props => props.selected ? colors.normal.darkText : colors.normal.darkText40};
   color: white;
   font-weight: 600;
-  font-size: 24px;
+  font-size: 14px;
 `
 
 class Leaderboards extends Component {
@@ -73,6 +73,9 @@ class Leaderboards extends Component {
     else if (filter === 'wins') {
       players = orderByProperty(playersBefore, 'wins', 'desc')
     }
+    else if (filter === 'longestStreak') {
+      players = orderByProperty(playersBefore, 'longestStreak', 'desc');
+    }
     else if (filter === 'winRatio') {
       players = orderByCalcProperty(playersBefore, 'winRatio', 'desc');
     }
@@ -97,9 +100,10 @@ class Leaderboards extends Component {
         <Header>Leaderboards</Header>
 
         <FilterTypes>
-          <Option selected={this.state.filterSelected === 'rating'} onClick={() => this.onFilterSelect('rating')}>By Rating</Option>
-          <Option selected={this.state.filterSelected === 'wins'} onClick={() => this.onFilterSelect('wins')}>Most wins</Option>
-          <Option selected={this.state.filterSelected === 'winRatio'} onClick={() => this.onFilterSelect('winRatio')}>Highest Win Ratio</Option>
+          <Option selected={this.state.filterSelected === 'rating'} onClick={() => this.onFilterSelect('rating')}>Rating</Option>
+          <Option selected={this.state.filterSelected === 'wins'} onClick={() => this.onFilterSelect('wins')}>Wins</Option>
+          <Option selected={this.state.filterSelected === 'longestStreak'} onClick={() => this.onFilterSelect('longestStreak')}>Longest Streak</Option>
+          <Option selected={this.state.filterSelected === 'winRatio'} onClick={() => this.onFilterSelect('winRatio')}>Win Ratio</Option>
         </FilterTypes>
 
         <div className="Leaderboards-playersList">

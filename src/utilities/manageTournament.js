@@ -83,12 +83,16 @@ export function calculateNextRound(tournament) {
         match.team1.player2.rating += scoreChange;
         match.team1.player1.wins += 1;
         match.team1.player2.wins += 1;
+        match.team1.player1.longestStreak += 1;
+        match.team1.player2.longestStreak += 1;
 
         match.team2.rating -= scoreChange;
         match.team2.player1.rating -= scoreChange;
         match.team2.player2.rating -= scoreChange;
         match.team2.player1.losses += 1;
         match.team2.player2.losses += 1;
+        match.team2.player1.longestStreak = 0;
+        match.team2.player2.longestStreak = 0;
       }
       else {
         teamsRemaining[match.winner] = match.team2;
@@ -97,26 +101,24 @@ export function calculateNextRound(tournament) {
         match.team1.player2.rating -= scoreChange;
         match.team1.player1.losses += 1;
         match.team1.player2.losses += 1;
+        match.team1.player1.longestStreak = 0;
+        match.team1.player2.longestStreak = 0;
 
         match.team2.rating += scoreChange;
         match.team2.player1.rating += scoreChange;
         match.team2.player2.rating += scoreChange;
         match.team2.player1.wins += 1;
         match.team2.player2.wins += 1;
+        match.team2.player1.longestStreak += 1;
+        match.team2.player2.longestStreak += 1;
       }
     }
     else {
       teamsRemaining[match.winner] = match.team1;
     }
-
   }
 
-  console.log('nextSeeds: ', nextSeeds);
-  console.log('teamsRemaining: ', teamsRemaining);
-
   const nextRoundMatches = calculateMatches(nextSeeds, teamsRemaining);
-
-  console.log('nextRoundMatches: ', nextRoundMatches);
 
   tournament.rounds[tournament.currentRound + 1] = {
     number: tournament.currentRound + 1,
@@ -136,7 +138,6 @@ export function calculateNextRound(tournament) {
  */
 export function finishTournament(tournament) {
   console.log('Finishing the tournament: ', tournament);
-  // let playersUpdatesNeeded = [];
 
   const rounds = Object.keys(tournament.rounds)
   const finalRoundIndex = rounds[rounds.length - 1]
@@ -152,12 +153,16 @@ export function finishTournament(tournament) {
     finalMatch.team1.player2.rating += scoreChange;
     finalMatch.team1.player1.wins += 1;
     finalMatch.team1.player2.wins += 1;
+    finalMatch.team1.player1.longestStreak += 1;
+    finalMatch.team1.player2.longestStreak += 1;
 
     finalMatch.team2.rating -= scoreChange;
     finalMatch.team2.player1.rating -= scoreChange;
     finalMatch.team2.player2.rating -= scoreChange;
     finalMatch.team2.player1.losses += 1;
     finalMatch.team2.player2.losses += 1;
+    finalMatch.team2.player1.longestStreak = 0;
+    finalMatch.team2.player2.longestStreak = 0;
   }
   else {
     tournament.winner = finalMatch.team2.name;
@@ -167,12 +172,16 @@ export function finishTournament(tournament) {
     finalMatch.team1.player2.rating -= scoreChange;
     finalMatch.team1.player1.losses += 1;
     finalMatch.team1.player2.losses += 1;
+    finalMatch.team1.player1.longestStreak = 0;
+    finalMatch.team1.player2.longestStreak = 0;
 
     finalMatch.team2.rating += scoreChange;
     finalMatch.team2.player1.rating += scoreChange;
     finalMatch.team2.player2.rating += scoreChange;
     finalMatch.team2.player1.wins += 1;
     finalMatch.team2.player2.wins += 1;
+    finalMatch.team2.player1.longestStreak += 1;
+    finalMatch.team2.player2.longestStreak += 1;
   }
   tournament.completed = true;
 
