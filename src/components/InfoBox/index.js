@@ -12,11 +12,11 @@ const Box = styled.div`
   margin: 20px;
   padding: 30px 40px;
 
-  box-shadow: 0 3px 6px ${colors.normal.greyText40};
+  box-shadow: 0 3px 6px ${props => colors.normal.greyText40};
   border-radius: 10px;
 
-  background-color: ${colors.normal.white};
-  color: ${colors.normal.greyText};
+  background-color: ${props => colors.normal[props.backgroundColor]};
+  color: ${props => colors.normal[props.textColor]};
   font-weigth: 500;
   font-size: 20px;
   text-align: center;
@@ -24,7 +24,7 @@ const Box = styled.div`
 
 function InfoBox(props) {
   return (
-    <Box>
+    <Box backgroundColor={props.backgroundColor} textColor={props.textColor}>
       {props.children}
     </Box>
   )
@@ -35,7 +35,9 @@ InfoBox.propTypes = {
 }
 
 InfoBox.defaultProps = {
-  isVisible: false
+  isVisible: false,
+  backgroundColor: 'white',
+  textColor: 'greyText'
 }
 
 export default InfoBox;

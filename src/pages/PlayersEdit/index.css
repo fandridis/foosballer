@@ -48,7 +48,7 @@
   text-align: center;
   font-size: 18px;
   font-weight: 600;
-  color: green;
+  color: rgba(23, 185, 162, 1);
 }
 
 .PlayersEdit-nameInput::placeholder {
