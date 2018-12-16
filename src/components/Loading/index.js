@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { colors } from '../../css/Variables';
 import './index.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Graphics from '../../assets/images/loading.png'
 
 const Wrapper = styled.div`
 width: 100vw;
@@ -31,13 +30,16 @@ const GetRandomTextMethod = () => {
    return randomText[Math.floor(Math.random()*randomText.length)];
 }
 
+const randomtext = GetRandomTextMethod()
+
 const Loading = () => {
+  console.log('Rending loading component');
   return (
     <Wrapper>
       {/* <img className="PageGraphics" src={Graphics} alt="graphics"></img> */}
       <FontAwesomeIcon id="LoaderIcon" icon='futbol' size='4x' color={colors.normal.primary}/>
       <h2>Loading...</h2>
-      <h2 className="Loading-text">{GetRandomTextMethod()}</h2>
+      <h2 className="Loading-text">{randomtext}</h2>
     </Wrapper>
   );
 };

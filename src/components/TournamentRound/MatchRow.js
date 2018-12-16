@@ -1,11 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import dayjs from 'dayjs';
 
 import { withGlobalState } from '../../hocs/GlobalState';
-import IconButton from '../IconButton';
-import Divider from '../Divider';
 import { colors } from '../../css/Variables';
 
 const Row = styled.div`
@@ -17,6 +14,8 @@ const Row = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+
+	opacity: ${props => props.clickable ? 1 : 0.6}
 `
 
 const VS = styled.div`
@@ -61,7 +60,7 @@ background-color: ${props => props.winner ? colors.normal.secondary : 'white'};
 const MatchRow = props => {
 	console.log('Props @ MatchRow: ', props);
 	return (
-		<Row>
+		<Row clickable={props.clickable}>
 			<TeamLeft 
 				winner={props.match.winner === props.match.team1.index}
 				onClick={() => props.globalState.resolveMatch({

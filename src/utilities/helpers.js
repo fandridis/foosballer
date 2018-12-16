@@ -6,6 +6,20 @@ export function orderByProperty(arr, propertyName, mode) {
   return orderBy(arr, propertyName, mode);
 }
 
+export function orderByCalcProperty(arr, propertyName, mode) {
+  console.log('arr: ', arr);
+  if (mode !== 'asc' && mode !== 'desc') { mode = 'asc'}
+
+  if (propertyName === 'winRatio') {
+    for (let player of arr) {
+      player.winRatio = +(((player.wins / (player.wins + player.losses))*100).toFixed(2))
+
+    }
+  }
+
+  return orderBy(arr, 'winRatio', mode);
+}
+
 export function isPowerOfX(num, x) {
   return Number.isInteger(Math.log(num) / Math.log(x));
 }

@@ -69,6 +69,15 @@ class TournamentsDetails extends Component {
         <Header>{currentTournament && currentTournament.name}</Header>
 
         {
+          currentTournament && currentTournament.winner
+            ? <div className="TournamentDetais-winnerWrapper">
+                <h2 className="TournamentDetais-winnerTitle">Finished! Winner:</h2>
+                <h1 className="TournamentDetais-winnerName">{currentTournament.winner}</h1>
+            </div>
+            : ''
+        }
+
+        {
           currentTournament && currentTournament.rounds[roundsAllIndexes.length].matchesRemaining === 0
             ? currentTournament.matchesRemaining > 0
               ? <ActionBar color="primary" onClick={() => this.handleNextRound(currentTournament)}>START NEXT ROUND</ActionBar>

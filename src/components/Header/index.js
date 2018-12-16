@@ -5,9 +5,10 @@ import { colors } from '../../css/Variables';
 
 const Div = styled.div`
 position: sticky;
-top: 0;
+top: 50;
 z-index: 1;
 
+margin-top: 50px;
 margin-bottom: 60px;
 
 width: 100%;

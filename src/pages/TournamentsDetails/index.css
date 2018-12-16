@@ -4,8 +4,32 @@
 	align-items: center;
 }
 
+.TournamentDetais-winnerWrapper {
+	margin-bottom: 40px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	color: red;
+}
+/* 
+.TournamentDetais-winnerWrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: red;
+}
+
+.TournamentDetais-winnerWrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: red;
+} */
+
 .TournamentsDetails-list {
 	margin-bottom: 150px;
+	background-color: rgba(255, 255, 255, 0.5);
 }
 
 .TournamentsDetails-footer {

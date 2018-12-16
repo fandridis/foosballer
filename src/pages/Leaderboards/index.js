@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { Transition } from 'react-spring';
 import styled from 'styled-components'; 
 
-import { orderByProperty } from '../../utilities/helpers';
+import { orderByProperty, orderByCalcProperty } from '../../utilities/helpers';
 import { withGlobalState } from '../../hocs/GlobalState';
 import LeaderboardsPlayerRow from '../../components/LeaderboardsPlayerRow';
 import MenuBar from '../../components/MenuBar'
@@ -29,6 +29,7 @@ const Option = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
   background-color: ${props => props.selected ? colors.normal.darkText : colors.normal.darkText40};
   color: white;
   font-weight: 600;
@@ -61,15 +62,21 @@ class Leaderboards extends Component {
     // this.unsubscribeFromPlayersCollection();
   }
 
+  // TODO: Save the filters so it does not sort again and again
   filterPlayers = filter => {
     let playersBefore = this.state.players;
-    let property = '';
+    let players = [];
 
-    if (filter === 'rating') { property = 'rating' }
-    else if (filter === 'wins') { property = 'wins' }
-    else if (filter === 'win-ratio') { return console.log('wtf to do?') }
+    if (filter === 'rating') {
+      players = orderByProperty(playersBefore, 'rating', 'desc');
+    }
+    else if (filter === 'wins') {
+      players = orderByProperty(playersBefore, 'wins', 'desc')
+    }
+    else if (filter === 'winRatio') {
+      players = orderByCalcProperty(playersBefore, 'winRatio', 'desc');
+    }
 
-    let players = orderByProperty(playersBefore, property, 'desc');
     this.setState({ players });
   }
 
@@ -92,7 +99,7 @@ class Leaderboards extends Component {
         <FilterTypes>
           <Option selected={this.state.filterSelected === 'rating'} onClick={() => this.onFilterSelect('rating')}>By Rating</Option>
           <Option selected={this.state.filterSelected === 'wins'} onClick={() => this.onFilterSelect('wins')}>Most wins</Option>
-          <Option selected={this.state.filterSelected === 'win-ratio'} onClick={() => this.onFilterSelect('win-ratio')}>Highest Win Ratio</Option>
+          <Option selected={this.state.filterSelected === 'winRatio'} onClick={() => this.onFilterSelect('winRatio')}>Highest Win Ratio</Option>
         </FilterTypes>
 
         <div className="Leaderboards-playersList">

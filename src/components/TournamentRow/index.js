@@ -75,7 +75,7 @@ const TournamentRow = props => {
 		<Row selectable={props.selectable} selected={props.selected} >
 			<LeftSide>
 				<Name>
-					{props.tournament.name} {props.tournament.winner ? '(Winner: ' + props.tournament.winner +')' : ''}
+					{props.tournament.name}
 				</Name>
 
 				<Divider color={'greyText40'} height={1.5} widthPerc='75' marginTop={'5'} marginBottom={'10'} />
@@ -84,7 +84,11 @@ const TournamentRow = props => {
 					<Label>Started: </Label><Text>{ dayjs(props.tournament.createdAt).format('MMM DD, YYYY') || 'No date'}</Text>
 				</Info>
 				<Info>
-					<Label>Remaining matches: </Label><Text>{props.tournament.matchesRemaining}</Text>
+					{
+						!props.tournament.winner
+							? <><Label>Remaining matches: </Label><Text>{props.tournament.matchesRemaining}</Text></>
+							: <><Label>Winner: </Label><Text>{props.tournament.winner}</Text></>
+					}
 				</Info>
 			</LeftSide>
 

@@ -1,29 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-// import dayjs from 'dayjs';
 
 import { withGlobalState } from '../../hocs/GlobalState';
-import IconButton from '../IconButton';
-import Divider from '../Divider';
 import MatchRow from './MatchRow';
 import { colors } from '../../css/Variables';
+import './index.css';
 
+const RoundTitleWrapper = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+background-color: ${colors.normal.darkText};
+margin-bottom: 20px;
+`
 const H1 = styled.h1`
-color: ${colors.normal.darkText}
+color: ${colors.normal.lightText}
 `
 
 const TournamentRound = props => {
 	console.log('Props @ TournamentRound: ', props);
 	return (
-		<div >
-		 <H1>
-       Round {props.round.number} {
-        props.round.matchesRemaining > 1
-          ? ' (' + props.round.matchesRemaining + ' matches remaining)'
-          : ' (' + props.round.matchesRemaining + ' match remaining)'
-        }
-     </H1>
+		<div>
+      <RoundTitleWrapper>
+        <H1>
+          Round {props.round.number} 
+        </H1>
+      </RoundTitleWrapper>
+		 
 
 		 <div className="TournamentRound">
           { 

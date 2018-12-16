@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Transition } from 'react-spring';
-import styled from 'styled-components'; 
+// import styled from 'styled-components'; 
 
 import { withFirebase } from '../../hocs/Firebase';
 import { withGlobalState } from '../../hocs/GlobalState';
@@ -9,18 +9,10 @@ import PlayerRow from '../../components/PlayerRow';
 import Button from '../../components/CustomButton';
 import MenuBar from '../../components/MenuBar'
 import Header from '../../components/Header';
-import Divider from '../../components/Divider';
 
-import { colors } from '../../css/Variables';
+// import { colors } from '../../css/Variables';
 
 import './index.css';
-
-const Text = styled.p`
-  margin: 5px;
-  font-weight: 700;
-  font-size: 20px;
-  color: ${colors.normal.primary}
-`
 
 class Players extends Component {
   constructor(props) {
@@ -87,9 +79,6 @@ class Players extends Component {
     return (
       <div className="Players-page">
         <Header>Players</Header>
-
-        <Text>Awesome Squad</Text>
-        <Divider rounded color='primary' widthPx='120' marginBottom='30' />
 
         <div className="Players-playersList">
           { this.state.players &&

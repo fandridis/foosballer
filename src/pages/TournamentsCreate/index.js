@@ -16,13 +16,6 @@ import InfoBox from '../../components/InfoBox';
 import { colors } from '../../css/Variables';
 import './index.css';
 
-const Text = styled.p`
-  margin: 5px;
-  font-weight: 700;
-  font-size: 20px;
-  color: ${colors.normal.primary}
-`
-
 const TournamentTypes = styled.div`
   height: 100px;
   width: 100%;
@@ -38,10 +31,24 @@ const Option = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
   background-color: ${props => props.selected ? colors.normal.darkText : colors.normal.darkText40};
   color: white;
   font-weight: 600;
   font-size: 24px;
+`
+
+const ExplanationWrapper = styled.div`
+width: 90vw;
+display: flex;
+justify-content: center;
+align-items: center;
+background-color: ${colors.normal.darkText};
+margin-bottom: 20px;
+`
+const H1 = styled.h1`
+padding: 5px;
+color: ${colors.normal.lightText}
 `
 
 class PlayersCreate extends Component {
@@ -51,13 +58,11 @@ class PlayersCreate extends Component {
 
     this.state = {
       newTournamentName: '',
-      newTournamentType: 'knockout',
+      newTournamentType: 'elimination',
       randomTeams: true,
       playersAll: [],
       playerIdsSelected: [],
-
       step: 1,
-      isLoading: false
     }
   }
 
@@ -85,6 +90,13 @@ class PlayersCreate extends Component {
   }
 
   onDone = () => {
+    /**
+     * TEMPORARY CHECKS TO PREVENT SOME MODES
+     * // TODO: Remove the checks when the modes are working
+     */
+    if (this.state.step === 3 && this.state.randomTeams !== true) { return window.alert('Sorrrrry, only random teams work.') }
+    
+    this.props.globalState.startLoading();
     console.log('Creating a tourney');
     console.log('this.state: ', this.state);
 
@@ -108,15 +120,15 @@ class PlayersCreate extends Component {
       this.props.firebase.createTournament(data.tourney)
       .then((res) => {
         console.log('Tournament added successfully: ', data);
+        this.props.globalState.stopLoading();
         data.tourney.uid = res.id;
         this.props.globalState.addTournament(data.tourney);
-        this.setState({ isLoading: false }, () => {
-          this.props.history.push(`/tournaments`);
-        });
+
+        this.props.history.push(`/tournaments`);
       })
       .catch(err => { 
         console.log('err: ', err)
-        this.setState({ isLoading: false });
+        this.props.globalState.stopLoading();
       })
 
 
@@ -124,16 +136,21 @@ class PlayersCreate extends Component {
     .catch(err => console.log('err: ', err))
   }
 
-  onTypeSelect = (type) => {
-    console.log('type selected: ', type);
-    this.setState({ newTournamentType: type });
-  }
-
-  onRandomTeamsSelect = (type) => {
-    this.setState({ randomTeams: type })
-  }
-
-  onNext = () => this.setState(prevState => ({ step: prevState.step + 1 }));
+  onTypeSelect = (type) => this.setState({ newTournamentType: type });
+  
+  onRandomTeamsSelect = (type) => this.setState({ randomTeams: type })
+  
+  onNext = () => {
+    /**
+     * TEMPORARY CHECKS TO PREVENT SOME MODES
+     * // TODO: Remove the checks when the modes are working
+     */
+    if (this.state.step === 1 && this.state.newTournamentType !== 'elimination') { return window.alert('Sorrrrry, only elimination works.') }
+    if (this.state.step === 2 && this.state.playerIdsSelected.length < 4) { return window.alert('Please select more players') }
+    if (this.state.step === 2 && this.state.playerIdsSelected.length % 2 !== 0) { return window.alert('Please select an even amount of players.') }
+    
+    this.setState(prevState => ({ step: prevState.step + 1 }))
+  };
   onBack = () => this.setState(prevState => ({ step: prevState.step - 1 }));
   onCancel = () => this.props.history.goBack();
 
@@ -142,12 +159,17 @@ class PlayersCreate extends Component {
       <div className="TournamentsCreate-page">
         <Header>New Tournament</Header>
         
-        <Text>Select Tournament Type</Text>
+        <ExplanationWrapper>
+          <H1>
+            Select Teams
+          </H1>
+        </ExplanationWrapper>
+
         <Divider rounded color='primary' widthPx='120' marginBottom='30' />
 
         <TournamentTypes>
           <Option selected={this.state.randomTeams} onClick={() => this.onRandomTeamsSelect(true)}>Random</Option>
-          <Option selected={!this.state.randomTeams} onClick={() => this.onRandomTeamsSelect(false)}>Select</Option>
+          <Option selected={!this.state.randomTeams} onClick={() => this.onRandomTeamsSelect(false)}>Manual</Option>
         </TournamentTypes>
 
         {
@@ -182,7 +204,12 @@ class PlayersCreate extends Component {
           </span>
         </div>
 
-        <Text>Select Participants</Text>
+        <ExplanationWrapper>
+          <H1>
+            Select Participants
+          </H1>
+        </ExplanationWrapper>
+
         <Divider rounded color='primary' widthPx='120' marginBottom='30' />
         <div className="TournamentsCreate-playersList">
           { 
@@ -218,23 +245,28 @@ class PlayersCreate extends Component {
       <div className="TournamentsCreate-page">
         <Header>New Tournament</Header>
         
-        <Text>Select Tournament Type</Text>
+        <ExplanationWrapper>
+          <H1>
+          Select Tournament Type
+          </H1>
+        </ExplanationWrapper>
+
         <Divider rounded color='primary' widthPx='120' marginBottom='30' />
 
         <TournamentTypes>
-          <Option selected={this.state.newTournamentType === 'knockout'} onClick={() => this.onTypeSelect('knockout')}>Knockout</Option>
-          <Option selected={this.state.newTournamentType === 'allvsall'} onClick={() => this.onTypeSelect('allvsall')}>All vs All</Option>
-          <Option selected={this.state.newTournamentType === 'rounds'} onClick={() => this.onTypeSelect('rounds')}>Rounds</Option>
+          <Option selected={this.state.newTournamentType === 'elimination'} onClick={() => this.onTypeSelect('elimination')}>Elimination</Option>
+          <Option selected={this.state.newTournamentType === 'roundRobin'} onClick={() => this.onTypeSelect('roundRobin')}>Round Robin</Option>
+          <Option selected={this.state.newTournamentType === '1v1'} onClick={() => this.onTypeSelect('1v1')}>1 vs 1</Option>
         </TournamentTypes>
 
         {
-          this.state.newTournamentType === 'knockout'
+          this.state.newTournamentType === 'elimination'
             ? <InfoBox>
                 The classic playoffs tournament. The winning teams move to the next around, until there's only one left!
               </InfoBox>
-            : this.state.newTournamentType === 'allvsall'
+            : this.state.newTournamentType === '1v1'
               ? <InfoBox>
-                  Who said three players cannot play foosball? Players take turns playing one versus two. The one with the most goals wins!
+                  For the ones that do not want to depend on their teammates. One versus one and let the best player win!
                 </InfoBox>
               : <InfoBox>
                   A championship style tournament. Each team plays against the rest. The team with the most wins is the champion!
@@ -251,6 +283,8 @@ class PlayersCreate extends Component {
   }
 
   render() {
+    if (this.props.globalState.isLoading) { return this.props.globalState.renderLoading() }
+
     if (this.state.step === 1) { return this.renderStepOne() }
     else if (this.state.step === 2) { return this.renderStepTwo() }
     else if (this.state.step === 3) { return this.renderStepThree() }

@@ -60,7 +60,9 @@ const LeaderboardsPlayerRow = memo((props) => {
 					? <Rating> {props.player.rating} pts </Rating>
 					: props.filterSelected === 'wins'
 						? <Rating> {props.player.wins} wins </Rating>
-						: <h4>win-ratio</h4>
+						: props.filterSelected === 'winRatio'
+							? <Rating> {props.player.winRatio}%</Rating>
+							:<Rating> {props.player.rating} pts </Rating>
 				}
 			</PlayerDetails>
 		</Row>

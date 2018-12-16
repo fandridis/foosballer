@@ -35,6 +35,7 @@ class Login extends Component {
       })
       .catch(err => {
         console.log('err @ login: ', err);
+        this.props.globalState.stopLoading();
         this.setState({ isLoading: false });
       })
   };
