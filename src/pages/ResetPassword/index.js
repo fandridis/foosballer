@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Link } from "react-router-dom";
 
 import { withFirebase } from '../../hocs/Firebase';
+import CustomButton from "../../components/CustomButton";
 
 class ResetPassword extends Component {
   constructor(props) {
@@ -39,9 +40,9 @@ class ResetPassword extends Component {
     const isInvalid = email === '';
 
     return (
-      <Fragment>
-        <h3>Reset Password</h3>
-        <form onSubmit={this.onSubmit}>
+      <div className="Login-Page">
+        <h3>Let’s reset your password<br/>Tell us your email and we will help!</h3>
+        <form  className="Reset-form" onSubmit={this.onSubmit}>
           <input
             name="email"
             value={this.state.email}
@@ -49,15 +50,11 @@ class ResetPassword extends Component {
             type="text"
             placeholder="Email Address"
           />
-          <button disabled={isInvalid} type="submit">
-            Reset My Password
-        </button>
-
           {error && <p>{error.message}</p>}
+          <CustomButton disabled={isInvalid} type="submit" >SEND</CustomButton>
         </form>
-
-        <p><Link to={'/login'}>Back</Link></p>
-      </Fragment>
+        <Link className="Login-links" to={'/login'}>Cancel</Link>
+      </div>
     );
   }
 }
