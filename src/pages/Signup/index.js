@@ -1,7 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import { withRouter, Link } from 'react-router-dom';
+import '../Login/index.css'
 
 import { withFirebase } from '../../hocs/Firebase';
+import CustomButton from "../../components/CustomButton";
 
 class Signup extends Component {
   constructor(props) {
@@ -40,39 +42,37 @@ class Signup extends Component {
       email === ''
 
     return (
-      <Fragment>
-        <h3>Signup</h3>
-        <form onSubmit={this.onSubmit}>
+      <div className="Login-Page">
+        <form className="Login-Form" onSubmit={this.onSubmit}>
           <input
             name="email"
             value={email}
             onChange={this.onChange}
             type="text"
-            placeholder="Email Address"
+            placeholder="email"
+            required={true}
           />
           <input
             name="passwordOne"
             value={passwordOne}
             onChange={this.onChange}
             type="password"
-            placeholder="Password"
+            placeholder="password"
+            required={true}
           />
           <input
             name="passwordTwo"
             value={passwordTwo}
             onChange={this.onChange}
             type="password"
-            placeholder="Confirm Password"
+            placeholder="confirm password"
+            required={true}
           />
-          <button disabled={isInvalid} type="submit">
-            Sign Up
-        </button>
-
           {error && <p>{error.message}</p>}
+          <CustomButton disabled={isInvalid} type="submit" >SIGN UP</CustomButton>
         </form>
-
-        <p>Already have an account?<Link to={'/login'}>Login</Link></p>
-      </Fragment>
+        <Link className="Login-links" to={'/login'}>Already have an account? Login!</Link>
+      </div>
     );
   }
 }
