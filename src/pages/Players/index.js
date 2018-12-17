@@ -78,7 +78,8 @@ class Players extends Component {
   render() {
     return (
       <div className="Players-page">
-        <Header>Players</Header>
+        <Header>Players Squad</Header>
+        {/*<PageHeader></PageHeader>*/}
 
         <div className="Players-playersList">
           { this.state.players &&
