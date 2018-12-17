@@ -6,17 +6,13 @@ import Header from '../../components/Header';
 import Button from '../../components/CustomButton';
 import InfoBox from '../../components/InfoBox';
 
-import Modal from '../../components/Modal';
-
 import './index.css';
 
 class Settings extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {
-      isOpen: false
-    }
+    this.state = {}
   }
 
   render() {
@@ -29,17 +25,7 @@ class Settings extends Component {
         <div className="Settings-footer">
         <Button color='orange' onClick={() => this.props.firebase.doLogout()}>Logout</Button>
         </div>
-
-        {/* Testing the modal */}
-      
-        <Button onClick={() => this.setState({ isOpen: !this.state.isOpen })}>Open modal</Button>
-
-        { 
-          this.state.isOpen
-          ? <Modal />
-          : ''
-        }
-
+        
         <MenuBar active='settings' />
       </div>
     )

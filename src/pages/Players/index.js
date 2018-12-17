@@ -9,6 +9,7 @@ import PlayerRow from '../../components/PlayerRow';
 import Button from '../../components/CustomButton';
 import MenuBar from '../../components/MenuBar'
 import Header from '../../components/Header';
+import Modal from '../../components/Modal';
 
 // import { colors } from '../../css/Variables';
 
@@ -22,7 +23,10 @@ class Players extends Component {
       players: null,
       playerTargeted: null,
 
+      playerIdToDelete: null,
+
       isLoading: false,
+      modalIsOpen: false
     };
   }
 
@@ -59,14 +63,15 @@ class Players extends Component {
    * Delete a player document from the database.
    */
   handleRemovePlayer = playerId => {
-    this.props.firebase.removePlayer(playerId)
-      .then(() => {
-        console.log('Player removed successfully');
-        const playersLeft = this.state.players.filter(player => player.uid !== playerId);
-        this.props.globalState.setPlayers(playersLeft);
-        this.setState({ players: playersLeft })
-    })
-      .catch(err => console.log('err: ', err))
+    this.setState({ modalIsOpen: true, playerIdToDelete: playerId })
+    // this.props.firebase.removePlayer(playerId)
+    //   .then(() => {
+    //     console.log('Player removed successfully');
+    //     const playersLeft = this.state.players.filter(player => player.uid !== playerId);
+    //     this.props.globalState.setPlayers(playersLeft);
+    //     this.setState({ players: playersLeft })
+    // })
+    //   .catch(err => console.log('err: ', err))
   }
 
   handleTarget = playerTargeted => {
@@ -74,6 +79,24 @@ class Players extends Component {
 
     this.setState({ playerTargeted }) 
   }
+
+  onConfirm = () => {
+    console.log('Confirmed!');
+    this.props.firebase.removePlayer(this.state.playerIdToDelete)
+      .then(() => {
+        console.log('Player removed successfully');
+        const playersLeft = this.state.players.filter(player => player.uid !== this.state.playerIdToDelete);
+        this.props.globalState.setPlayers(playersLeft);
+        this.setState({ players: playersLeft, playerIdToDelete: null, modalIsOpen: false })
+    })
+      .catch(err => console.log('err: ', err))
+  }
+
+  onCancel = () => {
+    console.log('Canceled!');
+    this.setState({ playerIdToDelete: false, modalIsOpen: false })
+  }
+
 
   render() {
     return (
@@ -108,6 +131,14 @@ class Players extends Component {
 
         {/* Bottom Navigation bar/>*/}
         <MenuBar active='players'/>
+
+        <Modal
+          isOpen={this.state.modalIsOpen}
+          onConfirm={() => this.onConfirm()}
+          onCancel={() => this.onCancel()}
+        >
+          You are about to delete this player. Are you sure?
+        </Modal>
       </div>
     )
   }
