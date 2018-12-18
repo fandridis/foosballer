@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import { orderByProperty, orderByCalcProperty } from '../../utilities/helpers';
 import { withGlobalState } from '../../hocs/GlobalState';
 import LeaderboardsPlayerRow from '../../components/LeaderboardsPlayerRow';
-import MenuBar from '../../components/MenuBar'
 import Header from '../../components/Header';
 
 import { colors } from '../../css/Variables';
@@ -126,9 +125,7 @@ class Leaderboards extends Component {
             </Transition>
           }
         </div>
-
-        {/* Bottom Navigation bar/>*/}
-        <MenuBar active='leaderboards'/>
+        
       </div>
     )
   }

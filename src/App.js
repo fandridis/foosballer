@@ -43,9 +43,7 @@ class App extends Component {
     console.log('----- Initializing app -----');
 
     if (this.state.playersLoading) {
-      console.log('Fetching players');
       const data = await this.props.firebase.getPlayers(this.state.user.uid);
-      console.log('Fetched Players');
       let players = [];
 
       for (let doc of data.docs) {
@@ -56,9 +54,7 @@ class App extends Component {
     }
 
     if (this.state.tournamentsLoading) {
-      console.log('Fetching tournaments');
       const data = await this.props.firebase.getTournaments(this.state.user.uid);
-      console.log('Fetched tournaments')
       let tournaments = {};
       let tournamentsAllIds = [];
 
@@ -81,7 +77,6 @@ class App extends Component {
 
   subscribeToAuth() {
       this.unsubscribeToAuth = this.props.firebase.auth.onAuthStateChanged(authUser => {
-        console.log('Running auth from listener');
         if (authUser) {
           // Authenticated user found - checking if we have a user doc in the database
           this.props.firebase.getUser(authUser.uid)
@@ -89,7 +84,6 @@ class App extends Component {
               if (res.exists) {
                 // User doc found in database - updating the state
                 this.setState({ user: res.data() }, () => {
-                  console.log('user:', this.state.user);
                   this.initializeApp();
                 });             
               }
@@ -137,7 +131,7 @@ class App extends Component {
 
   renderLoading() { return ( <Loading /> )}
 
-  render() {
+  render(props) {
     if (this.state.isLoading) { return this.renderLoading() }
 
     const childProps = { isAuthenticated: this.state.user ? this.state.user.uid : false };

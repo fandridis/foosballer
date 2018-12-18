@@ -62,8 +62,6 @@ class Firebase {
   getPlayers = (userRef) => { 
     if (!userRef) { return Promise.reject('missing params') }
 
-    console.log('Getting the players');
-
     return this.db
       .collection("players")
       .where("userRef", "==", userRef)
@@ -136,8 +134,6 @@ class Firebase {
    */
   getTournaments = (userRef) => { 
     if (!userRef) { return Promise.reject('missing params') }
-
-    console.log('Getting the tournaments');
 
     return this.db
       .collection("tournaments")

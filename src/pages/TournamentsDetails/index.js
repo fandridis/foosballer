@@ -93,7 +93,7 @@ class TournamentsDetails extends Component {
                   round={currentTournament.rounds[round]}
                   clickable={currentTournament.winner
                     ? false
-                    : currentTournament.rounds[round].number == roundsAllIndexes[0]
+                    : currentTournament.rounds[round].number === parseInt(roundsAllIndexes[0])
                       ? true
                       : false
                   }

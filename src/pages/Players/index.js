@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Transition } from 'react-spring';
-// import styled from 'styled-components'; 
 
 import { withFirebase } from '../../hocs/Firebase';
 import { withGlobalState } from '../../hocs/GlobalState';
 import PlayerRow from '../../components/PlayerRow';
 import Button from '../../components/CustomButton';
-import MenuBar from '../../components/MenuBar'
 import Header from '../../components/Header';
 import Modal from '../../components/Modal';
 import InfoBox from '../../components/InfoBox';
@@ -130,9 +128,6 @@ class Players extends Component {
         <div className="Players-footer">
           <Button onClick={() => this.handleAddPlayer()}>NEW PLAYER</Button>
         </div>
-
-        {/* Bottom Navigation bar/>*/}
-        <MenuBar active='players'/>
 
         <Modal
           isOpen={this.state.modalIsOpen}

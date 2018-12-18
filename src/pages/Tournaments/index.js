@@ -5,7 +5,6 @@ import { withRouter } from 'react-router-dom';
 import { withFirebase } from '../../hocs/Firebase';
 import { withGlobalState } from '../../hocs/GlobalState';
 import Button from '../../components/CustomButton';
-import MenuBar from '../../components/MenuBar'
 import TournamentRow from '../../components/TournamentRow';
 import InfoBox from '../../components/InfoBox';
 
@@ -84,8 +83,6 @@ class Tournaments extends Component {
           <Button onClick={() => this.handleAddTournament()}>NEW TOURNAMENT</Button>
         </div>
 
-        {/* Bottom Navigation bar */}
-        <MenuBar active="tournaments"/>
       </div>
     )
   }

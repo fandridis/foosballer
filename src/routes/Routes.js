@@ -1,9 +1,8 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, withRouter } from "react-router-dom";
 
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
-// import Home from '../pages/Home';
 import Account from '../pages/Account';
 import Admin from '../pages/Admin';
 import Leaderboards from '../pages/Leaderboards';
@@ -16,10 +15,26 @@ import Tournaments from '../pages/Tournaments';
 import TournamentsCreate from '../pages/TournamentsCreate';
 import TournamentsDetails from '../pages/TournamentsDetails';
 import NotFound from '../pages/NotFound';
+import MenuBar from '../components/MenuBar';
 
 import { AuthenticatedRoute, UnauthenticatedRoute } from "../hocs/RouteWrappers";
 
-export default ({ childProps }) =>
+const Router = ({ childProps, location }) => {
+  console.log('childprops: ', location)
+  let withMenuBar = false;
+
+  if (location.pathname === '/players' ||
+      location.pathname === '/tournaments' ||
+      location.pathname === '/leaderboards' ||
+      location.pathname === '/settings'
+  ) {
+    withMenuBar = true;
+  }
+
+  console.log('withMenuBar: ', withMenuBar)
+
+return (
+  <>
   <Switch>
     <UnauthenticatedRoute path={'/login'} exact component={Login} props={childProps} />
     <UnauthenticatedRoute path={'/signup'} exact component={Signup} props={childProps} />
@@ -40,12 +55,17 @@ export default ({ childProps }) =>
     <AuthenticatedRoute path={'/leaderboards'} exact component={Leaderboards} props={childProps} />
     <AuthenticatedRoute path={'/settings'} exact component={Settings} props={childProps} />
 
-
     { /* Finally, catch all unmatched routes */ }
      <Route component={NotFound} />
-  </Switch>;
+  </Switch>
 
+  { 
+    withMenuBar && <MenuBar active={location.pathname}/>
+  }
+  </>
+)}
 
+export default withRouter(Router);
 
 /**
  * How to pass params to a Route

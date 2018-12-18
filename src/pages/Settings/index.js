@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import MenuBar from '../../components/MenuBar';
 import { withFirebase } from '../../hocs/Firebase';
 import Header from '../../components/Header';
 import Button from '../../components/CustomButton';
@@ -25,8 +24,7 @@ class Settings extends Component {
         <div className="Settings-footer">
         <Button color='orange' onClick={() => this.props.firebase.doLogout()}>Logout</Button>
         </div>
-        
-        <MenuBar active='settings' />
+      
       </div>
     )
   }

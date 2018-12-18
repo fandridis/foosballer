@@ -44,21 +44,22 @@ const Section = styled.div`
 
 
 const MenuBar = (props) => {
+  console.log('props @ MenuBar: ', props);
   return (
     <Drawer>
-      <Section className={props.active === 'players' ? "CurrentPage" : ""} onClick={() => props.history.push('/players')}>
+      <Section className={props.active === '/players' ? "CurrentPage" : ""} onClick={() => props.history.push('/players')}>
         <img className="MenuBarIcon" src={PlayerImg} alt="Players"/>
         <h3 className="MenuBarText">Players</h3>
       </Section>
-      <Section className={props.active === 'tournaments' ? "CurrentPage" : ""} onClick={() => props.history.push('/tournaments')}>
+      <Section className={props.active === '/tournaments' ? "CurrentPage" : ""} onClick={() => props.history.push('/tournaments')}>
         <img className="MenuBarIcon" src={TournamentsImg} alt="Tournaments"/>
         <h3 className="MenuBarText">Tournaments</h3>
       </Section>
-      <Section className={props.active === 'leaderboards' ? "CurrentPage" : ""} onClick={() => props.history.push('/leaderboards')}>
+      <Section className={props.active === '/leaderboards' ? "CurrentPage" : ""} onClick={() => props.history.push('/leaderboards')}>
         <img className="MenuBarIcon" src={LeaderboardsImg} alt="Leaderboards"/>
         <h3 className="MenuBarText">Leaderboards</h3>
       </Section>
-      <Section className={props.active === 'settings' ? "CurrentPage" : ""} onClick={() => props.history.push('/settings')}>
+      <Section className={props.active === '/settings' ? "CurrentPage" : ""} onClick={() => props.history.push('/settings')}>
         <img className="MenuBarIcon" src={SettingsImg} alt="Settings"/>
         <h3 className="MenuBarText">Settings</h3>
       </Section>
