@@ -7,7 +7,7 @@ import "./index.css";
 import PlayerImg from '../../assets/images/players.svg';
 import TournamentsImg from '../../assets/images/futbol.svg';
 import LeaderboardsImg from '../../assets/images/medal.svg';
-// import SettingsImg from '../../assets/images/cog.svg';
+import SettingsImg from '../../assets/images/cog.svg';
 
 const Div = styled.div`
   position: sticky;
@@ -51,6 +51,8 @@ const Header = (props) => {
     icon = PlayerImg;
   } else if (props.icon === "TournamentsImg") {
     icon = TournamentsImg;
+  } else if (props.icon === "SettingsImg") {
+    icon = SettingsImg;
   }
 
   console.log(props)

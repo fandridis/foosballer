@@ -18,7 +18,7 @@ class Settings extends Component {
   render() {
     return (
       <div className='Settings-page'>
-        <Header>Settings</Header>
+        <Header color="dark" icon="SettingsImg">Settings</Header>
 
         <InfoBox>There will be more settings in the future. Promise!</InfoBox>
 
