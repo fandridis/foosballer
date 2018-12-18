@@ -8,7 +8,7 @@ import { withGlobalState } from '../../hocs/GlobalState';
 import { generateTournamentName } from '../../utilities/generators';
 import { calculateTeams } from '../../utilities/manageTournament';
 import Button from '../../components/CustomButton';
-import Divider from '../../components/Divider';
+// import Divider from '../../components/Divider';
 import IconButton from '../../components/IconButton';
 import PlayerRow from '../../components/PlayerRow';
 import Header from '../../components/Header';
@@ -39,6 +39,7 @@ const Option = styled.div`
 `
 
 const ExplanationWrapper = styled.div`
+margin-top: 40px;
 width: 90vw;
 display: flex;
 justify-content: center;
@@ -165,8 +166,6 @@ class PlayersCreate extends Component {
           </H1>
         </ExplanationWrapper>
 
-        <Divider rounded color='primary' widthPx='120' marginBottom='30' />
-
         <TournamentTypes>
           <Option selected={this.state.randomTeams} onClick={() => this.onRandomTeamsSelect(true)}>Random</Option>
           <Option selected={!this.state.randomTeams} onClick={() => this.onRandomTeamsSelect(false)}>Manual</Option>
@@ -210,7 +209,6 @@ class PlayersCreate extends Component {
           </H1>
         </ExplanationWrapper>
 
-        <Divider rounded color='primary' widthPx='120' marginBottom='30' />
         <div className="TournamentsCreate-playersList">
           { 
             this.state.playersAll.length > 0
@@ -259,8 +257,6 @@ class PlayersCreate extends Component {
           Select Tournament Type
           </H1>
         </ExplanationWrapper>
-
-        <Divider rounded color='primary' widthPx='120' marginBottom='30' />
 
         <TournamentTypes>
           <Option selected={this.state.newTournamentType === 'elimination'} onClick={() => this.onTypeSelect('elimination')}>Elimination</Option>
