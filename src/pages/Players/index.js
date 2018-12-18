@@ -10,6 +10,7 @@ import Button from '../../components/CustomButton';
 import MenuBar from '../../components/MenuBar'
 import Header from '../../components/Header';
 import Modal from '../../components/Modal';
+import InfoBox from '../../components/InfoBox';
 
 // import { colors } from '../../css/Variables';
 
@@ -20,7 +21,7 @@ class Players extends Component {
     super(props);
 
     this.state = {
-      players: null,
+      players: [],
       playerTargeted: null,
 
       playerIdToDelete: null,
@@ -105,8 +106,8 @@ class Players extends Component {
         {/*<PageHeader></PageHeader>*/}
 
         <div className="Players-playersList">
-          { this.state.players &&
-            <Transition
+          { this.state.players.length > 0
+            ? <Transition
               items={this.state.players} keys={player => player.uid}
               from={{ opacity: 0, height: 0 }}
               enter={{ opacity: 1, height: 65 }}
@@ -122,6 +123,8 @@ class Players extends Component {
                 </div>
               }
             </Transition>
+
+            : <InfoBox>No players available. <br /> <br /> Create one by clicking the button: <br />'NEW PLAYER'</InfoBox>
           }
         </div>
 

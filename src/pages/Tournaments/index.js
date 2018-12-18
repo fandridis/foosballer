@@ -7,6 +7,7 @@ import { withGlobalState } from '../../hocs/GlobalState';
 import Button from '../../components/CustomButton';
 import MenuBar from '../../components/MenuBar'
 import TournamentRow from '../../components/TournamentRow';
+import InfoBox from '../../components/InfoBox';
 
 import './index.css';
 import Header from "../../components/Header";
@@ -60,7 +61,9 @@ class Tournaments extends Component {
 
         <div className="Tournaments-list">
           { 
-            this.state.tournamentsAllIds.map(tournamentId => {
+            this.state.tournamentsAllIds.length > 0
+            // If there are one or more tournaments
+            ? this.state.tournamentsAllIds.map(tournamentId => {
               const tournament = this.state.tournaments[tournamentId];
               return (
                 <div key={tournamentId} onClick={() => { this.handleViewTournament(tournament) }}>
@@ -72,6 +75,8 @@ class Tournaments extends Component {
                 </div>
               );
             })
+            // If there are no tournaments created
+            : <InfoBox>No tournaments available. <br /> <br /> Create one by clicking the button: <br />'NEW TOURNAMENT'</InfoBox>
           }
         </div>
 

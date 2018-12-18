@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 // import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
@@ -213,7 +213,8 @@ class PlayersCreate extends Component {
         <Divider rounded color='primary' widthPx='120' marginBottom='30' />
         <div className="TournamentsCreate-playersList">
           { 
-            this.state.playersAll && this.state.playersAll.map(player => {
+            this.state.playersAll.length > 0
+            ? this.state.playersAll.map(player => {
               return (
                 <div
                   key={player.uid}
@@ -229,6 +230,14 @@ class PlayersCreate extends Component {
                 </div>          
               );
             })
+
+            : <InfoBox>
+                <div className='TournamentsCreate-infoBox'>
+                  No players available. 
+                  <br /> <br />
+                  Go to <Link to='/players'>players tab</Link> first to create some.                
+                </div>
+              </InfoBox>
           }
         </div>
 
