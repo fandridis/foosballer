@@ -103,7 +103,6 @@ class Players extends Component {
     return (
       <div className="Players-page">
         <Header>Players Squad</Header>
-        {/*<PageHeader></PageHeader>*/}
 
         <div className="Players-playersList">
           { this.state.players.length > 0
