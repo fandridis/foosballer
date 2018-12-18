@@ -23,7 +23,8 @@ const Router = ({ childProps, location }) => {
   console.log('childprops: ', location)
   let withMenuBar = false;
 
-  if (location.pathname === '/players' ||
+  if (location.pathname === '/' ||
+      location.pathname === '/players' ||
       location.pathname === '/tournaments' ||
       location.pathname === '/leaderboards' ||
       location.pathname === '/settings'
