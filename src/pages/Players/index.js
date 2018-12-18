@@ -102,7 +102,7 @@ class Players extends Component {
   render() {
     return (
       <div className="Players-page">
-        <Header>Players Squad</Header>
+        <Header color="dark" icon={"PlayerImg"}>Players Squad</Header>
 
         <div className="Players-playersList">
           { this.state.players.length > 0

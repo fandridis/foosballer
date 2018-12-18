@@ -14,9 +14,8 @@ import { colors } from '../../css/Variables';
 import './index.css';
 
 const FilterTypes = styled.div`
-  margin-bottom: 20px;
-  height: 100px;
   width: 100%;
+  margin-bottom: 40px;
   display: flex;
   justify-content: space-around;
   align-items: center;

@@ -57,7 +57,7 @@ class Tournaments extends Component {
 
     return (
       <div className="Tournaments-page">
-        <Header color="dark" icon="">Tournaments</Header>
+        <Header color="dark" icon="TournamentsImg">Tournaments</Header>
 
         <div className="Tournaments-list">
           { 

@@ -7,15 +7,14 @@ import "./index.css";
 import PlayerImg from '../../assets/images/players.svg';
 import TournamentsImg from '../../assets/images/futbol.svg';
 import LeaderboardsImg from '../../assets/images/medal.svg';
-import SettingsImg from '../../assets/images/cog.svg';
+// import SettingsImg from '../../assets/images/cog.svg';
 
 const Div = styled.div`
   position: sticky;
   top: 0;
   z-index: 1;
   
-  margin-top: 50px;
-  margin-bottom: 60px;
+  margin-top: ${props => props.icon ? "110px" : "50px"};
   
   width: 100%;
   height: 90px;
@@ -36,19 +35,29 @@ const DivIcon = styled(Div)`
 `
 const Img = styled.img`
   position: absolute;
+  bottom: 60px;
   height: 60px;
   border-radius: 50%;
-  padding: 30px;
+  padding: 20px;
   background-color: ${props => props.color === "dark" ? colors.normal.darkText : "#fff"}
 `
 
 
 const Header = (props) => {
+  let icon;
+  if (props.icon === "LeaderboardsImg") {
+    icon = LeaderboardsImg;
+  } else if (props.icon === "PlayerImg") {
+    icon = PlayerImg;
+  } else if (props.icon === "TournamentsImg") {
+    icon = TournamentsImg;
+  }
+
   console.log(props)
   return (
     props.icon
       ? <DivIcon color={props.color} icon={props.icon}>
-        <Img className="Header-icon" color={props.color} src={props.icon==="LeaderboardsImg"?LeaderboardsImg:LeaderboardsImg} alt="Icon"/>
+        <Img className="Header-icon" color={props.color} src={icon} alt="Icon"/>
           {props.children}
         </DivIcon>
 
