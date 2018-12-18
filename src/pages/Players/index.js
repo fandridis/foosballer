@@ -130,6 +130,7 @@ class Players extends Component {
         </div>
 
         <Modal
+        title={'OMG REALLY?!'}
           isOpen={this.state.modalIsOpen}
           onConfirm={() => this.onConfirm()}
           onCancel={() => this.onCancel()}
