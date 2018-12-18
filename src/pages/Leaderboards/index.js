@@ -97,7 +97,7 @@ class Leaderboards extends Component {
   render() {
     return (
       <div className="Leaderboards-page">
-        <Header>Leaderboards</Header>
+        <Header color="dark" icon="LeaderboardsImg">Leaderboards</Header>
 
         <FilterTypes>
           <Option selected={this.state.filterSelected === 'rating'} onClick={() => this.onFilterSelect('rating')}>Rating</Option>
