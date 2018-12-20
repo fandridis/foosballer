@@ -112,11 +112,12 @@ class GlobalStateProvider extends React.Component {
   }
 
   updatePlayerEverywhere(oldPlayer, newPlayer) {
-    oldPlayer.ratings = newPlayer.ratings;
-    oldPlayer.wins = newPlayer.wins;
-    oldPlayer.losses = newPlayer.losses;
-    oldPlayer.longestStreak = newPlayer.longestStreak;
-    this.props.firebase.updatePlayerObj(newPlayer.uid, newPlayer);
+
+    oldPlayer.ratings.doubles += newPlayer.ratings.doubles || 0;
+    oldPlayer.wins.doubles += newPlayer.wins.doubles || 0;
+    oldPlayer.losses.doubles += newPlayer.losses.doubles || 0;
+    oldPlayer.longestStreaks.doubles += newPlayer.longestStreaks.doubles || 0;
+    this.props.firebase.updatePlayerObj(newPlayer.uid, oldPlayer);
   }
 
   reset = () => this.setState({ user: null, players: [], tournaments: [], isLoading: false });

@@ -22,7 +22,7 @@ const FilterTypes = styled.div`
 `
 
 const Option = styled.div`
-  width: 25%;
+  width: 100%;
   height: 60px;
   display: flex;
   justify-content: center;
@@ -100,7 +100,7 @@ class Leaderboards extends Component {
         <FilterTypes>
           <Option selected={this.state.filterSelected === 'rating'} onClick={() => this.onFilterSelect('rating')}>Rating</Option>
           <Option selected={this.state.filterSelected === 'wins'} onClick={() => this.onFilterSelect('wins')}>Wins</Option>
-          <Option selected={this.state.filterSelected === 'longestStreak'} onClick={() => this.onFilterSelect('longestStreak')}>Longest Streak</Option>
+          {/* <Option selected={this.state.filterSelected === 'longestStreak'} onClick={() => this.onFilterSelect('longestStreak')}>Longest Streak</Option> */}
           <Option selected={this.state.filterSelected === 'winRatio'} onClick={() => this.onFilterSelect('winRatio')}>Win Ratio</Option>
         </FilterTypes>
 

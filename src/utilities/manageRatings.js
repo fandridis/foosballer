@@ -1,4 +1,4 @@
-export function calculateScoreChange(match, ratingType) {
+export function calculateRatingChange(match, ratingType) {
   console.log('match @ updateRatings: ', match);
   if (match.team1 === 'pass' || match.team2 === 'pass') { return 0 }
 

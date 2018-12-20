@@ -38,19 +38,11 @@ font-size: 18px;
 color: ${colors.normal.darkText}
 `
 
-const Rating = styled.p`
-margin-right: 20px;
-font-weight: 700;
-font-size: 18px;
-color: ${colors.normal.darkText}
-`
-
 const Actions = styled.div`
 display: flex;
 align-items: center;
 margin-right: 10px;
 `
-
 
 const PlayerRow = memo((props) => {
 	console.log('Rendering')

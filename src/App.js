@@ -10,8 +10,8 @@ import Loading from './components/Loading';
  * Import any icons here so they are usable across all components
  */
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faTrashAlt, faPencilAlt, faSyncAlt, faFutbol } from '@fortawesome/free-solid-svg-icons';
-library.add(faTrashAlt, faPencilAlt, faSyncAlt, faFutbol);
+import { faTrashAlt, faPencilAlt, faSyncAlt, faFutbol, faTrophy } from '@fortawesome/free-solid-svg-icons';
+library.add(faTrashAlt, faPencilAlt, faSyncAlt, faFutbol, faTrophy);
 
 
 class App extends Component {

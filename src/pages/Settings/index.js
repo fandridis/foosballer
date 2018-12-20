@@ -14,6 +14,25 @@ class Settings extends Component {
     this.state = {}
   }
 
+  resetTestPlayers() {
+    this.props.firebase.resetTestPlayers();
+  }
+
+  async DeleteTestTournaments() {
+    const data = await this.props.firebase.getTournaments(this.props.isAuthenticated);
+      let tournaments = {};
+      let tournamentsAllIds = [];
+
+      for (let doc of data.docs) {
+        tournaments[doc.id] = { ...doc.data(), uid: doc.id };
+        tournamentsAllIds.push(doc.id);
+      }
+
+      for (let tournamentId of tournamentsAllIds) {
+        this.props.firebase.removeTournament(tournamentId);
+      }
+  }
+
   render() {
     return (
       <div className='Settings-page'>
@@ -23,6 +42,8 @@ class Settings extends Component {
 
         <div className="Settings-footer">
         <Button color='orange' onClick={() => this.props.firebase.doLogout()}>Logout</Button>
+        {/* <Button onClick={() => this.resetTestPlayers()}>RESET TEST PLAYERS</Button>
+        <Button onClick={() => this.DeleteTestTournaments()}>DELETE TEST TOURNAMENTS</Button> */}
         </div>
       
       </div>

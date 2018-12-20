@@ -96,46 +96,46 @@ function calculateNextRoundDoubles(tournament) {
   
   for (let match of tournament.rounds[tournament.currentRound].matches) {
     // playersUpdatesNeeded.push(...manageRatings.calculateNewRatings(match));
-    const scoreChange = manageRatings.calculateScoreChange(match, 'doubles');
+    const ratingChange = manageRatings.calculateRatingChange(match, 'doubles');
 
     nextSeeds.push(match.winner);
 
     if (match.team2 !== 'pass') {
       if (match.team1.index === match.winner) {
         teamsRemaining[match.winner] = match.team1;
-        match.team1.rating += scoreChange;
-        match.team1.player1.ratings.doubles += scoreChange;
-        match.team1.player2.ratings.doubles += scoreChange;
-        match.team1.player1.wins.doubles += 1;
-        match.team1.player2.wins.doubles += 1;
-        match.team1.player1.longestStreak.doubles += 1;
-        match.team1.player2.longestStreak.doubles += 1;
+        match.team1.rating = ratingChange;
+        match.team1.player1.ratings.doubles = ratingChange;
+        match.team1.player2.ratings.doubles = ratingChange;
+        match.team1.player1.wins.doubles = 1;
+        match.team1.player2.wins.doubles = 1;
+        match.team1.player1.longestStreaks.doubles = 1;
+        match.team1.player2.longestStreaks.doubles = 1;
 
-        match.team2.rating -= scoreChange;
-        match.team2.player1.ratings.doubles -= scoreChange;
-        match.team2.player2.ratings.doubles -= scoreChange;
-        match.team2.player1.losses.doubles += 1;
-        match.team2.player2.losses.doubles += 1;
-        match.team2.player1.longestStreak.doubles = 0;
-        match.team2.player2.longestStreak.doubles = 0;
+        match.team2.rating = -ratingChange;
+        match.team2.player1.ratings.doubles = -ratingChange;
+        match.team2.player2.ratings.doubles = -ratingChange;
+        match.team2.player1.losses.doubles = 1;
+        match.team2.player2.losses.doubles = 1;
+        match.team2.player1.longestStreaks.doubles = 0;
+        match.team2.player2.longestStreaks.doubles = 0;
       }
       else {
         teamsRemaining[match.winner] = match.team2;
-        match.team1.rating -= scoreChange;
-        match.team1.player1.ratings.doubles -= scoreChange;
-        match.team1.player2.ratings.doubles -= scoreChange;
-        match.team1.player1.losses.doubles += 1;
-        match.team1.player2.losses.doubles += 1;
-        match.team1.player1.longestStreak.doubles = 0;
-        match.team1.player2.longestStreak.doubles = 0;
+        match.team1.rating = -ratingChange;
+        match.team1.player1.ratings.doubles = -ratingChange;
+        match.team1.player2.ratings.doubles = -ratingChange;
+        match.team1.player1.losses.doubles = 1;
+        match.team1.player2.losses.doubles = 1;
+        match.team1.player1.longestStreaks.doubles = 0;
+        match.team1.player2.longestStreaks.doubles = 0;
 
-        match.team2.rating += scoreChange;
-        match.team2.player1.ratings.doubles += scoreChange;
-        match.team2.player2.ratings.doubles += scoreChange;
-        match.team2.player1.wins.doubles += 1;
-        match.team2.player2.wins.doubles += 1;
-        match.team2.player1.longestStreak.doubles += 1;
-        match.team2.player2.longestStreak.doubles += 1;
+        match.team2.rating = ratingChange;
+        match.team2.player1.ratings.doubles = ratingChange;
+        match.team2.player2.ratings.doubles = ratingChange;
+        match.team2.player1.wins.doubles = 1;
+        match.team2.player2.wins.doubles = 1;
+        match.team2.player1.longestStreaks.doubles = 1;
+        match.team2.player2.longestStreaks.doubles = 1;
       }
     }
     else {
@@ -177,45 +177,47 @@ function finishTournamentDoubles(tournament) {
   const finalRoundIndex = rounds[rounds.length - 1]
   const finalMatch = tournament.rounds[finalRoundIndex].matches[0];
   const winnerIndex = finalMatch.winner;
-  const scoreChange = manageRatings.calculateScoreChange(finalMatch, 'doubles');
+  const ratingChange = manageRatings.calculateRatingChange(finalMatch, 'doubles');
+  console.log('finalMatch ', finalMatch);
+  console.log('Rating change: ', ratingChange);
 
   if (finalMatch.team1.index === winnerIndex) {
     tournament.winner = finalMatch.team1.name;
 
-    finalMatch.team1.rating += scoreChange;
-    finalMatch.team1.player1.ratings.doubles += scoreChange;
-    finalMatch.team1.player2.ratings.doubles += scoreChange;
-    finalMatch.team1.player1.wins.doubles += 1;
-    finalMatch.team1.player2.wins.doubles += 1;
-    finalMatch.team1.player1.longestStreak.doubles += 1;
-    finalMatch.team1.player2.longestStreak.doubles += 1;
+    finalMatch.team1.rating = ratingChange;
+    finalMatch.team1.player1.ratings.doubles = ratingChange;
+    finalMatch.team1.player2.ratings.doubles = ratingChange;
+    finalMatch.team1.player1.wins.doubles = 1;
+    finalMatch.team1.player2.wins.doubles = 1;
+    finalMatch.team1.player1.longestStreaks.doubles = 1;
+    finalMatch.team1.player2.longestStreaks.doubles = 1;
 
-    finalMatch.team2.rating -= scoreChange;
-    finalMatch.team2.player1.ratings.doubles -= scoreChange;
-    finalMatch.team2.player2.ratings.doubles -= scoreChange;
-    finalMatch.team2.player1.losses.doubles += 1;
-    finalMatch.team2.player2.losses.doubles += 1;
-    finalMatch.team2.player1.longestStreak.doubles = 0;
-    finalMatch.team2.player2.longestStreak.doubles = 0;
+    finalMatch.team2.rating = -ratingChange;
+    finalMatch.team2.player1.ratings.doubles = -ratingChange;
+    finalMatch.team2.player2.ratings.doubles = -ratingChange;
+    finalMatch.team2.player1.losses.doubles = 1;
+    finalMatch.team2.player2.losses.doubles = 1;
+    finalMatch.team2.player1.longestStreaks.doubles = 0;
+    finalMatch.team2.player2.longestStreaks.doubles = 0;
   }
   else {
     tournament.winner = finalMatch.team2.name;
 
-    finalMatch.team1.rating -= scoreChange;
-    finalMatch.team1.player1.ratings.doubles -= scoreChange;
-    finalMatch.team1.player2.ratings.doubles -= scoreChange;
-    finalMatch.team1.player1.losses.doubles += 1;
-    finalMatch.team1.player2.losses.doubles += 1;
-    finalMatch.team1.player1.longestStreak.doubles = 0;
-    finalMatch.team1.player2.longestStreak.doubles = 0;
+    finalMatch.team1.rating = -ratingChange;
+    finalMatch.team1.player1.ratings.doubles = -ratingChange;
+    finalMatch.team1.player2.ratings.doubles = -ratingChange;
+    finalMatch.team1.player1.losses.doubles = 1;
+    finalMatch.team1.player2.losses.doubles = 1;
+    finalMatch.team1.player1.longestStreaks.doubles = 0;
+    finalMatch.team1.player2.longestStreaks.doubles = 0;
 
-    finalMatch.team2.rating += scoreChange;
-    finalMatch.team2.player1.ratings.doubles += scoreChange;
-    finalMatch.team2.player2.ratings.doubles += scoreChange;
-    finalMatch.team2.player1.wins.doubles += 1;
-    finalMatch.team2.player2.wins.doubles += 1;
-    finalMatch.team2.player1.longestStreak.doubles += 1;
-    finalMatch.team2.player2.longestStreak.doubles += 1;
+    finalMatch.team2.rating = ratingChange;
+    finalMatch.team2.player1.ratings.doubles = ratingChange;
+    finalMatch.team2.player2.ratings.doubles = ratingChange;
+    finalMatch.team2.player1.wins.doubles = 1;
+    finalMatch.team2.player2.wins.doubles = 1;
+    finalMatch.team2.player1.longestStreaks.doubles = 1;
+    finalMatch.team2.player2.longestStreaks.doubles = 1;
   }
   tournament.completed = true;
 

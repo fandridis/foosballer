@@ -109,11 +109,25 @@ class Firebase {
     if (!playerUpdate) { return; }
 
     this.db.collection("players").doc(playerUpdate.playerId).update({
-      rating: playerUpdate.rating,
+      ratings: playerUpdate.ratings,
       wins: playerUpdate.wins,
       losses: playerUpdate.losses
     });
-}
+  }
+
+  // TODO: Delete me when done testing
+  resetTestPlayers = () => {
+    const testPlayers = ['38n8D0jjeQ6rqkl0y4Qi', '7hEBS3vkn7toyIAmewWA', 'J2s3dI7cZjF24rdBof7r', 'Q6BR4aqYpnU7dydsvpl7', 'ZRLSgMMB77Ip0KUzXBKO', 'w0AxyaPjV0W2rRUeOvQE'];
+
+    for (let playerId of testPlayers) {
+      this.db.collection("players").doc(playerId).update({
+        ratings: { doubles: 1000, singles: 1000 },
+        wins: { doubles: 0, singles: 0 },
+        losses: { doubles: 0, singles: 0 },
+        longestStreaks: { doubles: 0, singles: 0 }
+      });
+    }
+  }
 
   /**
    * Remove a player from the users available players.
@@ -160,6 +174,12 @@ class Firebase {
     if ( !tournamentId || !tournament) { return Promise.reject('missing params') }
 
     return this.db.collection("tournaments").doc(tournamentId).update(tournament);
+  }
+
+  removeTournament = (tournamentId) => {
+    if (!tournamentId) { return Promise.reject('missing params') }
+
+    return this.db.collection("tournaments").doc(tournamentId).delete();
   }
 
   

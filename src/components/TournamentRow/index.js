@@ -37,7 +37,7 @@ const RightSide = styled.div`
 width: 50px;
 display: flex;
 flex-direction: column;
-justify-content: space-around;
+justify-content: center;
 align-items: flex-end;
 margin-right: 20px;
 `
@@ -94,7 +94,7 @@ const TournamentRow = props => {
 			</LeftSide>
 
 			<RightSide>
-				<IconButton icon='sync-alt' onClick={() => {}} />
+				<IconButton icon='trophy' onClick={() => {}} />
 			</RightSide>
 		</Row>
 	);
