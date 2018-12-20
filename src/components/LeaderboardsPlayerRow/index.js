@@ -63,7 +63,7 @@ const LeaderboardsPlayerRow = memo((props) => {
 						: props.filterSelected === 'winRatio'
 							? <Rating> {props.player.winRatio}%</Rating>
 							: props.filterSelected === 'longestStreak'
-								? <Rating> {props.player.longestStreak.doubles} wins </Rating>
+								? <Rating> {props.player.longestStreaks.doubles} wins </Rating>
 								: <Rating> {props.player.ratings.doubles} pts </Rating>
 				}
 			</PlayerDetails>

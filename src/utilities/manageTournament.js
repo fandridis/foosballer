@@ -108,16 +108,16 @@ function calculateNextRoundDoubles(tournament) {
         match.team1.player2.ratings.doubles += scoreChange;
         match.team1.player1.wins.doubles += 1;
         match.team1.player2.wins.doubles += 1;
-        match.team1.player1.longestStreak.doubles += 1;
-        match.team1.player2.longestStreak.doubles += 1;
+        match.team1.player1.longestStreaks.doubles += 1;
+        match.team1.player2.longestStreaks.doubles += 1;
 
         match.team2.rating -= scoreChange;
         match.team2.player1.ratings.doubles -= scoreChange;
         match.team2.player2.ratings.doubles -= scoreChange;
         match.team2.player1.losses.doubles += 1;
         match.team2.player2.losses.doubles += 1;
-        match.team2.player1.longestStreak.doubles = 0;
-        match.team2.player2.longestStreak.doubles = 0;
+        match.team2.player1.longestStreaks.doubles = 0;
+        match.team2.player2.longestStreaks.doubles = 0;
       }
       else {
         teamsRemaining[match.winner] = match.team2;
@@ -126,16 +126,16 @@ function calculateNextRoundDoubles(tournament) {
         match.team1.player2.ratings.doubles -= scoreChange;
         match.team1.player1.losses.doubles += 1;
         match.team1.player2.losses.doubles += 1;
-        match.team1.player1.longestStreak.doubles = 0;
-        match.team1.player2.longestStreak.doubles = 0;
+        match.team1.player1.longestStreaks.doubles = 0;
+        match.team1.player2.longestStreaks.doubles = 0;
 
         match.team2.rating += scoreChange;
         match.team2.player1.ratings.doubles += scoreChange;
         match.team2.player2.ratings.doubles += scoreChange;
         match.team2.player1.wins.doubles += 1;
         match.team2.player2.wins.doubles += 1;
-        match.team2.player1.longestStreak.doubles += 1;
-        match.team2.player2.longestStreak.doubles += 1;
+        match.team2.player1.longestStreaks.doubles += 1;
+        match.team2.player2.longestStreaks.doubles += 1;
       }
     }
     else {
@@ -187,16 +187,16 @@ function finishTournamentDoubles(tournament) {
     finalMatch.team1.player2.ratings.doubles += scoreChange;
     finalMatch.team1.player1.wins.doubles += 1;
     finalMatch.team1.player2.wins.doubles += 1;
-    finalMatch.team1.player1.longestStreak.doubles += 1;
-    finalMatch.team1.player2.longestStreak.doubles += 1;
+    finalMatch.team1.player1.longestStreaks.doubles += 1;
+    finalMatch.team1.player2.longestStreaks.doubles += 1;
 
     finalMatch.team2.rating -= scoreChange;
     finalMatch.team2.player1.ratings.doubles -= scoreChange;
     finalMatch.team2.player2.ratings.doubles -= scoreChange;
     finalMatch.team2.player1.losses.doubles += 1;
     finalMatch.team2.player2.losses.doubles += 1;
-    finalMatch.team2.player1.longestStreak.doubles = 0;
-    finalMatch.team2.player2.longestStreak.doubles = 0;
+    finalMatch.team2.player1.longestStreaks.doubles = 0;
+    finalMatch.team2.player2.longestStreaks.doubles = 0;
   }
   else {
     tournament.winner = finalMatch.team2.name;
@@ -206,16 +206,16 @@ function finishTournamentDoubles(tournament) {
     finalMatch.team1.player2.ratings.doubles -= scoreChange;
     finalMatch.team1.player1.losses.doubles += 1;
     finalMatch.team1.player2.losses.doubles += 1;
-    finalMatch.team1.player1.longestStreak.doubles = 0;
-    finalMatch.team1.player2.longestStreak.doubles = 0;
+    finalMatch.team1.player1.longestStreaks.doubles = 0;
+    finalMatch.team1.player2.longestStreaks.doubles = 0;
 
     finalMatch.team2.rating += scoreChange;
     finalMatch.team2.player1.ratings.doubles += scoreChange;
     finalMatch.team2.player2.ratings.doubles += scoreChange;
     finalMatch.team2.player1.wins.doubles += 1;
     finalMatch.team2.player2.wins.doubles += 1;
-    finalMatch.team2.player1.longestStreak.doubles += 1;
-    finalMatch.team2.player2.longestStreak.doubles += 1;
+    finalMatch.team2.player1.longestStreaks.doubles += 1;
+    finalMatch.team2.player2.longestStreaks.doubles += 1;
   }
   tournament.completed = true;
 

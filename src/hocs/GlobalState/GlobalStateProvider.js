@@ -115,7 +115,7 @@ class GlobalStateProvider extends React.Component {
     oldPlayer.ratings = newPlayer.ratings;
     oldPlayer.wins = newPlayer.wins;
     oldPlayer.losses = newPlayer.losses;
-    oldPlayer.longestStreak = newPlayer.longestStreak;
+    oldPlayer.longestStreaks = newPlayer.longestStreaks;
     this.props.firebase.updatePlayerObj(newPlayer.uid, newPlayer);
   }
 
