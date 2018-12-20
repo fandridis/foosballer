@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { withFirebase } from '../../hocs/Firebase';
 import { withGlobalState } from '../../hocs/GlobalState';
 import { generateTournamentName } from '../../utilities/generators';
-import { calculateTeams } from '../../utilities/manageTournament';
+import { calculateRandomTeams } from '../../utilities/manageTournament';
 import Button from '../../components/CustomButton';
 // import Divider from '../../components/Divider';
 import IconButton from '../../components/IconButton';
@@ -102,8 +102,11 @@ class PlayersCreate extends Component {
     console.log('this.state: ', this.state);
 
     const players = this.state.playersAll.filter(player => this.state.playerIdsSelected.indexOf(player.uid) > -1);
-    const teams = calculateTeams(players);
+    const teams = calculateRandomTeams(players, this.state.newTournamentType);
     const tourDetails = { name: this.state.newTournamentName, type: this.state.newTournamentType }
+
+    console.log('tourDetails: ', tourDetails);
+    console.log('teams: ', teams);
     
     fetch("https://us-central1-foosballer-8c110.cloudfunctions.net/initializeTournament", {
       method: "POST",

@@ -100,6 +100,8 @@ class Firebase {
   updatePlayerObj = (playerId, player) => { 
     if ( !playerId || !player) { return Promise.reject('missing params') }
 
+    console.log('new player to update: ', player);
+
     return this.db.collection("players").doc(playerId).update(player);
   }
 

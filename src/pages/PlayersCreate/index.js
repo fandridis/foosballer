@@ -44,17 +44,29 @@ class PlayersCreate extends Component {
    */
   onSubmit = () => {
     const player = {
-      userRef: this.props.isAuthenticated,
       name: this.state.newPlayerName,
-      rating: 1000,
-      ratingSingle: 1000,
       avatarUrl: this.state.newPlayerAvatarUrl,
-      wins: 0,
-      losses: 0,
-      singleWins: 0,
-      singleLosses: 0,
-      longestStreak: 0,
-      trophies: 0,
+      userRef: this.props.isAuthenticated,
+      ratings: {
+        singles: 1000,
+        doubles: 1000
+      },
+      wins: {
+        singles: 0,
+        doubles: 0
+      },
+      losses: {
+        singles: 0,
+        doubles: 0
+      },
+      longestStreak: {
+        singles: 0,
+        doubles: 0
+      },
+      trophies: {
+        singles: 0,
+        doubles: 0
+      }
     }
 
     this.props.firebase.createPlayer(player)

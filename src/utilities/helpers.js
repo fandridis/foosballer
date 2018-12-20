@@ -13,8 +13,8 @@ export function orderByCalcProperty(arr, propertyName, mode) {
   if (propertyName === 'winRatio') {
     for (let player of arr) {
 
-      player.winRatio = player.wins > 0
-        ? +(((player.wins / (player.wins + player.losses))*100).toFixed(2))
+      player.winRatio = player.wins.doubles > 0
+        ? +(((player.wins.doubles / (player.wins.doubles + player.losses.doubles))*100).toFixed(2))
         : 0
     }
   }

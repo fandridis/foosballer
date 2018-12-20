@@ -65,7 +65,7 @@ const PlayerRow = memo((props) => {
 
 				{
 				props.targeted === false
-					? <Rating> {props.player.rating} pts </Rating>
+					? <></>
 					: <Actions>
 							<IconButton
 								icon='pencil-alt'

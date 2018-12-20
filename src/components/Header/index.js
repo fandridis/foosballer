@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { colors } from '../../css/Variables';
@@ -43,7 +43,7 @@ const Img = styled.img`
 `
 
 
-const Header = (props) => {
+const Header = memo((props) => {
   let icon;
   if (props.icon === "LeaderboardsImg") {
     icon = LeaderboardsImg;
@@ -69,7 +69,7 @@ const Header = (props) => {
 
 
   );
-};
+});
 
 Header.propTypes = {
   color: PropTypes.string,

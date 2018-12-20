@@ -49,7 +49,7 @@ class Leaderboards extends Component {
 
   componentDidMount() {
     console.log('DidMount @ Leaderboards: ', this.props);
-    const players = orderByProperty(this.props.globalState.players, 'rating', 'desc');
+    const players = orderByProperty(this.props.globalState.players, 'ratings.doubles', 'desc');
     console.log('ordered: ', players);
 
     this.setState({ players });
@@ -66,10 +66,10 @@ class Leaderboards extends Component {
     let players = [];
 
     if (filter === 'rating') {
-      players = orderByProperty(playersBefore, 'rating', 'desc');
+      players = orderByProperty(playersBefore, 'ratings.doubles', 'desc');
     }
     else if (filter === 'wins') {
-      players = orderByProperty(playersBefore, 'wins', 'desc')
+      players = orderByProperty(playersBefore, 'wins.doubles', 'desc')
     }
     else if (filter === 'longestStreak') {
       players = orderByProperty(playersBefore, 'longestStreak', 'desc');

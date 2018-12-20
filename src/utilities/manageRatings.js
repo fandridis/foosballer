@@ -1,4 +1,4 @@
-export function calculateScoreChange(match) {
+export function calculateScoreChange(match, ratingType) {
   console.log('match @ updateRatings: ', match);
   if (match.team1 === 'pass' || match.team2 === 'pass') { return 0 }
 
@@ -6,8 +6,8 @@ export function calculateScoreChange(match) {
   const team2 = match.team2;
   const winner = match.team1.index === match.winner ? 1 : 2;
   
-  const team1avg = (team1.player1.rating + team1.player2.rating) / 2;
-  const team2avg = (team2.player1.rating + team2.player2.rating) / 2;
+  const team1avg = (team1.player1.ratings[ratingType] + team1.player2.ratings[ratingType]) / 2;
+  const team2avg = (team2.player1.ratings[ratingType] + team2.player2.ratings[ratingType]) / 2;
   
   const r1 = 10 ** (team1avg / 400 );
   const r2 = 10 ** (team2avg / 400 );

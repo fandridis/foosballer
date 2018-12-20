@@ -76,6 +76,7 @@ class GlobalStateProvider extends React.Component {
 
   moveToNextRound = (tournament) => {
     const updatedTournament = calculateNextRound(tournament);
+
     const round = tournament.currentRound - 1;
     this.updateStats(updatedTournament, round);
 
@@ -111,7 +112,7 @@ class GlobalStateProvider extends React.Component {
   }
 
   updatePlayerEverywhere(oldPlayer, newPlayer) {
-    oldPlayer.rating = newPlayer.rating;
+    oldPlayer.ratings = newPlayer.ratings;
     oldPlayer.wins = newPlayer.wins;
     oldPlayer.losses = newPlayer.losses;
     oldPlayer.longestStreak = newPlayer.longestStreak;
