@@ -59,7 +59,7 @@ class PlayersCreate extends Component {
         singles: 0,
         doubles: 0
       },
-      longestStreak: {
+      longestStreaks: {
         singles: 0,
         doubles: 0
       },

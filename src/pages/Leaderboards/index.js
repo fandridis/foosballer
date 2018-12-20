@@ -72,7 +72,7 @@ class Leaderboards extends Component {
       players = orderByProperty(playersBefore, 'wins.doubles', 'desc')
     }
     else if (filter === 'longestStreak') {
-      players = orderByProperty(playersBefore, 'longestStreak', 'desc');
+      players = orderByProperty(playersBefore, 'longestStreaks.doubles', 'desc');
     }
     else if (filter === 'winRatio') {
       players = orderByCalcProperty(playersBefore, 'winRatio', 'desc');
